@@ -135,7 +135,14 @@ body {
 			<div id="status-notice" class="godot" style="display: none;"></div>
 		</div>
 
-		<script src="index.js"></script>
+		<script>
+if (!window.SharedArrayBuffer) {
+	document.getElementById('status').style.display = 'none';
+	setTimeout(() => document.getElementById('status').style.display = '', 1500);
+}
+</script>
+<script src="coi-serviceworker.min.js"></script>
+<script src="index.js"></script>
 		<script>
 const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":6736,"index.wasm":27907743},"focusCanvas":true,"gdextensionLibs":[]};
 const engine = new Engine(GODOT_CONFIG);
