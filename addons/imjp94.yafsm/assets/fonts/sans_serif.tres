@@ -1,5 +1,0 @@
-[gd_resource type="SystemFont" format=3 uid="uid://dmcxm8gxsonbq"]
-
-[resource]
-font_names = PackedStringArray("Sans-Serif")
-multichannel_signed_distance_field = true
