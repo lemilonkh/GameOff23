@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxjmit51yylvl"]
+
+[ext_resource type="Script" path="res://scripts/pixel_perfect_scaling.gd" id="1_eh8h1"]
+[ext_resource type="PackedScene" uid="uid://da6y27vlqx8cx" path="res://scenes/game.tscn" id="2_ygrce"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_eh8h1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(2, 2)
+render_target_update_mode = 4
+
+[node name="game" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_ygrce")]

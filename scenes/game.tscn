@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://da6y27vlqx8cx"]
+
+[ext_resource type="Texture2D" uid="uid://bfn1ihtrrpb0i" path="res://sprites/pisilohepunane3.png" id="1_jxepk"]
+
+[node name="game" type="Node2D"]
+texture_filter = 1
+metadata/_edit_vertical_guides_ = [432.0]
+metadata/_edit_horizontal_guides_ = [240.0]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(432, 240)
+scale = Vector2(2, 2)
+texture = ExtResource("1_jxepk")

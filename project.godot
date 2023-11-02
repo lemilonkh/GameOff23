@@ -11,9 +11,14 @@ config_version=5
 [application]
 
 config/name="GameOff 2023"
-run/main_scene="res://main.tscn"
+run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=864
+window/size/viewport_height=480
 
 [editor_plugins]
 
@@ -21,5 +26,7 @@ enabled=PackedStringArray("res://addons/coi_serviceworker/plugin.cfg")
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=true
