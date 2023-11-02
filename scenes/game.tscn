@@ -1,6 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=6 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Texture2D" uid="uid://bfn1ihtrrpb0i" path="res://sprites/pisilohepunane3.png" id="1_jxepk"]
+[ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75eku"]
+size = Vector2(864, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8urok"]
+size = Vector2(17, 496)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ybvs"]
+size = Vector2(163, 20)
 
 [node name="game" type="Node2D"]
 texture_filter = 1
@@ -11,3 +21,52 @@ metadata/_edit_horizontal_guides_ = [240.0]
 position = Vector2(432, 240)
 scale = Vector2(2, 2)
 texture = ExtResource("1_jxepk")
+
+[node name="Player" parent="." instance=ExtResource("2_vpfdv")]
+position = Vector2(168, 155)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(432, 480)
+shape = SubResource("RectangleShape2D_75eku")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(432, 0)
+shape = SubResource("RectangleShape2D_75eku")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 240)
+shape = SubResource("RectangleShape2D_8urok")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(865, 240)
+shape = SubResource("RectangleShape2D_8urok")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(168, 188)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_8ybvs")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(280, 274)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+shape = SubResource("RectangleShape2D_8ybvs")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(410, 348)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+shape = SubResource("RectangleShape2D_8ybvs")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="."]
+position = Vector2(532, 416)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D5"]
+shape = SubResource("RectangleShape2D_8ybvs")
