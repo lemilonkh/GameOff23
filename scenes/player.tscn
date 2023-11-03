@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=52 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_t485f"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cktp44aic1c8h" path="res://sprites/player/Jump.png" id="8_jcn07"]
 [ext_resource type="Texture2D" uid="uid://dpolx4r53603w" path="res://sprites/player/Run.png" id="9_238af"]
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="10_mlesb"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4n77o"]
@@ -318,98 +319,119 @@ autoplay = "Idle"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
+debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("1_3oq1j")
 
-[node name="CompoundState" type="Node" parent="StateChart"]
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("10_mlesb")
+
+[node name="Movement" type="Node" parent="StateChart/Root"]
+script = ExtResource("2_qoktu")
+initial_state = NodePath("Grounded")
+
+[node name="Grounded" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("2_qoktu")
 initial_state = NodePath("Idle")
 
-[node name="Idle" type="Node" parent="StateChart/CompoundState"]
+[node name="OnJump" type="Node" parent="StateChart/Root/Movement/Grounded"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Airborne/Jump")
+event = &"jump"
+
+[node name="OnAttack" type="Node" parent="StateChart/Root/Movement/Grounded"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Attack")
+event = &"attack"
+
+[node name="OnFalling" type="Node" parent="StateChart/Root/Movement/Grounded"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Airborne/Fall")
+event = &"falling"
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement/Grounded"]
 script = ExtResource("3_q6skx")
 
-[node name="OnMoving" type="Node" parent="StateChart/CompoundState/Idle"]
+[node name="OnMoving" type="Node" parent="StateChart/Root/Movement/Grounded/Idle"]
 script = ExtResource("12_1ugos")
 to = NodePath("../../Run")
 event = &"moving"
 
-[node name="OnJump" type="Node" parent="StateChart/CompoundState/Idle"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Jump")
-event = &"jump"
-
-[node name="OnFalling" type="Node" parent="StateChart/CompoundState/Idle"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Fall")
-event = &"falling"
-
-[node name="OnAttack" type="Node" parent="StateChart/CompoundState/Idle"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Attack")
-event = &"attack"
-
-[node name="Run" type="Node" parent="StateChart/CompoundState"]
+[node name="Run" type="Node" parent="StateChart/Root/Movement/Grounded"]
 script = ExtResource("3_q6skx")
 
-[node name="OnIdle" type="Node" parent="StateChart/CompoundState/Run"]
+[node name="OnIdle" type="Node" parent="StateChart/Root/Movement/Grounded/Run"]
 script = ExtResource("12_1ugos")
 to = NodePath("../../Idle")
 event = &"idle"
 
-[node name="OnJump" type="Node" parent="StateChart/CompoundState/Run"]
+[node name="Airborne" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("2_qoktu")
+initial_state = NodePath("Fall")
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../Jump")
-event = &"jump"
-
-[node name="OnFalling" type="Node" parent="StateChart/CompoundState/Run"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Fall")
-event = &"falling"
-
-[node name="OnAttack" type="Node" parent="StateChart/CompoundState/Run"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Attack")
-event = &"attack"
-
-[node name="Attack" type="Node" parent="StateChart/CompoundState"]
-script = ExtResource("3_q6skx")
-
-[node name="OnFinished" type="Node" parent="StateChart/CompoundState/Attack"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Idle")
-event = &"finished"
-
-[node name="Jump" type="Node" parent="StateChart/CompoundState"]
-script = ExtResource("3_q6skx")
-
-[node name="OnFalling" type="Node" parent="StateChart/CompoundState/Jump"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Fall")
-event = &"falling"
-
-[node name="Fall" type="Node" parent="StateChart/CompoundState"]
-script = ExtResource("3_q6skx")
-
-[node name="OnGrounded" type="Node" parent="StateChart/CompoundState/Fall"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Run")
+to = NodePath("../../Grounded")
 event = &"grounded"
 
-[node name="TakeHit" type="Node" parent="StateChart/CompoundState"]
+[node name="Jump" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("3_q6skx")
 
-[node name="OnFinished" type="Node" parent="StateChart/CompoundState/TakeHit"]
+[node name="OnFalling" type="Node" parent="StateChart/Root/Movement/Airborne/Jump"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../Idle")
+to = NodePath("../../Fall/NoJump")
+event = &"falling"
+
+[node name="Fall" type="Node" parent="StateChart/Root/Movement/Airborne"]
+script = ExtResource("2_qoktu")
+initial_state = NodePath("CanJump")
+
+[node name="CanJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("3_q6skx")
+
+[node name="OnExpiration" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/CanJump"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../NoJump")
+delay_seconds = 0.2
+
+[node name="OnJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/CanJump"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../../Jump")
+event = &"jump"
+
+[node name="NoJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("3_q6skx")
+
+[node name="Attack" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("3_q6skx")
+
+[node name="OnFinished" type="Node" parent="StateChart/Root/Movement/Attack"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Grounded/Idle")
 event = &"finished"
 
-[node name="Death" type="Node" parent="StateChart/CompoundState"]
+[node name="TakeHit" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("3_q6skx")
+
+[node name="OnFinished" type="Node" parent="StateChart/Root/Movement/TakeHit"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Grounded/Idle")
+event = &"finished"
+
+[node name="Death" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("3_q6skx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
-[connection signal="child_state_entered" from="StateChart/CompoundState" to="." method="_on_child_state_entered"]
-[connection signal="state_exited" from="StateChart/CompoundState/Fall" to="." method="_on_fall_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/CompoundState/Fall" to="." method="_on_fall_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="." method="_on_jump_enabled_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_play_animation" binds= ["Jump"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
+[connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_on_fall_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_on_fall_state_physics_processing"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne/Fall/CanJump" to="." method="_on_jump_enabled_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Attack" to="." method="_play_animation" binds= ["Attack"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
