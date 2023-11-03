@@ -2,8 +2,11 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
-const GLIDE_FACTOR = 0.05
+const GLIDE_INITIAL_GRAVITY_FACTOR = 0.8
+const GLIDE_GRAVITY_FACTOR = 0.05
+const GLIDE_SPEED_FACTOR = 2.0
 const GLIDE_INERTIA = 0.94
+const GLIDE_DROP_DURATION = 0.3
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -12,7 +15,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var state_chart: Node = $StateChart
 
 var gravity_factor := 1.0
-var inertia := 0.0
+var inertia := 0.1
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -47,6 +50,8 @@ func _physics_process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
 		state_chart.send_event("attack")
+	elif event.is_action_pressed("glide"):
+		state_chart.send_event("glide")
 
 func _on_jump_enabled_state_physics_processing(delta):
 	if Input.is_action_just_pressed("jump"):
@@ -59,14 +64,15 @@ func _on_animation_finished() -> void:
 func _play_animation(animation: StringName) -> void:
 	sprite.play(animation)
 
-func _on_fall_state_physics_processing(delta) -> void:
-	if Input.is_action_pressed("jump"):
-		gravity_factor = GLIDE_FACTOR
-		inertia = GLIDE_INERTIA
-	else:
-		gravity_factor = 1.0
-		inertia = 0.0
+func _on_glide_state_entered() -> void:
+	if velocity.y < 0:
+		velocity.y = 0
+	velocity.x *= GLIDE_SPEED_FACTOR
+	inertia = GLIDE_INERTIA
+	gravity_factor = GLIDE_INITIAL_GRAVITY_FACTOR
+	var tween := create_tween().set_trans(Tween.TRANS_EXPO)
+	tween.tween_property(self, "gravity_factor", GLIDE_GRAVITY_FACTOR, GLIDE_DROP_DURATION)
 
-func _on_fall_state_exited() -> void:
+func _on_glide_state_exited() -> void:
 	gravity_factor = 1.0
 	inertia = 0.0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=52 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=55 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_t485f"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="2_qoktu"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
 [ext_resource type="Texture2D" uid="uid://coh6rer503pps" path="res://sprites/player/Attack1.png" id="4_bs8br"]
+[ext_resource type="Texture2D" uid="uid://wlkryat3bic7" path="res://sprites/player/Glide.png" id="5_ot3rd"]
 [ext_resource type="Texture2D" uid="uid://b2sph5wp35n8b" path="res://sprites/player/Death.png" id="5_xivl0"]
 [ext_resource type="Texture2D" uid="uid://c6ko8tny0rcoa" path="res://sprites/player/Fall.png" id="6_ik2i8"]
 [ext_resource type="Texture2D" uid="uid://dp8wwidw5agbi" path="res://sprites/player/Idle.png" id="7_p10be"]
@@ -72,6 +73,14 @@ region = Rect2(0, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vx1w0"]
 atlas = ExtResource("6_ik2i8")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_683me"]
+atlas = ExtResource("5_ot3rd")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46qul"]
+atlas = ExtResource("5_ot3rd")
 region = Rect2(150, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wax7d"]
@@ -222,6 +231,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_683me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46qul")
+}],
+"loop": true,
+"name": &"Glide",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_wax7d")
 }, {
 "duration": 1.0,
@@ -313,7 +333,7 @@ script = ExtResource("1_t485f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Attack"
+animation = &"Glide"
 autoplay = "Idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -383,6 +403,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Fall/NoJump")
 event = &"falling"
 
+[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Jump"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Glide")
+event = &"glide"
+
 [node name="Fall" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("2_qoktu")
 initial_state = NodePath("CanJump")
@@ -402,6 +427,19 @@ event = &"jump"
 
 [node name="NoJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
+
+[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Glide")
+event = &"glide"
+
+[node name="Glide" type="Node" parent="StateChart/Root/Movement/Airborne"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Glide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall")
+event = &"glide"
 
 [node name="Attack" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("3_q6skx")
@@ -430,8 +468,9 @@ script = ExtResource("3_q6skx")
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
-[connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_on_fall_state_exited"]
-[connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_on_fall_state_physics_processing"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne/Fall/CanJump" to="." method="_on_jump_enabled_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_play_animation" binds= ["Glide"]]
+[connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Attack" to="." method="_play_animation" binds= ["Attack"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
