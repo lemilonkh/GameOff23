@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://ceslib8nxu3hm"]
+
+[ext_resource type="Script" path="res://scenes/enemies/mushroom/projectile.gd" id="1_jillh"]
+[ext_resource type="Texture2D" uid="uid://bkf1e240ouleb" path="res://addons/godot_state_charts/history_state.svg" id="2_r6wox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bsmtm"]
+radius = 2.0
+
+[sub_resource type="Gradient" id="Gradient_k4u4p"]
+offsets = PackedFloat32Array(0, 0.730104, 1)
+colors = PackedColorArray(1, 0, 0, 1, 0.847059, 0.376471, 0.113725, 0.960784, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_qntlh"]
+gradient = SubResource("Gradient_k4u4p")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lvvg0"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 100.0
+initial_velocity_max = 120.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_qntlh")
+
+[sub_resource type="Gradient" id="Gradient_rc6n2"]
+offsets = PackedFloat32Array(0, 0.512111, 1)
+colors = PackedColorArray(1, 0, 0, 1, 0.847059, 0.376471, 0.113725, 0.960784, 0.866667, 0.454902, 0.227451, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_2xfxm"]
+gradient = SubResource("Gradient_rc6n2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kfick"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 70.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_2xfxm")
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_jillh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(1, 2)
+texture = ExtResource("2_r6wox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_bsmtm")
+metadata/_edit_lock_ = true
+
+[node name="Trail" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_lvvg0")
+local_coords = true
+
+[node name="Explosion" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_kfick")
+lifetime = 0.1
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

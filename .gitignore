@@ -12,3 +12,4 @@ mono_crash.*.json
 # Custom
 build/
 
+*.tmp

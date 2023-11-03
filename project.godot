@@ -12,7 +12,7 @@ config_version=5
 
 config/name="GameOff 2023"
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.1", "GL Compatibility")
+config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [debug]
@@ -70,9 +70,16 @@ glide={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Environment"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemy"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/default_filters/use_nearest_mipmap_filter=true
+environment/defaults/default_clear_color=Color(0.0745098, 0.239216, 0.192157, 1)

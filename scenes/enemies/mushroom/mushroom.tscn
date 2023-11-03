@@ -1,0 +1,599 @@
+[gd_scene load_steps=66 format=3 uid="uid://c1nbit1ro6q05"]
+
+[ext_resource type="Script" path="res://scenes/enemies/mushroom/mushroom.gd" id="1_p8dk3"]
+[ext_resource type="Texture2D" uid="uid://d2mr6vaq3ru6l" path="res://sprites/mushroom/Big Mushroom_Single.png" id="2_2fnx4"]
+[ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/mushroom/projectile.tscn" id="2_5wliy"]
+[ext_resource type="Texture2D" uid="uid://bf4io3pglr2m5" path="res://sprites/mushroom/Big Mushroom_Spawnpng.png" id="2_6gxll"]
+[ext_resource type="Texture2D" uid="uid://dt1o852rst362" path="res://sprites/mushroom/Big Mushroom_Walk.png" id="3_jtvxb"]
+[ext_resource type="Texture2D" uid="uid://byfj0v8kch7xa" path="res://sprites/mushroom/Big Mushroom_De Spawn.png" id="3_op74h"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_qe3s4"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_2u0j0"]
+[ext_resource type="Texture2D" uid="uid://cpl0fhbla5k0m" path="res://sprites/mushroom/Big Mushroom_Die.png" id="4_jhkf6"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="5_u4fdu"]
+[ext_resource type="Texture2D" uid="uid://qtd8j3h5q0xw" path="res://sprites/mushroom/Big Mushroom_Hurt.png" id="7_f24u4"]
+[ext_resource type="Shader" path="res://scenes/enemies/mushroom/mushroom_disolve.gdshader" id="8_i1vo8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="8_s6dh4"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="11_hwrpv"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="12_7jc38"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="12_i27ut"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="13_4covx"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/all_of_guard.gd" id="16_klwr4"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/any_of_guard.gd" id="18_osge8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eh2x1"]
+size = Vector2(17, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmlts"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(0, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kl21a"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(29, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cp5u6"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(58, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1xnhy"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(87, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_008bh"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(116, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aelt8"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(145, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbgi5"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(174, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wnetr"]
+atlas = ExtResource("2_6gxll")
+region = Rect2(203, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qbmw6"]
+atlas = ExtResource("3_op74h")
+region = Rect2(0, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27uq7"]
+atlas = ExtResource("3_op74h")
+region = Rect2(29, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2rigr"]
+atlas = ExtResource("3_op74h")
+region = Rect2(58, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qnq0j"]
+atlas = ExtResource("3_op74h")
+region = Rect2(87, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7al7k"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(0, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3rp0"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(29, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufv4a"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(58, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwu8a"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(87, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8m0y"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(116, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ik6kj"]
+atlas = ExtResource("4_jhkf6")
+region = Rect2(145, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyey3"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(0, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l47t5"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(29, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lemiu"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(58, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7lpq"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(87, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_med0s"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(116, 0, 29, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6s146"]
+atlas = ExtResource("3_jtvxb")
+region = Rect2(145, 0, 29, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tsogc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmlts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kl21a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cp5u6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1xnhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_008bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aelt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbgi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wnetr")
+}],
+"loop": false,
+"name": &"Activate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kl21a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbgi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aelt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbgi5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kl21a")
+}],
+"loop": true,
+"name": &"Attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qbmw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27uq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2rigr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qnq0j")
+}],
+"loop": false,
+"name": &"Deactivate",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7al7k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3rp0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufv4a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwu8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8m0y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ik6kj")
+}],
+"loop": false,
+"name": &"Die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2fnx4")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_f24u4")
+}],
+"loop": false,
+"name": &"Inactive",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyey3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l47t5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lemiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7lpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_med0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6s146")
+}],
+"loop": false,
+"name": &"Walk",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yy4he"]
+shader = ExtResource("8_i1vo8")
+shader_parameter/direction = Vector3(0, 0, 0)
+shader_parameter/spread = 0.0
+shader_parameter/flatness = 0.0
+shader_parameter/initial_linear_velocity_min = 1.3
+shader_parameter/initial_angle_min = null
+shader_parameter/angular_velocity_min = null
+shader_parameter/orbit_velocity_min = null
+shader_parameter/linear_accel_min = null
+shader_parameter/radial_accel_min = null
+shader_parameter/tangent_accel_min = null
+shader_parameter/damping_min = null
+shader_parameter/scale_min = 1.0
+shader_parameter/hue_variation_min = null
+shader_parameter/anim_speed_min = null
+shader_parameter/anim_offset_min = null
+shader_parameter/initial_linear_velocity_max = null
+shader_parameter/initial_angle_max = null
+shader_parameter/angular_velocity_max = null
+shader_parameter/orbit_velocity_max = null
+shader_parameter/linear_accel_max = null
+shader_parameter/radial_accel_max = null
+shader_parameter/tangent_accel_max = null
+shader_parameter/damping_max = null
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_max = null
+shader_parameter/anim_speed_max = null
+shader_parameter/anim_offset_max = null
+shader_parameter/lifetime_randomness = null
+shader_parameter/emission_box_extents = Vector3(10, 10, 1)
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = null
+shader_parameter/sprite = ExtResource("2_2fnx4")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vqwdx"]
+radius = 93.2631
+
+[sub_resource type="Animation" id="Animation_cd4r1"]
+resource_name = "knockback"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fnn5c"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("GPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_1uoin"]
+resource_name = "death"
+length = 1.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.11, 0.49),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.49, 0.96),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.988235, 0.737255, 0.709804, 0.611765), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fcb67"]
+_data = {
+"RESET": SubResource("Animation_fnn5c"),
+"death": SubResource("Animation_1uoin"),
+"knockback": SubResource("Animation_cd4r1")
+}
+
+[sub_resource type="Resource" id="Resource_lyeat"]
+script = ExtResource("12_i27ut")
+state = NodePath("..")
+
+[sub_resource type="Resource" id="Resource_j07iq"]
+script = ExtResource("12_i27ut")
+state = NodePath("..")
+
+[sub_resource type="Resource" id="Resource_ojgu4"]
+script = ExtResource("12_i27ut")
+state = NodePath("../Dead")
+
+[sub_resource type="Resource" id="Resource_ku2v0"]
+script = ExtResource("13_4covx")
+guard = SubResource("Resource_ojgu4")
+
+[sub_resource type="Resource" id="Resource_2ao6u"]
+script = ExtResource("12_i27ut")
+state = NodePath("../Inactive")
+
+[sub_resource type="Resource" id="Resource_0c8uu"]
+script = ExtResource("13_4covx")
+guard = SubResource("Resource_2ao6u")
+
+[sub_resource type="Resource" id="Resource_hh8v6"]
+script = ExtResource("12_i27ut")
+state = NodePath("../Dead")
+
+[sub_resource type="Resource" id="Resource_sqeg3"]
+script = ExtResource("13_4covx")
+guard = SubResource("Resource_hh8v6")
+
+[sub_resource type="Resource" id="Resource_wunh2"]
+script = ExtResource("16_klwr4")
+guards = Array[Resource("res://addons/godot_state_charts/guard.gd")]([SubResource("Resource_0c8uu"), SubResource("Resource_sqeg3")])
+
+[sub_resource type="Resource" id="Resource_0qttx"]
+script = ExtResource("12_i27ut")
+state = NodePath("../../../Movement/Idle")
+
+[sub_resource type="Resource" id="Resource_ojbfv"]
+script = ExtResource("12_i27ut")
+state = NodePath("../../../Movement/Walk")
+
+[sub_resource type="Resource" id="Resource_3pcb2"]
+script = ExtResource("18_osge8")
+guards = Array[Resource("res://addons/godot_state_charts/guard.gd")]([SubResource("Resource_0qttx"), SubResource("Resource_ojbfv")])
+
+[sub_resource type="Resource" id="Resource_5ytb1"]
+script = ExtResource("12_i27ut")
+state = NodePath("../../Movement/Dead")
+
+[sub_resource type="Resource" id="Resource_4jwh7"]
+script = ExtResource("13_4covx")
+guard = SubResource("Resource_5ytb1")
+
+[node name="Mushroom" type="CharacterBody2D"]
+collision_layer = 4
+script = ExtResource("1_p8dk3")
+projectile = ExtResource("2_5wliy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, 3)
+shape = SubResource("RectangleShape2D_eh2x1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tsogc")
+animation = &"Activate"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(-1, 9)
+rotation = -1.31074
+emitting = false
+amount = 100
+process_material = SubResource("ShaderMaterial_yy4he")
+lifetime = 0.5
+
+[node name="AttackSpawner" type="Node2D" parent="."]
+
+[node name="Raycasts" type="Node2D" parent="."]
+
+[node name="RayCastRight" type="RayCast2D" parent="Raycasts"]
+position = Vector2(13, 13)
+target_position = Vector2(0, 15)
+
+[node name="RayCastLeft" type="RayCast2D" parent="Raycasts"]
+position = Vector2(-18, 13)
+target_position = Vector2(0, 15)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -20)
+shape = SubResource("CircleShape2D_vqwdx")
+debug_color = Color(0, 0.572549, 0.666667, 0)
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fcb67")
+}
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("3_qe3s4")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("8_s6dh4")
+
+[node name="Movement" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_2u0j0")
+initial_state = NodePath("Inactive")
+
+[node name="Activate" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement/Activate"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Idle")
+event = &"idle"
+
+[node name="Deactivate" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="Inactive" type="Node" parent="StateChart/Root/Movement/Deactivate"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Inactive")
+event = &"inactive"
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="Walk" type="Node" parent="StateChart/Root/Movement/Idle"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Walk")
+event = &"walk"
+guard = SubResource("Resource_lyeat")
+
+[node name="Inactive" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="Activate" type="Node" parent="StateChart/Root/Movement/Inactive"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Activate")
+event = &"activate"
+guard = SubResource("Resource_j07iq")
+
+[node name="Walk" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement/Walk"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Idle")
+event = &"idle"
+
+[node name="Dead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("5_u4fdu")
+
+[node name="ToDead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../Dead")
+event = &"dead"
+guard = SubResource("Resource_ku2v0")
+
+[node name="ToDeactivate" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../Deactivate")
+event = &"deactivate"
+guard = SubResource("Resource_wunh2")
+
+[node name="Action" type="Node" parent="StateChart/Root"]
+script = ExtResource("4_2u0j0")
+initial_state = NodePath("Passive")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("5_u4fdu")
+
+[node name="Attack" type="Node" parent="StateChart/Root/Action/Passive"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Attack")
+event = &"attack"
+guard = SubResource("Resource_3pcb2")
+
+[node name="Attack" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("5_u4fdu")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action/Attack"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Passive")
+event = &"passive"
+delay_seconds = 0.2
+
+[node name="Hit" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("5_u4fdu")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action/Hit"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Passive")
+event = &"passive"
+
+[node name="ToHit" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../Hit")
+event = &"hit"
+guard = SubResource("Resource_4jwh7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("12_7jc38")]
+offset_left = 594.0
+offset_top = 34.0
+offset_right = -12.0
+offset_bottom = -18.0
+initial_node_to_watch = NodePath("../../StateChart")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Activate" to="." method="_on_activate_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Deactivate" to="." method="_on_deactivate_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Idle" to="." method="_on_idle_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Inactive" to="." method="_on_inactive_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Walk" to="." method="_on_walk_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Movement/Walk" to="." method="_on_walk_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Walk" to="." method="_on_walk_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Dead" to="." method="_on_dead_state_entered"]
+[connection signal="state_processing" from="StateChart/Root/Action/Passive" to="." method="_on_passive_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Action/Attack" to="." method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Action/Hit" to="." method="_on_hit_state_entered"]

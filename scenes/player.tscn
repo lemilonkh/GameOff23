@@ -329,7 +329,8 @@ animations = [{
 radius = 8.0
 height = 40.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_layer = 2
 script = ExtResource("1_t485f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=6 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Texture2D" uid="uid://db74opw0ct1ed" path="res://sprites/tiles/forest.png" id="1_acsms"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
+[ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="3_5dq4k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ydj0g"]
 texture = ExtResource("1_acsms")
@@ -162,3 +163,6 @@ layer_0/tile_data = PackedInt32Array(524294, 65536, 2, 524295, 131072, 2, 524296
 
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
 position = Vector2(168, 138)
+
+[node name="Mushroom" parent="." instance=ExtResource("3_5dq4k")]
+position = Vector2(280, 243)
