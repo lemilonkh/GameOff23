@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -430.0
 const GLIDE_INITIAL_GRAVITY_FACTOR = 0.8
 const GLIDE_GRAVITY_FACTOR = 0.05
 const GLIDE_SPEED_FACTOR = 2.0
@@ -16,6 +16,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var gravity_factor := 1.0
 var inertia := 0.1
+var gravity_tween: Tween
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -31,6 +32,8 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()
+	
+	$CanvasLayer/GravityLabel.text = str(gravity_factor)
 
 	# Add the gravity.
 	if is_on_floor():
@@ -70,9 +73,10 @@ func _on_glide_state_entered() -> void:
 	velocity.x *= GLIDE_SPEED_FACTOR
 	inertia = GLIDE_INERTIA
 	gravity_factor = GLIDE_INITIAL_GRAVITY_FACTOR
-	var tween := create_tween().set_trans(Tween.TRANS_EXPO)
-	tween.tween_property(self, "gravity_factor", GLIDE_GRAVITY_FACTOR, GLIDE_DROP_DURATION)
+	gravity_tween = create_tween().set_trans(Tween.TRANS_EXPO)
+	gravity_tween.tween_property(self, "gravity_factor", GLIDE_GRAVITY_FACTOR, GLIDE_DROP_DURATION)
 
 func _on_glide_state_exited() -> void:
+	gravity_tween.kill()
 	gravity_factor = 1.0
 	inertia = 0.0
