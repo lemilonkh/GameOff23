@@ -5,7 +5,8 @@ on:
       - main
 
 env:
-  GODOT_VERSION: 4.1.2
+  GODOT_VERSION: "4.2"
+  GODOT_RELEASE_NAME: beta4
   EXPORT_NAME: GameOff23
   
 jobs:
@@ -13,7 +14,7 @@ jobs:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.1.2
+      image: milangruner/godot-ci:4.2-beta4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
@@ -37,7 +38,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.1.2
+      image: milangruner/godot-ci:4.2-beta4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,7 +47,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
@@ -61,7 +62,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.1.2
+      image: milangruner/godot-ci:4.2-beta4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -70,7 +71,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
       - name: Web Build
         run: |
           mkdir -v -p build/web
@@ -93,7 +94,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
-      image: barichello/godot-ci:4.1.2
+      image: milangruner/godot-ci:4.2-beta4
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -102,7 +103,7 @@ jobs:
       - name: Setup
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
       - name: Mac Build
         run: |
           mkdir -v -p build/mac
