@@ -1,5 +1,11 @@
 extends CharacterBody2D
 
+@export_category("Stats")
+@export_range(0, 20) var max_health := 3.0
+@export_range(0, 100) var max_energy := 10.0
+@export_range(0, 100) var melee_damage := 1.0
+
+@export_category("Movement")
 ## Default movement speed
 @export_range(0, 1000) var speed := 300.0
 ## How far up a jump goes
@@ -22,6 +28,9 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var state_chart: Node = $StateChart
+
+var health := max_health
+var energy := 0.0
 
 var gravity_factor := 1.0
 var inertia := default_inertia
