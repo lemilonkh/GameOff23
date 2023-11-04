@@ -111,7 +111,7 @@ func _on_hit_state_entered():
 
 
 func _on_passive_state_processing(delta):
-	if _player_visible and !(randi() % attack_wait_time):
+	if _player_visible and !(fmod(randf(), attack_wait_time)):
 		_state.send_event("attack")
 
 
