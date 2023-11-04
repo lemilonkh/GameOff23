@@ -11,8 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://dp8wwidw5agbi" path="res://sprites/player/Idle.png" id="7_p10be"]
 [ext_resource type="Texture2D" uid="uid://cktp44aic1c8h" path="res://sprites/player/Jump.png" id="8_jcn07"]
 [ext_resource type="Texture2D" uid="uid://dpolx4r53603w" path="res://sprites/player/Run.png" id="9_238af"]
+[ext_resource type="Texture2D" uid="uid://d3rwhmahkhffh" path="res://sprites/ui/heart_full.png" id="10_5rr2n"]
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="10_mlesb"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
 
@@ -335,9 +335,10 @@ script = ExtResource("1_t485f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Idle"
+animation = &"Death"
 autoplay = "Idle"
-frame_progress = 0.100593
+frame = 7
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -346,15 +347,63 @@ debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HealthContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/separation = 4
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HealthContainer"]
+layout_mode = 2
+texture = ExtResource("10_5rr2n")
+
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("15_1q7el")]
+visible = false
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -300.0
+offset_bottom = 300.0
+grow_horizontal = 0
+grow_vertical = 1
+enabled = false
+initial_node_to_watch = NodePath("../../StateChart")
+
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("1_3oq1j")
 
 [node name="Root" type="Node" parent="StateChart"]
-script = ExtResource("10_mlesb")
+script = ExtResource("2_qoktu")
+initial_state = NodePath("Movement")
 
 [node name="Movement" type="Node" parent="StateChart/Root"]
 script = ExtResource("2_qoktu")
 initial_state = NodePath("Grounded")
+
+[node name="OnDeath" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Death")
+event = &"death"
+
+[node name="OnTakeHit" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("12_1ugos")
+to = NodePath("../TakeHit")
+event = &"take_hit"
 
 [node name="Grounded" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("2_qoktu")
@@ -462,22 +511,8 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Grounded/Idle")
 event = &"finished"
 
-[node name="Death" type="Node" parent="StateChart/Root/Movement"]
+[node name="Death" type="Node" parent="StateChart/Root"]
 script = ExtResource("3_q6skx")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("15_1q7el")]
-custom_minimum_size = Vector2(300, 300)
-anchors_preset = 1
-anchor_left = 1.0
-anchor_bottom = 0.0
-offset_left = -300.0
-offset_bottom = 300.0
-grow_horizontal = 0
-grow_vertical = 1
-initial_node_to_watch = NodePath("../../StateChart")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="." method="_on_jump_enabled_state_physics_processing"]
@@ -491,3 +526,5 @@ initial_node_to_watch = NodePath("../../StateChart")
 [connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Attack" to="." method="_play_animation" binds= ["Attack"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
+[connection signal="state_entered" from="StateChart/Root/Death" to="." method="_on_death_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Death" to="." method="_play_animation" binds= ["Death"]]
