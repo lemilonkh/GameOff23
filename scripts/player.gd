@@ -41,8 +41,6 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()
-	
-	$CanvasLayer/GravityLabel.text = str(gravity_factor)
 
 	# Add the gravity.
 	if is_on_floor():

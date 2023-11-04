@@ -479,10 +479,6 @@ grow_horizontal = 0
 grow_vertical = 1
 initial_node_to_watch = NodePath("../../StateChart")
 
-[node name="GravityLabel" type="Label" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="." method="_on_jump_enabled_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
