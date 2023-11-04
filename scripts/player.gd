@@ -7,7 +7,7 @@ extends CharacterBody2D
 
 @export_category("Movement")
 ## Default movement speed
-@export_range(0, 1000) var speed := 300.0
+@export_range(0, 1000) var default_speed := 300.0
 ## How far up a jump goes
 @export_range(0, 1000) var jump_velocity := 430.0
 ## Percent of previous velocity that remains each frame during normal movement
@@ -22,19 +22,53 @@ extends CharacterBody2D
 @export_range(0, 5) var glide_speed_factor := 1.5
 ## Percent of previous velocity that remains each frame during glide
 @export_range(0, 1) var glide_inertia := 0.94
+## How much the player is knocked back when taking damage
+@export_range(0, 1000) var default_knockback := 20.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var state_chart: Node = $StateChart
+@onready var health_container: HBoxContainer = %HealthContainer
+@onready var heart: TextureRect = %HealthContainer/TextureRect
+
+const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
+const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 var health := max_health
 var energy := 0.0
 
+var speed := default_speed
 var gravity_factor := 1.0
 var inertia := default_inertia
 var gravity_tween: Tween
+
+func take_hit(amount: float, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
+	health -= amount
+	velocity += knockback_force * direction
+	_update_health()
+	
+	if health <= 0:
+		health = 0
+		state_chart.send_event("death")
+	else:
+		state_chart.send_event("take_hit")
+
+func _ready() -> void:
+	health_container.remove_child(heart)
+	for i in range(max_health):
+		var new_heart := heart.duplicate()
+		health_container.add_child(new_heart)
+
+func _update_health() -> void:
+	var lost_hearts = int(max_health - health)
+	for i in range(max_health):
+		var current_heart: TextureRect = health_container.get_child(i)
+		if i <= health:
+			current_heart.texture = HEART_FULL
+		else:
+			current_heart.texture = HEART_EMPTY
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
@@ -96,3 +130,8 @@ func _on_glide_state_exited() -> void:
 	gravity_tween.kill()
 	gravity_factor = 1.0
 	inertia = default_inertia
+
+func _on_death_state_entered() -> void:
+	print("death")
+	speed = 0
+	# TODO show game over popup with prompt to reload from last checkpoint
