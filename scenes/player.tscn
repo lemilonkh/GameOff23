@@ -335,10 +335,8 @@ script = ExtResource("1_t485f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Death"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 7
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -372,7 +370,6 @@ layout_mode = 2
 texture = ExtResource("10_5rr2n")
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("15_1q7el")]
-visible = false
 custom_minimum_size = Vector2(300, 300)
 anchors_preset = 1
 anchor_left = 1.0
@@ -381,7 +378,6 @@ offset_left = -300.0
 offset_bottom = 300.0
 grow_horizontal = 0
 grow_vertical = 1
-enabled = false
 initial_node_to_watch = NodePath("../../StateChart")
 
 [node name="StateChart" type="Node" parent="."]

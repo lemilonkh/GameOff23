@@ -32,6 +32,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var state_chart: Node = $StateChart
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
+@onready var state_chart_debugger: MarginContainer = $CanvasLayer/StateChartDebugger
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
@@ -110,6 +111,8 @@ func _on_jump_enabled_state_physics_processing(delta):
 	if Input.is_action_just_pressed("jump"):
 		velocity.y = -jump_velocity
 		state_chart.send_event("jump")
+	elif event.is_action_pressed("debug"):
+		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
 func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
