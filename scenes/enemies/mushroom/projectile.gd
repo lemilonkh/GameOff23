@@ -1,7 +1,8 @@
 extends Area2D
 
-@export var speed = 10
-@export var life_time = 1000
+@export var speed := 10.0
+@export var life_time := 1000.0
+@export var damage := 1.0
 
 @onready var _trail = $Trail
 @onready var _explosion = $Explosion
@@ -25,7 +26,9 @@ func _physics_process(delta):
 
 
 func _on_body_entered(body):
-	# TODO: Callback player hit function
+	if body.has_method("take_hit"):
+		body.take_hit(damage, Vector2.LEFT.rotated(rotation))
+
 	_hit = true
 	_trail.emitting = false
 	await get_tree().create_timer(0.03).timeout
@@ -33,4 +36,3 @@ func _on_body_entered(body):
 	_explosion.emitting = true
 	await get_tree().create_timer(0.5).timeout
 	self.queue_free()
-
