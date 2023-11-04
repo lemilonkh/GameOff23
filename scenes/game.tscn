@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=7 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Texture2D" uid="uid://db74opw0ct1ed" path="res://sprites/tiles/forest.png" id="1_acsms"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="3_5dq4k"]
+[ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="4_2ra6r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ydj0g"]
 texture = ExtResource("1_acsms")
@@ -165,3 +166,12 @@ position = Vector2(168, 138)
 
 [node name="Mushroom" parent="." instance=ExtResource("3_5dq4k")]
 position = Vector2(280, 243)
+
+[node name="BouncyShroom" parent="." instance=ExtResource("4_2ra6r")]
+position = Vector2(120, 144)
+
+[node name="BouncyShroom2" parent="." instance=ExtResource("4_2ra6r")]
+position = Vector2(467, 304)
+
+[node name="BouncyShroom3" parent="." instance=ExtResource("4_2ra6r")]
+position = Vector2(558, 368)

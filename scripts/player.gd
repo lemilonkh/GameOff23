@@ -83,6 +83,12 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()
+	for c in get_slide_collision_count():
+		var col := get_slide_collision(c)
+		if col.get_collider().has_method("on_collision"):
+			col.get_collider().on_collision(self)
+			if velocity.y < 0:
+				state_chart.send_event("jump")
 
 	# Add the gravity.
 	if is_on_floor():
@@ -117,8 +123,8 @@ func _play_animation(animation: StringName) -> void:
 	sprite.play(animation)
 
 func _on_jump_state_entered() -> void:
-	print("jump entered")
-	velocity.y = -jump_velocity
+	if velocity.y >= 0:
+		velocity.y = -jump_velocity
 
 func _on_glide_state_entered() -> void:
 	if velocity.y < 0:
