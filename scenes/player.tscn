@@ -343,6 +343,16 @@ position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+limit_right = 1344
+limit_bottom = 1008
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+editor_draw_limits = true
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
