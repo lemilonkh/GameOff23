@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=14 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Texture2D" uid="uid://db74opw0ct1ed" path="res://sprites/tiles/forest.png" id="1_acsms"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
@@ -247,6 +247,51 @@ custom_data_layer_0/type = 4
 sources/0 = SubResource("TileSetAtlasSource_ydj0g")
 sources/1 = SubResource("TileSetScenesCollectionSource_nv7ug")
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ikhlx"]
+blend_mode = 1
+
+[sub_resource type="Curve" id="Curve_e4lui"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.501558, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_7hjie"]
+curve = SubResource("Curve_e4lui")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cf1wv"]
+lifetime_randomness = 0.6
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(672, 504, 1)
+angle_max = 360.0
+spread = 180.0
+initial_velocity_min = 5.0
+initial_velocity_max = 50.0
+angular_velocity_min = 5.0
+angular_velocity_max = 10.0
+radial_accel_min = 0.5
+radial_accel_max = 3.0
+tangential_accel_min = 0.5
+tangential_accel_max = 3.0
+scale_curve = SubResource("CurveTexture_7hjie")
+turbulence_noise_strength = 11.22
+turbulence_noise_scale = 3.556
+turbulence_noise_speed = Vector3(2, 10, 0)
+turbulence_initial_displacement_min = 0.1
+turbulence_initial_displacement_max = 10.0
+
+[sub_resource type="Gradient" id="Gradient_ar4gl"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.732308)
+colors = PackedColorArray(5, 4, 3, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ow1jd"]
+gradient = SubResource("Gradient_ar4gl")
+width = 16
+height = 16
+use_hdr = true
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="game" type="Node2D"]
 texture_filter = 1
 metadata/_edit_vertical_guides_ = [432.0]
@@ -276,4 +321,13 @@ direction = 2
 position = Vector2(1344, 1008)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.741176, 0.741176, 0.741176, 1)
+color = Color(0.325484, 0.28866, 0.205512, 1)
+
+[node name="FireflyParticles" type="GPUParticles2D" parent="."]
+light_mask = 0
+material = SubResource("CanvasItemMaterial_ikhlx")
+position = Vector2(672, 504)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_cf1wv")
+texture = SubResource("GradientTexture2D_ow1jd")
+lifetime = 10.0
