@@ -169,9 +169,17 @@ position = Vector2(280, 243)
 
 [node name="BouncyShroom" parent="." instance=ExtResource("4_2ra6r")]
 position = Vector2(120, 144)
+direction = 3
 
 [node name="BouncyShroom2" parent="." instance=ExtResource("4_2ra6r")]
 position = Vector2(467, 304)
 
 [node name="BouncyShroom3" parent="." instance=ExtResource("4_2ra6r")]
 position = Vector2(558, 368)
+
+[node name="BouncyShroom4" parent="." instance=ExtResource("4_2ra6r")]
+position = Vector2(413, 142)
+direction = 2
+
+[node name="BouncyShroom5" parent="." instance=ExtResource("4_2ra6r")]
+position = Vector2(306, 240)
