@@ -423,7 +423,7 @@ state = NodePath("../../Movement/Dead")
 script = ExtResource("13_4covx")
 guard = SubResource("Resource_5ytb1")
 
-[node name="Mushroom" type="CharacterBody2D"]
+[node name="Mushroom" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 script = ExtResource("1_p8dk3")
 projectile = ExtResource("2_5wliy")
