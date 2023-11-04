@@ -66,6 +66,7 @@ func _ready() -> void:
 	for i in range(max_health):
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
+	state_chart_debugger.enabled = false
 
 func _update_health() -> void:
 	for i in range(max_health):
