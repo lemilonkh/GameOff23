@@ -274,3 +274,6 @@ direction = 2
 
 [node name="Node2D" type="Node2D" parent="."]
 position = Vector2(1344, 1008)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.741176, 0.741176, 0.741176, 1)
