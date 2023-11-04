@@ -45,7 +45,7 @@ var gravity_factor := 1.0
 var inertia := default_inertia
 var gravity_tween: Tween
 
-func take_hit(amount: float, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
+func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	health -= amount
 	velocity += knockback_force * direction
 	_update_health()
@@ -63,7 +63,6 @@ func _ready() -> void:
 		health_container.add_child(new_heart)
 
 func _update_health() -> void:
-	var lost_hearts = int(max_health - health)
 	for i in range(max_health):
 		var current_heart: TextureRect = health_container.get_child(i)
 		if i <= health:
@@ -73,7 +72,6 @@ func _update_health() -> void:
 
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
 		velocity.x = lerp(direction * speed, velocity.x, inertia)
@@ -89,7 +87,8 @@ func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if is_on_floor():
 		state_chart.send_event("grounded")
-		velocity.y = 0
+		# allow buffered jumps but don't build up gravity
+		velocity.y = min(velocity.y, 0)
 	else:
 		velocity.y += gravity_factor * gravity * delta
 		state_chart.send_event("airborne")
@@ -106,10 +105,7 @@ func _input(event: InputEvent) -> void:
 		state_chart.send_event("attack")
 	elif event.is_action_pressed("glide"):
 		state_chart.send_event("glide")
-
-func _on_jump_enabled_state_physics_processing(delta):
-	if Input.is_action_just_pressed("jump"):
-		velocity.y = -jump_velocity
+	elif event.is_action_pressed("jump"):
 		state_chart.send_event("jump")
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
@@ -119,6 +115,10 @@ func _on_animation_finished() -> void:
 
 func _play_animation(animation: StringName) -> void:
 	sprite.play(animation)
+
+func _on_jump_state_entered() -> void:
+	print("jump entered")
+	velocity.y = -jump_velocity
 
 func _on_glide_state_entered() -> void:
 	if velocity.y < 0:

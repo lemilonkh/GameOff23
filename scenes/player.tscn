@@ -440,11 +440,6 @@ event = &"idle"
 script = ExtResource("2_qoktu")
 initial_state = NodePath("Fall")
 
-[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../Grounded")
-event = &"grounded"
-
 [node name="Jump" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("3_q6skx")
 
@@ -462,6 +457,16 @@ event = &"glide"
 script = ExtResource("2_qoktu")
 initial_state = NodePath("CanJump")
 
+[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Glide")
+event = &"glide"
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../../Grounded")
+event = &"grounded"
+
 [node name="CanJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
 
@@ -478,10 +483,23 @@ event = &"jump"
 [node name="NoJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
 
-[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+[node name="OnJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/NoJump"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../Glide")
-event = &"glide"
+to = NodePath("../../JumpBuffer")
+event = &"jump"
+
+[node name="JumpBuffer" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/JumpBuffer"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../../Jump")
+event = &"grounded"
+
+[node name="OnExpiration" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/JumpBuffer"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../NoJump")
+delay_seconds = 0.2
 
 [node name="Glide" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("3_q6skx")
@@ -511,12 +529,11 @@ event = &"finished"
 script = ExtResource("3_q6skx")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
-[connection signal="state_physics_processing" from="StateChart/Root/Movement/Grounded" to="." method="_on_jump_enabled_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_on_jump_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
-[connection signal="state_physics_processing" from="StateChart/Root/Movement/Airborne/Fall/CanJump" to="." method="_on_jump_enabled_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_exited"]
