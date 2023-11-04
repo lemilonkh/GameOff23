@@ -6,12 +6,12 @@ extends CharacterBody2D
 @export_range(0, 100) var melee_damage := 1.0
 
 @export_category("Movement")
-## Default movement speed
-@export_range(0, 1000) var default_speed := 300.0
+## Default movement speed (maximum)
+@export_range(0, 1000) var default_max_speed := 300.0
 ## Default movement acceleration (speed change per second)
-@export_range(0, 2000) var default_acceleration := 800.0
+@export_range(0, 2000) var default_acceleration := 900.0
 ## Default movement deceleration (speed change per second when breaking)
-@export_range(0, 2000) var default_deceleration := 1000.0
+@export_range(0, 2000) var default_deceleration := 1200.0
 ## How far up a jump goes
 @export_range(0, 1000) var jump_velocity := 430.0
 ## Duration of initial drop for glide in seconds
@@ -20,12 +20,14 @@ extends CharacterBody2D
 @export_range(0, 1) var glide_initial_gravity_factor := 0.6
 ## How much you drop during the rest of the glide
 @export_range(0, 1) var glide_gravity_factor := 0.05
-## Factor of increase of the current speed when starting a glide
-@export_range(0, 5) var glide_speed_factor := 1.5
+## Amount of the speed added when starting a glide
+@export_range(0, 5) var glide_initial_speed := 500.0
+## Glide movement speed (maximum)
+@export_range(0, 1000) var glide_max_speed := 800.0
 ## Speed change per second during gliding
 @export_range(0, 1000) var glide_acceleration := 50.0
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var default_knockback := 20.0
+@export_range(0, 1000) var default_knockback := 200.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -42,10 +44,11 @@ const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 var health := max_health
 var energy := 0.0
 
-var speed := default_speed
+var max_speed := default_max_speed
 var gravity_factor := 1.0
 var acceleration := default_acceleration
 var gravity_tween: Tween
+var last_direction := 1.0
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	health -= amount
@@ -77,9 +80,9 @@ func _physics_process(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
 		velocity.x += direction * default_deceleration * delta
-		if abs(velocity.x) > default_speed:
+		if abs(velocity.x) > max_speed:
 			# TODO gradually decrease for bouncy/ knockback?
-			velocity.x = signf(velocity.x) * default_speed
+			velocity.x = signf(velocity.x) * max_speed
 	else:
 		var change := -signf(velocity.x) * acceleration * delta
 		if absf(change) > absf(velocity.x):
@@ -88,6 +91,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x += change
 
 	if signf(velocity.x) != 0:
+		last_direction = signf(velocity.x)
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()
@@ -135,20 +139,21 @@ func _on_jump_state_entered() -> void:
 		velocity.y = -jump_velocity
 
 func _on_glide_state_entered() -> void:
-	if velocity.y < 0:
-		velocity.y = 0
-	velocity.x *= glide_speed_factor
-	acceleration = glide_acceleration
+	velocity.y = 0
+	velocity.x += last_direction * glide_initial_speed
 	gravity_factor = glide_initial_gravity_factor
-	gravity_tween = create_tween().set_trans(Tween.TRANS_EXPO)
+	gravity_tween = create_tween().set_trans(Tween.TRANS_QUAD)
 	gravity_tween.tween_property(self, "gravity_factor", glide_gravity_factor, glide_drop_duration)
+	acceleration = glide_acceleration
+	max_speed = glide_max_speed
 
 func _on_glide_state_exited() -> void:
 	gravity_tween.kill()
 	gravity_factor = 1.0
 	acceleration = default_acceleration
+	max_speed = default_max_speed
 
 func _on_death_state_entered() -> void:
-	print("death")
-	speed = 0
+	print("Death")
+	max_speed = 0
 	# TODO show game over popup with prompt to reload from last checkpoint
