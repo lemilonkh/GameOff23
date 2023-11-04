@@ -370,6 +370,7 @@ layout_mode = 2
 texture = ExtResource("10_5rr2n")
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("15_1q7el")]
+visible = false
 custom_minimum_size = Vector2(300, 300)
 anchors_preset = 1
 anchor_left = 1.0
@@ -440,6 +441,11 @@ event = &"idle"
 script = ExtResource("2_qoktu")
 initial_state = NodePath("Fall")
 
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Grounded")
+event = &"grounded"
+
 [node name="Jump" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("3_q6skx")
 
@@ -461,11 +467,6 @@ initial_state = NodePath("CanJump")
 script = ExtResource("12_1ugos")
 to = NodePath("../../Glide")
 event = &"glide"
-
-[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../../Grounded")
-event = &"grounded"
 
 [node name="CanJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")

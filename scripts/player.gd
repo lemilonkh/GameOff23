@@ -8,10 +8,12 @@ extends CharacterBody2D
 @export_category("Movement")
 ## Default movement speed
 @export_range(0, 1000) var default_speed := 300.0
+## Default movement acceleration (speed change per second)
+@export_range(0, 2000) var default_acceleration := 800.0
+## Default movement deceleration (speed change per second when breaking)
+@export_range(0, 2000) var default_deceleration := 1000.0
 ## How far up a jump goes
 @export_range(0, 1000) var jump_velocity := 430.0
-## Percent of previous velocity that remains each frame during normal movement
-@export_range(0, 1) var default_inertia := 0.1
 ## Duration of initial drop for glide in seconds
 @export_range(0, 2) var glide_drop_duration := 0.2
 ## How much you drop at the start of the glide
@@ -20,8 +22,8 @@ extends CharacterBody2D
 @export_range(0, 1) var glide_gravity_factor := 0.05
 ## Factor of increase of the current speed when starting a glide
 @export_range(0, 5) var glide_speed_factor := 1.5
-## Percent of previous velocity that remains each frame during glide
-@export_range(0, 1) var glide_inertia := 0.94
+## Speed change per second during gliding
+@export_range(0, 1000) var glide_acceleration := 50.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 20.0
 
@@ -42,7 +44,7 @@ var energy := 0.0
 
 var speed := default_speed
 var gravity_factor := 1.0
-var inertia := default_inertia
+var acceleration := default_acceleration
 var gravity_tween: Tween
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
@@ -74,10 +76,16 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		velocity.x = lerp(direction * speed, velocity.x, inertia)
+		velocity.x += direction * default_deceleration * delta
+		if abs(velocity.x) > default_speed:
+			# TODO gradually decrease for bouncy/ knockback?
+			velocity.x = signf(velocity.x) * default_speed
 	else:
-		velocity.x = lerp(0.0, velocity.x, inertia)
-		#velocity.x = move_toward(velocity.x, 0, speed)
+		var change := -signf(velocity.x) * acceleration * delta
+		if absf(change) > absf(velocity.x):
+			velocity.x = 0
+		else:
+			velocity.x += change
 
 	if signf(velocity.x) != 0:
 		sprite.flip_h = velocity.x < 0
@@ -130,7 +138,7 @@ func _on_glide_state_entered() -> void:
 	if velocity.y < 0:
 		velocity.y = 0
 	velocity.x *= glide_speed_factor
-	inertia = glide_inertia
+	acceleration = glide_acceleration
 	gravity_factor = glide_initial_gravity_factor
 	gravity_tween = create_tween().set_trans(Tween.TRANS_EXPO)
 	gravity_tween.tween_property(self, "gravity_factor", glide_gravity_factor, glide_drop_duration)
@@ -138,7 +146,7 @@ func _on_glide_state_entered() -> void:
 func _on_glide_state_exited() -> void:
 	gravity_tween.kill()
 	gravity_factor = 1.0
-	inertia = default_inertia
+	acceleration = default_acceleration
 
 func _on_death_state_entered() -> void:
 	print("death")
