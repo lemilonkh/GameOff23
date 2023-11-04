@@ -30,7 +30,7 @@ func _on_body_entered(body):
 	# Inform player of hit
 	if body.is_in_group("Player"):
 		if body.has_method("take_hit"):
-			var direction :Vector2 = (body.global_position - self.global_position).normalized()
+			var direction: Vector2 = (body.global_position - self.global_position).normalized()
 			if knockback_force >= 0:
 				body.take_hit(hit_amount, enemy, direction, knockback_force)
 			else:
