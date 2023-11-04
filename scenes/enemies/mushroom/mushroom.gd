@@ -8,7 +8,7 @@ extends CharacterBody2D
 @export var wait_before_deactivate := 4.0
 @export var knockback_force := 80.0
 @export var knockback_decrease := 3.0
-@export var attack_wait_time := 20.0
+@export var attack_wait_time := 20
 
 @onready var _sprtie := $AnimatedSprite2D
 @onready var _state := $StateChart

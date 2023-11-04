@@ -44,7 +44,8 @@ var gravity_factor := 1.0
 var inertia := default_inertia
 var gravity_tween: Tween
 
-func take_hit(amount: float, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
+func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, \
+	knockback_force: float = default_knockback) -> void:
 	health -= amount
 	velocity += knockback_force * direction
 	_update_health()
