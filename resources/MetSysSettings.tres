@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("1_hrwcp")
 theme = ExtResource("2_8h1vp")
-map_root_folder = "res://SampleProject/Maps"
-in_game_cell_size = Vector2(1152, 648)
+map_root_folder = "res://maps"
+in_game_cell_size = Vector2(864, 480)
 collectible_list = Array[Dictionary]([])
