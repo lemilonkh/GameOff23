@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @export_category("Stats")
-@export_range(0, 20) var max_health := 3.0
+@export_range(0, 20) var max_health := 6.0
 @export_range(0, 100) var max_energy := 10.0
 @export_range(0, 100) var melee_damage := 1.0
 
@@ -14,6 +14,8 @@ extends CharacterBody2D
 @export_range(0, 2000) var default_deceleration := 1200.0
 ## How far up a jump goes
 @export_range(0, 1000) var jump_velocity := 430.0
+## How far up a pogo jump goes (when attacking an enemy below in mid-air)
+@export_range(0, 1000) var pogo_velocity := 700.0
 ## Duration of initial drop for glide in seconds
 @export_range(0, 2) var glide_drop_duration := 0.2
 ## How much you drop at the start of the glide
@@ -37,6 +39,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
 @onready var state_chart_debugger: MarginContainer = $CanvasLayer/StateChartDebugger
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
@@ -53,13 +56,14 @@ var last_direction := 1.0
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	health -= amount
 	velocity += knockback_force * direction
-	_update_health()
 	
 	if health <= 0:
 		health = 0
 		state_chart.send_event("death")
 	else:
 		state_chart.send_event("take_hit")
+	
+	_update_health()
 
 func _ready() -> void:
 	health_container.remove_child(heart)
@@ -158,3 +162,11 @@ func _on_death_state_entered() -> void:
 	print("Death")
 	max_speed = 0
 	# TODO show game over popup with prompt to reload from last checkpoint
+
+func _on_hurtbox_hit(body: Node2D) -> void:
+	if not is_on_floor():
+		velocity.y = -pogo_velocity
+	state_chart.send_event("hit")
+
+func _on_attack_started() -> void:
+	animation_player.play(&"Attack")

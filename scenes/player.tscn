@@ -1,7 +1,8 @@
-[gd_scene load_steps=58 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=69 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_t485f"]
+[ext_resource type="Texture2D" uid="uid://cdjda0qifhybl" path="res://sprites/player/Attack2.png" id="2_j472s"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="2_qoktu"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
 [ext_resource type="Texture2D" uid="uid://coh6rer503pps" path="res://sprites/player/Attack1.png" id="4_bs8br"]
@@ -13,8 +14,29 @@
 [ext_resource type="Texture2D" uid="uid://dpolx4r53603w" path="res://sprites/player/Run.png" id="9_238af"]
 [ext_resource type="Texture2D" uid="uid://d3rwhmahkhffh" path="res://sprites/ui/heart_full.png" id="10_5rr2n"]
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klrp4"]
+atlas = ExtResource("2_j472s")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cq7c"]
+atlas = ExtResource("2_j472s")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c25gt"]
+atlas = ExtResource("2_j472s")
+region = Rect2(300, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_buki0"]
+atlas = ExtResource("2_j472s")
+region = Rect2(450, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_atsde"]
+atlas = ExtResource("2_j472s")
+region = Rect2(600, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4n77o"]
 atlas = ExtResource("4_bs8br")
@@ -172,6 +194,26 @@ region = Rect2(300, 0, 150, 150)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_klrp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5cq7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c25gt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_buki0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_atsde")
+}],
+"loop": false,
+"name": &"AirAttack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_4n77o")
 }, {
 "duration": 1.0,
@@ -188,7 +230,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Attack",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -325,6 +367,9 @@ animations = [{
 "speed": 8.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
+size = Vector2(102, 114)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
 height = 40.0
@@ -340,6 +385,67 @@ height = 128
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="Animation" id="Animation_7rodt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox:is_enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0y7gx"]
+resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Hurtbox:is_enabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yqfs6"]
+_data = {
+"Attack": SubResource("Animation_0y7gx"),
+"RESET": SubResource("Animation_7rodt")
+}
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_t485f")
@@ -348,6 +454,17 @@ script = ExtResource("1_t485f")
 sprite_frames = SubResource("SpriteFrames_lt44i")
 animation = &"Idle"
 autoplay = "Idle"
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+script = ExtResource("11_oftqw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 13)
+shape = SubResource("RectangleShape2D_qusf1")
+debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -370,6 +487,17 @@ texture = SubResource("GradientTexture2D_i2nwv")
 height = 4.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yqfs6")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+offset_left = -3.0
+offset_top = -22.0
+offset_right = 4.0
+offset_bottom = -14.0
+color = Color(0.901961, 0, 0.180392, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -472,6 +600,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Grounded")
 event = &"grounded"
 
+[node name="OnAttack" type="Node" parent="StateChart/Root/Movement/Airborne"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../AirAttack/CanPogo")
+event = &"attack"
+
 [node name="Jump" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("3_q6skx")
 
@@ -544,6 +677,31 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Grounded/Idle")
 event = &"finished"
 
+[node name="AirAttack" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("2_qoktu")
+initial_state = NodePath("CanPogo")
+
+[node name="OnFinished" type="Node" parent="StateChart/Root/Movement/AirAttack"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Airborne")
+event = &"finished"
+
+[node name="CanPogo" type="Node" parent="StateChart/Root/Movement/AirAttack"]
+script = ExtResource("3_q6skx")
+
+[node name="OnHit" type="Node" parent="StateChart/Root/Movement/AirAttack/CanPogo"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../../Airborne/Jump")
+event = &"hit"
+
+[node name="OnGrounded" type="Node" parent="StateChart/Root/Movement/AirAttack/CanPogo"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../NoPogo")
+event = &"grounded"
+
+[node name="NoPogo" type="Node" parent="StateChart/Root/Movement/AirAttack"]
+script = ExtResource("3_q6skx")
+
 [node name="TakeHit" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("3_q6skx")
 
@@ -556,6 +714,8 @@ event = &"finished"
 script = ExtResource("3_q6skx")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
+[connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]
+[connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_on_jump_state_entered"]
@@ -564,7 +724,10 @@ script = ExtResource("3_q6skx")
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_exited" from="StateChart/Root/Movement/Airborne/Glide" to="." method="_on_glide_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Attack" to="." method="_on_attack_started"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Attack" to="." method="_play_animation" binds= ["Attack"]]
+[connection signal="state_entered" from="StateChart/Root/Movement/AirAttack" to="." method="_on_attack_started"]
+[connection signal="state_entered" from="StateChart/Root/Movement/AirAttack" to="." method="_play_animation" binds= ["AirAttack"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_play_animation" binds= ["Death"]]
