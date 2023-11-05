@@ -131,7 +131,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
 		state_chart.send_event("attack")
 	elif event.is_action_pressed("jump"):
-		state_chart.send_event("jump")
+		if is_on_floor():
+			state_chart.send_event("jump")
+		else:
+			await get_tree().create_timer(0.2).timeout
+			state_chart.send_event("jump")
 		state_chart.set_expression_property("jump_held", true)
 	elif event.is_action_released("jump"):
 		state_chart.send_event("jump_released")
