@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bjaiw5pk551mm"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://d2ohgksjnr5ba"]
 
 [ext_resource type="Script" path="res://addons/MetroidvaniaSystem/Scripts/Settings.gd" id="1_hrwcp"]
 [ext_resource type="Resource" uid="uid://bt6s3nd8xo6b" path="res://addons/MetroidvaniaSystem/Themes/Exquisite/Theme.tres" id="2_8h1vp"]
@@ -6,6 +6,6 @@
 [resource]
 script = ExtResource("1_hrwcp")
 theme = ExtResource("2_8h1vp")
-map_root_folder = "res://"
+map_root_folder = "res://SampleProject/Maps"
 in_game_cell_size = Vector2(1152, 648)
 collectible_list = Array[Dictionary]([])
