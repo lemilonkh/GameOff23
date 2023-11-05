@@ -403,6 +403,7 @@ glide_drop_duration = 0.0
 glide_initial_gravity_factor = 0.0
 glide_gravity_factor = 0.1
 glide_max_speed = 400.0
+glide_acceleration = 25.0
 jump_increase_time = 10.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

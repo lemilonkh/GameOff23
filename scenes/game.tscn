@@ -204,7 +204,6 @@ metadata/_edit_horizontal_guides_ = [240.0]
 
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
 position = Vector2(168, 634)
-glide_acceleration = 25.0
 
 [node name="UI" type="CanvasLayer" parent="."]
 
