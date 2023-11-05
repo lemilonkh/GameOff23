@@ -1,0 +1,869 @@
+[gd_scene load_steps=13 format=3 uid="uid://dfbykrvyqnqr5"]
+
+[ext_resource type="Script" path="res://addons/MetroidvaniaSystem/Database/MapEditor.gd" id="1_i7yda"]
+[ext_resource type="Script" path="res://addons/MetroidvaniaSystem/Database/MapOverlay.gd" id="2_w1wnt"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_pv7fp"]
+
+[sub_resource type="GDScript" id="GDScript_dsps8"]
+resource_name = "RoomLayout"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/SubEditor.gd\"
+
+var erase_mode: bool
+
+func _editor_init() -> void:
+	room_only_cursor = false
+
+func _update_theme():
+	theme_cache.cursor_color = get_theme_color(&\"cursor_color\", &\"MetSys\")
+
+func _editor_input(event: InputEvent):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				drag_from = get_cursor_pos()
+			else:
+				var rect := get_rect_between(drag_from, get_cursor_pos())
+				update_rooms(rect)
+				drag_from = EDITOR_SCRIPT.NULL_VECTOR2I
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				drag_from = get_cursor_pos()
+				erase_mode = true
+				theme_cache.cursor_color = get_theme_color(&\"cursor_color_erase\", &\"MetSys\")
+				queue_redraw()
+			else:
+				var rect := get_rect_between(drag_from, get_cursor_pos())
+				erase_rooms(rect)
+				erase_mode = false
+				theme_cache.cursor_color = get_theme_color(&\"cursor_color\", &\"MetSys\")
+				drag_from = EDITOR_SCRIPT.NULL_VECTOR2I
+
+func update_rooms(rect: Rect2i):
+	var map_data: MetroidvaniaSystem.MapData = MetSys.map_data
+	
+	for x in range(rect.position.x, rect.end.x):
+		for y in range(rect.position.y, rect.end.y):
+			var coords := Vector3i(x, y, editor.current_layer)
+			
+			var cell = map_data.get_cell_at(coords)
+			if cell:
+				remove_assign(coords)
+				
+				if x != rect.end.x - 1:
+					cell.borders[0] = -1
+				if y != rect.end.y - 1:
+					cell.borders[1] = -1
+				if x != rect.position.x:
+					cell.borders[2] = -1
+				if y != rect.position.y:
+					cell.borders[3] = -1
+			else:
+				cell = map_data.create_cell_at(coords)
+				if x == rect.end.x - 1:
+					cell.borders[0] = 0
+				if y == rect.end.y - 1:
+					cell.borders[1] = 0
+				if x == rect.position.x:
+					cell.borders[2] = 0
+				if y == rect.position.y:
+					cell.borders[3] = 0
+	
+	mark_modified()
+	editor.map.queue_redraw()
+
+func erase_rooms(rect: Rect2i):
+	var map_data: MetroidvaniaSystem.MapData = MetSys.map_data
+	
+	for x in range(rect.position.x, rect.end.x):
+		for y in range(rect.position.y, rect.end.y):
+			var coords := Vector3i(x, y, editor.current_layer)
+			var cell_data := map_data.get_cell_at(coords)
+			
+			if not cell_data:
+				continue
+			
+			if x == rect.end.x - 1:
+				close_border(Vector2i(x + 1, y), 2)
+			if y == rect.end.y - 1:
+				close_border(Vector2i(x, y + 1), 3)
+			if x == rect.position.x:
+				close_border(Vector2i(x - 1, y), 0)
+			if y == rect.position.y:
+				close_border(Vector2i(x, y - 1), 1)
+			
+			map_data.erase_cell(coords)
+	
+	mark_modified()
+	editor.map.queue_redraw()
+
+func remove_assign(coords: Vector3i):
+	var assigned_scene: String = MetSys.map_data.cells[coords].assigned_scene
+	MetSys.map_data.assigned_scenes.erase(assigned_scene)
+
+func close_border(pos: Vector2i, border: int):
+	var cell: MetroidvaniaSystem.MapData.CellData = MetSys.map_data.get_cell_at(get_coords(pos))
+	
+	if cell:
+		cell.borders[border] = 0
+"
+
+[sub_resource type="GDScript" id="GDScript_tlx5u"]
+resource_name = "CellColor"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/CellPaintEditor.gd\"
+
+func _editor_init() -> void:
+	super()
+	can_pick = true
+
+func _editor_enter():
+	super()
+	%Colors.show()
+
+func _editor_exit():
+	super()
+	%Colors.hide()
+
+func modify_cell(cell_data: MetroidvaniaSystem.MapData.CellData, mode: int) -> bool:
+	if mode == MODE_PICK:
+		if cell_data.color.a > 0:
+			%CurrentColor.color = cell_data.color
+	else:
+		var target_color := Color.TRANSPARENT
+		if mode == MODE_DRAW:
+			target_color = %CurrentColor.color
+		
+		if cell_data.color != target_color:
+			cell_data.color = target_color
+			return true
+	
+	return false
+"
+
+[sub_resource type="GDScript" id="GDScript_ujwfx"]
+resource_name = "CellSymbol"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/CellPaintEditor.gd\"
+
+var symbol_group: ButtonGroup
+
+func _editor_init() -> void:
+	can_pick = true
+	super()
+	
+	symbol_group = ButtonGroup.new()
+	reload_symbols()
+	MetSys.settings.theme_changed.connect(reload_symbols)
+	MetSys.theme_modified.connect(func(changes: Array[String]):
+		if \"symbols\" in changes:
+			reload_symbols())
+
+func reload_symbols():
+	for symbol in %SymbolContainer.get_children():
+		symbol.free()
+	
+	for symbol in MetSys.settings.theme.symbols:
+		add_symbol(symbol)
+
+func _editor_enter():
+	super()
+	%Symbols.show()
+
+func _editor_exit():
+	super()
+	%Symbols.hide()
+
+func modify_cell(cell_data: MetroidvaniaSystem.MapData.CellData, mode: int) -> bool:
+	if mode == MODE_PICK:
+		if cell_data.symbol > -1:
+			symbol_group.get_buttons()[cell_data.symbol].button_pressed = true
+		return false
+	
+	var target_symbol := -1
+	if mode == MODE_DRAW:
+		target_symbol = symbol_group.get_pressed_button().get_index()
+	
+	if cell_data.symbol != target_symbol:
+		cell_data.symbol = target_symbol
+		return true
+	
+	return false
+
+func add_symbol(texture: Texture2D):
+	var button := Button.new()
+	button.icon = texture
+	button.toggle_mode = true
+	button.button_group = symbol_group
+	
+	if not symbol_group.get_pressed_button():
+		button.button_pressed = true
+	
+	%SymbolContainer.add_child(button)
+"
+
+[sub_resource type="GDScript" id="GDScript_a80ln"]
+resource_name = "CellGroup"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/CellPaintEditor.gd\"
+
+var cell_groups: Dictionary
+var drawing: int
+
+func _editor_init() -> void:
+	super()
+	room_only_cursor = true
+	cell_groups = MetSys.map_data.cell_groups
+
+func _update_theme():
+	theme_cache.group_color = get_theme_color(&\"group_color\", &\"MetSys\")
+
+func _editor_enter():
+	super()
+	%Groups.show()
+
+func _editor_exit():
+	super()
+	%Groups.hide()
+
+func _editor_draw(map_overlay: CanvasItem):
+	super(map_overlay)
+	
+	for p in cell_groups.get(%CurrentGroup.value as int, []):
+		map_overlay.draw_rect(Rect2(Vector2(p.x, p.y) * MetSys.CELL_SIZE, MetSys.CELL_SIZE), theme_cache.group_color)
+
+func modify_coords(coords: Vector3i, mode: int) -> bool:
+	var current_group: int = %CurrentGroup.value
+	
+	if mode == MODE_DRAW:
+		if not current_group in cell_groups:
+			cell_groups[current_group] = []
+		
+		if not coords in cell_groups[current_group]:
+			cell_groups[current_group].append(coords)
+			return true
+	else:
+		if coords in cell_groups[current_group]:
+			cell_groups[current_group].erase(coords)
+			return true
+	
+	return false
+
+func draw_group():
+	if drawing == 0:
+		return
+	
+	var coords := get_coords(get_cursor_pos())
+	var current_group: int = %CurrentGroup.value
+	
+	if drawing & MOUSE_BUTTON_MASK_LEFT != 0:
+		var cell_data: MetroidvaniaSystem.MapData.CellData = MetSys.map_data.get_cell_at(coords)
+		if not cell_data:
+			return
+		
+		if not current_group in cell_groups:
+			cell_groups[current_group] = []
+		
+		if not coords in cell_groups[current_group]:
+			cell_groups[current_group].append(coords)
+		
+		mark_modified()
+		editor.map_overlay.queue_redraw()
+	elif drawing & MOUSE_BUTTON_MASK_RIGHT != 0:
+		if not current_group in cell_groups:
+			return
+		
+		var cell_data: MetroidvaniaSystem.MapData.CellData = MetSys.map_data.get_cell_at(coords)
+		if not cell_data:
+			return
+		
+		cell_groups[current_group].erase(coords)
+		mark_modified()
+		editor.map_overlay.queue_redraw()
+"
+
+[sub_resource type="GDScript" id="GDScript_ilxbw"]
+resource_name = "BorderType"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/BorderPaintEditor.gd\"
+
+var border_group: ButtonGroup
+
+func _editor_init() -> void:
+	use_cursor = false
+	can_pick = true
+	super()
+	border_group = ButtonGroup.new()
+	
+	reload_borders()
+	MetSys.settings.theme_changed.connect(reload_borders)
+	MetSys.theme_modified.connect(func(changes: Array[String]):
+		if \"borders\" in changes or \"vertical_borders\" or \"vertical_borders\" in changes:
+			reload_borders())
+
+func reload_borders():
+	for symbol in %BorderContainer.get_children():
+		symbol.free()
+	
+	if MetSys.settings.theme.rectangle:
+		add_border(MetSys.settings.theme.vertical_wall)
+		add_border(MetSys.settings.theme.vertical_passage)
+		
+		for border in MetSys.settings.theme.vertical_borders:
+			add_border(border)
+	else:
+		add_border(MetSys.settings.theme.wall)
+		add_border(MetSys.settings.theme.passage)
+		
+		for border in MetSys.settings.theme.borders:
+			add_border(border)
+
+func _editor_enter():
+	super()
+	%Borders.show()
+
+func _editor_exit():
+	super()
+	%Borders.hide()
+
+func modify_border(cell_data: MetroidvaniaSystem.MapData.CellData, border: int, mode: int) -> bool:
+	if cell_data.borders[border] == -1:
+		return false
+	
+	if mode == MODE_PICK:
+		border_group.get_buttons()[cell_data.borders[border]].button_pressed = true
+	else:
+		var target_border := 0
+		if mode == MODE_DRAW:
+			target_border = border_group.get_pressed_button().get_index()
+		
+		if cell_data.borders[border] != target_border:
+			cell_data.borders[border] = target_border
+			return true
+	
+	return false
+
+func add_border(texture: Texture2D):
+	var button := Button.new()
+	button.icon = texture
+	button.toggle_mode = true
+	button.button_group = border_group
+	button.custom_minimum_size.x = MetSys.CELL_SIZE.x
+	button.icon_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	
+	if not border_group.get_pressed_button():
+		button.button_pressed = true
+	
+	%BorderContainer.add_child(button)
+"
+
+[sub_resource type="GDScript" id="GDScript_a3fsx"]
+resource_name = "BorderColor"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/BorderPaintEditor.gd\"
+
+func _editor_init():
+	can_pick = true
+	super()
+
+func _editor_enter():
+	super()
+	%Colors.show()
+
+func _editor_exit():
+	super()
+	%Colors.hide()
+
+func modify_border(cell_data: MetroidvaniaSystem.MapData.CellData, border: int, mode: int) -> bool:
+	if cell_data.borders[border] == -1:
+		return false
+	
+	if mode == MODE_PICK:
+		if cell_data.border_colors[border].a > 0:
+			%CurrentColor.color = cell_data.border_colors[border]
+	else:
+		var target_color := Color.TRANSPARENT
+		if mode == MODE_DRAW:
+			target_color = %CurrentColor.color
+		
+		if cell_data.border_colors[border] != target_color:
+			cell_data.border_colors[border] = target_color
+			return true
+	
+	return false
+"
+
+[sub_resource type="GDScript" id="GDScript_p75ne"]
+resource_name = "SceneAssign"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/SubEditor.gd\"
+
+func _editor_init() -> void:
+	use_cursor = false
+
+func _update_theme():
+	theme_cache.assigned_scene = get_theme_color(&\"assigned_scene\", &\"MetSys\")
+
+func _editor_input(event: InputEvent):
+	if event is InputEventMouseMotion:
+		var hr := highlighted_room
+		highlighted_room = MetSys.map_data.get_whole_room(get_coords(get_cursor_pos()))
+		if highlighted_room != hr:
+			editor.map_overlay.queue_redraw()
+
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if not highlighted_room.is_empty():
+					if %FileDialog.root_subfolder.is_empty():
+						%FileDialog.root_subfolder = MetSys.settings.map_root_folder.trim_prefix(\"res://\")
+					%FileDialog.popup_centered_ratio(0.6)
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			var first := true
+			for p in highlighted_room:
+				if first:
+					var assigned_scene: String = MetSys.map_data.get_cell_at(p).assigned_scene
+					MetSys.map_data.assigned_scenes.erase(assigned_scene)
+					first = false
+				
+				MetSys.map_data.get_cell_at(p).assigned_scene = \"\"
+				MetSys.room_assign_updated.emit()
+			
+			mark_modified()
+			editor.map_overlay.queue_redraw()
+
+func _editor_draw(map_overlay: CanvasItem):
+	super(map_overlay)
+
+	for coords in MetSys.map_data.assigned_scenes.values():
+		if coords[0].z != editor.current_layer:
+			continue
+		
+		for p in coords:
+			map_overlay.draw_rect(Rect2(Vector2(p.x, p.y) * MetSys.CELL_SIZE, MetSys.CELL_SIZE), theme_cache.assigned_scene)
+
+	if not highlighted_room.is_empty():
+		map_overlay.draw_set_transform_matrix(Transform2D())
+		map_overlay.draw_string(get_theme_font(&\"font\", &\"Label\"), Vector2(0, 40),
+				MetSys.map_data.get_cell_at(highlighted_room.front()).assigned_scene)
+
+func on_map_selected(path: String) -> void:
+	path = path.trim_prefix(MetSys.settings.map_root_folder)
+	
+	MetSys.map_data.assigned_scenes[path] = []
+	for coords in highlighted_room:
+		MetSys.map_data.get_cell_at(coords).assigned_scene = path
+		MetSys.map_data.assigned_scenes[path].append(coords)
+		MetSys.room_assign_updated.emit()
+	
+	mark_modified()
+	editor.map_overlay.queue_redraw()
+"
+
+[sub_resource type="GDScript" id="GDScript_gb3rf"]
+resource_name = "CustomElements"
+script/source = "@tool
+extends \"res://addons/MetroidvaniaSystem/Database/SubEditor.gd\"
+
+var current_element: String
+var custom_elements: Dictionary
+
+func _editor_init() -> void:
+	room_only_cursor = false
+	custom_elements = MetSys.map_data.custom_elements
+	MetSys.settings.custom_elements_changed.connect(reload_custom_elements)
+	
+	reload_custom_elements()
+
+func _update_theme():
+	theme_cache.active_custom_element = get_theme_color(&\"active_custom_element\", &\"MetSys\")
+	theme_cache.inactive_custom_element = get_theme_color(&\"inactive_custom_element\", &\"MetSys\")
+	theme_cache.custom_element_marker = get_theme_color(&\"custom_element_marker\", &\"MetSys\")
+
+func reload_custom_elements():
+	for element in %CustomElementContainer.get_children():
+		element.queue_free()
+	current_element = \"\"
+	
+	if not MetSys.settings.custom_elements or MetSys.settings.custom_elements.custom_elements.is_empty():
+		%NoElements.show()
+		return
+	else:
+		%NoElements.hide()
+	
+	var element_group := ButtonGroup.new()
+	
+	for element in MetSys.settings.custom_elements.custom_elements:
+		var button := CheckBox.new()
+		button.text = str(element).capitalize()
+		button.button_group = element_group
+		button.pressed.connect(set_current_element.bind(element))
+		%CustomElementContainer.add_child(button)
+		
+		if not element_group.get_pressed_button():
+			button.button_pressed = true
+			set_current_element(element)
+
+func _editor_enter():
+	%CustomElements.show()
+
+func _editor_exit():
+	%CustomElements.hide()
+
+func set_current_element(element: String):
+	current_element = element
+	editor.map_overlay.queue_redraw()
+
+func _editor_draw(map_overlay: CanvasItem):
+	super(map_overlay)
+	
+	for coords in custom_elements:
+		if coords.z != editor.current_layer:
+			continue
+		
+		var element_color: Color
+		var element: Dictionary = custom_elements[coords]
+		if element.name == current_element:
+			element_color = theme_cache.active_custom_element
+		else:
+			element_color = theme_cache.inactive_custom_element
+		
+		map_overlay.draw_rect(Rect2(Vector2(coords.x, coords.y) * MetSys.CELL_SIZE, Vector2(element.size) * MetSys.CELL_SIZE), element_color)
+		
+		var square := minf(MetSys.CELL_SIZE.x, MetSys.CELL_SIZE.y)
+		map_overlay.draw_rect(Rect2((Vector2(coords.x, coords.y) + Vector2(0.5, 0.5)) * MetSys.CELL_SIZE - Vector2.ONE * square * 0.5, Vector2.ONE * square).grow(-square * 0.2), theme_cache.custom_element_marker)
+
+func _editor_input(event: InputEvent):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				drag_from = get_cursor_pos()
+			else:
+				var rect := get_rect_between(drag_from, get_cursor_pos())
+				add_element(rect)
+				mark_modified()
+				drag_from = EDITOR_SCRIPT.NULL_VECTOR2I
+		elif event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				var coords := Vector3i(get_cursor_pos().x, get_cursor_pos().y, editor.current_layer)
+				if coords in MetSys.map_data.custom_elements:
+					MetSys.map_data.custom_elements.erase(coords)
+					mark_modified()
+					editor.map.queue_redraw()
+
+func add_element(rect: Rect2i):
+	var element: Dictionary
+	element.name = current_element
+	element.size = rect.size
+	element.data = %CustomData.text
+	
+	var coords := Vector3i(rect.position.x, rect.position.y, editor.current_layer)
+	MetSys.map_data.custom_elements[coords] = element
+	editor.map.queue_redraw()
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xiyo8"]
+content_margin_left = 4.0
+content_margin_right = 4.0
+bg_color = Color(0, 0, 0, 0.501961)
+
+[node name="MapEditor" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_i7yda")
+mode_group = SubResource("ButtonGroup_pv7fp")
+metadata/_edit_lock_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+layout_mode = 2
+scroll_vertical = 64
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Layer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/Layer"]
+layout_mode = 2
+text = "Current Layer"
+horizontal_alignment = 1
+
+[node name="CurrentLayer" type="SpinBox" parent="PanelContainer/ScrollContainer/VBoxContainer/Layer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label2" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/Layer"]
+layout_mode = 2
+text = "Preview Layer"
+horizontal_alignment = 1
+
+[node name="SpinBox2" type="SpinBox" parent="PanelContainer/ScrollContainer/VBoxContainer/Layer"]
+layout_mode = 2
+size_flags_horizontal = 4
+min_value = -1.0
+value = -1.0
+
+[node name="RecenterButton" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Layer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Recenter View"
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Modes" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+text = "Mode"
+horizontal_alignment = 1
+
+[node name="RoomLayout" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Room Layout"
+script = SubResource("GDScript_dsps8")
+
+[node name="CellColor" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Cell Color"
+script = SubResource("GDScript_tlx5u")
+
+[node name="CellSymbol" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Cell Symbol"
+script = SubResource("GDScript_ujwfx")
+
+[node name="CellGroup" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Cell Group"
+script = SubResource("GDScript_a80ln")
+
+[node name="BorderType" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Border Type"
+script = SubResource("GDScript_ilxbw")
+
+[node name="BorderColor" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Border Color"
+script = SubResource("GDScript_a3fsx")
+
+[node name="SceneAssign" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Scene Assign"
+script = SubResource("GDScript_p75ne")
+
+[node name="CustomElements" type="Button" parent="PanelContainer/ScrollContainer/VBoxContainer/Modes"]
+layout_mode = 2
+toggle_mode = true
+button_group = SubResource("ButtonGroup_pv7fp")
+text = "Custom Elements"
+script = SubResource("GDScript_gb3rf")
+
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EditControls" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+mouse_filter = 2
+alignment = 2
+metadata/_edit_lock_ = true
+
+[node name="Symbols" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="SymbolContainer" type="HFlowContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Symbols"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Borders" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="BorderContainer" type="HFlowContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Borders"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Groups" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Groups"]
+layout_mode = 2
+text = "Group ID"
+horizontal_alignment = 1
+
+[node name="CurrentGroup" type="SpinBox" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Groups"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Colors" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CurrentColor" type="ColorPickerButton" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Colors"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+edit_alpha = false
+
+[node name="CustomElements" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/CustomElements"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/CustomElements/HBoxContainer"]
+layout_mode = 2
+text = "Data"
+
+[node name="CustomData" type="LineEdit" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/CustomElements/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NoElements" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/CustomElements"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No Custom Elements Registered"
+autowrap_mode = 2
+
+[node name="CustomElementContainer" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/CustomElements"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Shortcuts" type="VBoxContainer" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ShortcutPick" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Shortcuts"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ctrl+Click: pick from map"
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Shortcuts"]
+layout_mode = 2
+text = "Shift+Click: set for the whole room"
+autowrap_mode = 2
+
+[node name="MapOverlay" type="Control" parent="."]
+texture_filter = 1
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 2
+script = ExtResource("2_w1wnt")
+
+[node name="ColorRect" type="ColorRect" parent="MapOverlay"]
+modulate = Color(0, 0, 0, 0.12549)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Grid" type="Control" parent="MapOverlay"]
+unique_name_in_owner = true
+show_behind_parent = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Map" type="Control" parent="MapOverlay"]
+unique_name_in_owner = true
+show_behind_parent = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="GhostMap" type="Control" parent="MapOverlay"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.12549)
+show_behind_parent = true
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="StatusLabel" type="Label" parent="MapOverlay"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1.0
+offset_bottom = 23.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_xiyo8")
+vertical_alignment = 1
+
+[node name="FileDialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a File"
+size = Vector2i(345, 162)
+ok_button_text = "Otwórz"
+file_mode = 0
+filters = PackedStringArray("*.tscn")
+
+[connection signal="value_changed" from="PanelContainer/ScrollContainer/VBoxContainer/Layer/SpinBox2" to="." method="preview_layer_changed"]
+[connection signal="value_changed" from="PanelContainer/ScrollContainer/VBoxContainer/EditControls/Groups/CurrentGroup" to="MapOverlay" method="queue_redraw" unbinds=1]
+[connection signal="draw" from="MapOverlay/Grid" to="." method="_on_grid_draw"]
+[connection signal="draw" from="MapOverlay/GhostMap" to="." method="_on_ghost_map_draw"]
+[connection signal="file_selected" from="FileDialog" to="PanelContainer/ScrollContainer/VBoxContainer/Modes/SceneAssign" method="on_map_selected"]
