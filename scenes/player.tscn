@@ -662,6 +662,11 @@ event = &"finished"
 [node name="Death" type="Node" parent="StateChart/Root"]
 script = ExtResource("3_q6skx")
 
+[node name="OnExpiration" type="Node" parent="StateChart/Root/Death"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Movement/Grounded/Idle")
+delay_seconds = 5.0
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]
 [connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
@@ -680,3 +685,4 @@ script = ExtResource("3_q6skx")
 [connection signal="state_entered" from="StateChart/Root/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_play_animation" binds= ["Death"]]
+[connection signal="state_exited" from="StateChart/Root/Death" to="." method="_on_death_state_exited"]

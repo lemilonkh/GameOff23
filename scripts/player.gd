@@ -53,6 +53,7 @@ var gravity_factor := 1.0
 var acceleration := default_acceleration
 var gravity_tween: Tween
 var last_direction := 1.0
+var reset_position: Vector2
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	health -= amount
@@ -65,6 +66,10 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 		state_chart.send_event("take_hit")
 	
 	_update_health()
+
+func on_enter():
+	# Position for kill system. Assigned when entering new room (see game.gd).
+	reset_position = position
 
 func _ready() -> void:
 	health_container.remove_child(heart)
@@ -172,6 +177,9 @@ func _on_death_state_entered() -> void:
 	print("Death")
 	max_speed = 0
 	# TODO show game over popup with prompt to reload from last checkpoint
+
+func _on_death_state_exited() -> void:
+	position = reset_position
 
 func _on_hurtbox_hit(body: Node2D) -> void:
 	if not is_on_floor():
