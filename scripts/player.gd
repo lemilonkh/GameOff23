@@ -92,6 +92,7 @@ func _ready() -> void:
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
 	state_chart.set_expression_property("jump_held", false)
+	on_enter()
 
 func _update_health() -> void:
 	for i in range(max_health):
@@ -123,8 +124,6 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	for c in get_slide_collision_count():
 		var col := get_slide_collision(c).get_collider()
-		if col is TileMap:
-			_check_tile_collision(col)
 		if col.has_method("on_collision"):
 			col.on_collision(self)
 			if velocity.y < 0:
@@ -171,20 +170,6 @@ func _input(event: InputEvent) -> void:
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
-func _check_tile_collision(tilemap: TileMap) -> void:
-	var foot_pos: Vector2 = raycast.global_position + Vector2(0, tilemap.tile_set.tile_size.y / 2)
-	var tile_pos := tilemap.local_to_map(tilemap.to_local(foot_pos))
-	var tile := tilemap.get_cell_tile_data(0, tile_pos)
-	if !tile:
-		return
-	
-	var can_hurt: bool = tile.get_custom_data("can_hurt")
-	
-	if can_hurt:
-		var tile_global_pos: Vector2 = tilemap.global_position + Vector2(tile_pos * tilemap.tile_set.tile_size.x)
-		var hit_direction := tile_global_pos.direction_to(global_position)
-		take_hit(1, null, hit_direction, spike_knockback)
-
 func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
 
@@ -229,3 +214,8 @@ func _on_hurtbox_hit(body: Node2D) -> void:
 
 func _on_attack_started() -> void:
 	animation_player.play(&"Attack")
+
+func _on_hitbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
+	var shape_transform := PhysicsServer2D.body_get_shape_transform(body_rid, body_shape_index)
+	var hit_direction := shape_transform.origin.direction_to(global_position)
+	take_hit(1, null, hit_direction, spike_knockback)
