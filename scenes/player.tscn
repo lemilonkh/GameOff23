@@ -397,6 +397,13 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_t485f")
+default_max_speed = 200.0
+default_acceleration = 300.0
+glide_drop_duration = 0.0
+glide_initial_gravity_factor = 0.0
+glide_gravity_factor = 0.1
+glide_max_speed = 400.0
+jump_increase_time = 10.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
