@@ -585,9 +585,11 @@ event = &"hit"
 guard = SubResource("Resource_4jwh7")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("19_snte8")]
-offset_left = 639.0
+offset_left = 568.0
+offset_top = 3.0
 initial_node_to_watch = NodePath("../../StateChart")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

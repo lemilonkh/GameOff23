@@ -175,6 +175,11 @@ func _physics_process(delta):
 	var result := space_state.intersect_ray(query)
 	if result:
 		_player_visible = (result["collider"] == _player)
+	
+	
+	# TODO: Debug - remove
+	if Input.is_action_just_pressed("ui_cancel"):
+		$CanvasLayer.visible = !$CanvasLayer.visible
 
 
 
