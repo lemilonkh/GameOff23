@@ -654,7 +654,7 @@ script = ExtResource("3_q6skx")
 
 [node name="OnJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/NoJump"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../JumpBuffer")
+to = NodePath("../../../Glide")
 event = &"jump"
 
 [node name="JumpBuffer" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
