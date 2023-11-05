@@ -3,12 +3,12 @@ extends CharacterBody2D
 @export var health := 100.0
 @export var speed := 20.0
 @export var gravity := 200.0
-@export var idle_distance_to_player := 40.0
+@export var idle_distance_to_player := 100.0
 @export var projectile: PackedScene
 @export var wait_before_deactivate := 4.0
 @export var knockback_force := 80.0
 @export var knockback_decrease := 3.0
-@export var attack_wait_time := 1.5
+@export var attack_wait_time := 20
 
 @onready var _sprite := $AnimatedSprite2D
 @onready var _state := $StateChart
@@ -112,9 +112,7 @@ func _on_hit_state_entered():
 
 
 func _on_passive_state_processing(delta):
-	_last_attack_time += delta
-	if _player_visible and _last_attack_time > attack_wait_time:
-		_last_attack_time = 0
+	if _player_visible and !(randi() % attack_wait_time):
 		_state.send_event("attack")
 
 
