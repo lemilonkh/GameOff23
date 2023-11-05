@@ -134,7 +134,7 @@ func _input(event: InputEvent) -> void:
 		if is_on_floor():
 			state_chart.send_event("jump")
 		else:
-			await get_tree().create_timer(0.2).timeout
+			await get_tree().create_timer(0.1).timeout
 			state_chart.send_event("jump")
 		state_chart.set_expression_property("jump_held", true)
 	elif event.is_action_released("jump"):
