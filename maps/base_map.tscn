@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg7hwm52wueq4"]
+
+[ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_5xrb7"]
+[ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_dugpo"]
+
+[node name="Map" type="Node2D"]
+
+[node name="RoomInstance" parent="." instance=ExtResource("1_5xrb7")]
+
+[node name="TileMap" type="TileMap" parent="."]
+position = Vector2(0, 496)
+tile_set = ExtResource("2_dugpo")
+format = 2
