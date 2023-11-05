@@ -92,6 +92,7 @@ func _ready() -> void:
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
 	state_chart.set_expression_property("jump_held", false)
+	on_enter()
 
 func _update_health() -> void:
 	for i in range(max_health):
