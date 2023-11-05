@@ -1,98 +1,284 @@
-[gd_scene load_steps=11 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=10 format=3 uid="uid://da6y27vlqx8cx"]
 
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
-[ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_wtd2k"]
-[ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="3_5dq4k"]
-[ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="4_2ra6r"]
+[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://SampleProject/Sprites/Collectible.png" id="3_uayub"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ikhlx"]
-blend_mode = 1
+[sub_resource type="GDScript" id="GDScript_qm63g"]
+resource_name = "Minimap"
+script/source = "# The minimap panel. It draws a 3x3 minimap with player's position in the center. Note that the position is drawn differently from the MetSys player position.
+extends Panel
 
-[sub_resource type="Curve" id="Curve_e4lui"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.501558, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+# The cell coords in the center.
+var current_cell: Vector2i
 
-[sub_resource type="CurveTexture" id="CurveTexture_7hjie"]
-curve = SubResource("Curve_e4lui")
+func _ready() -> void:
+	# Set minimum size to 3 times the cell size.
+	custom_minimum_size = MetSys.CELL_SIZE * 3
+	# Reset position after setting size.
+	set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_MINSIZE, 16)
+	# Same for the center rect, which indicates current position.
+	$ColorRect.custom_minimum_size = MetSys.CELL_SIZE
+	$ColorRect.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	
+	# Connect signals.
+	MetSys.map_updated.connect(queue_redraw)
+	MetSys.cell_changed.connect(on_cell_changed)
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cf1wv"]
-lifetime_randomness = 0.6
-particle_flag_disable_z = true
-emission_shape = 3
-emission_box_extents = Vector3(672, 504, 1)
-angle_max = 360.0
-spread = 180.0
-initial_velocity_min = 5.0
-initial_velocity_max = 50.0
-angular_velocity_min = 5.0
-angular_velocity_max = 10.0
-orbit_velocity_max = 0.02
-gravity = Vector3(0, 0, 0)
-radial_accel_min = 0.5
-radial_accel_max = 3.0
-tangential_accel_min = 0.5
-tangential_accel_max = 3.0
-damping_min = 0.1
-damping_max = 2.0
-scale_curve = SubResource("CurveTexture_7hjie")
-hue_variation_min = -0.68
-hue_variation_max = 0.24
-turbulence_noise_speed = Vector3(2, 4, 0)
-turbulence_noise_speed_random = 0.4
-turbulence_influence_max = 0.3
-turbulence_initial_displacement_min = 0.1
-turbulence_initial_displacement_max = 10.0
+func on_cell_changed(new_cell: Vector3i):
+	# On cell changed update the position and redraw.
+	current_cell = Vector2i(new_cell.x, new_cell.y)
+	queue_redraw()
 
-[sub_resource type="Gradient" id="Gradient_ar4gl"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.732308)
-colors = PackedColorArray(5, 4, 3, 1, 1, 1, 1, 0)
+func _draw() -> void:
+	# Draw the 3x3 cells, i.e. (-1, -1) to (1, 1).
+	for x in range(-1, 2):
+		for y in range(-1, 2):
+			# Draw the cell.
+			MetSys.draw_cell(self, Vector2i(x + 1, y + 1), Vector3i(current_cell.x + x, current_cell.y + y, MetSys.current_layer))
+	
+	# Draw shared borders, if used by the theme.
+	if MetSys.settings.theme.use_shared_borders:
+		MetSys.draw_shared_borders()
+	# Draw custom elements.
+	MetSys.draw_custom_elements(self, Rect2i(current_cell.x - 1, current_cell.y - 1, 3, 3))
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ow1jd"]
-gradient = SubResource("Gradient_ar4gl")
-width = 16
-height = 16
-use_hdr = true
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+func _input(event: InputEvent) -> void:
+	# Toggle visibility when pressing M.
+	if event is InputEventKey:
+		if event.pressed:
+			if event.keycode == KEY_M:
+				visible = not visible
+"
 
-[node name="game" type="Node2D"]
+[sub_resource type="Animation" id="Animation_lgykt"]
+resource_name = "Flash"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 2),
+"update": 0,
+"values": [Color(1, 1, 1, 0.752941), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0p0d4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.752941)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kkw8m"]
+_data = {
+"Flash": SubResource("Animation_lgykt"),
+"RESET": SubResource("Animation_0p0d4")
+}
+
+[sub_resource type="GDScript" id="GDScript_3j3ex"]
+resource_name = "MapWindow"
+script/source = "# The window that contains a bigger map overview than minimap. Toggled with M.
+extends Panel
+
+# The size of the window in cells.
+var SIZE: Vector2i
+
+# The position where the player started (for the vector feature).
+var starting_coords: Vector2i
+# The offset for drawing the cells. Allows map panning.
+var offset: Vector2i
+# The player location node from MetSys.add_player_location()
+var player_location: Node2D
+# The vector feature, toggled with D. It displays an arrow from player's starting point to the current position.
+# It's purely to show custom drawing on the map.
+var show_delta: bool
+
+func _ready() -> void:
+	# Cellular size is total size divided by cell size.
+	SIZE = size / MetSys.CELL_SIZE
+	# Connect some signals.
+	MetSys.cell_changed.connect(queue_redraw.unbind(1))
+	MetSys.cell_changed.connect(update_offset.unbind(1)) # When player moves to another cell, move the map.
+	MetSys.map_updated.connect(queue_redraw)
+	# Create player location. We need a reference to update its offset.
+	player_location = MetSys.add_player_location(self)
+
+func _draw() -> void:
+	for x in SIZE.x:
+		for y in SIZE.y:
+			# Draw cells. Note how offset is used.
+			MetSys.draw_cell(self, Vector2i(x, y), Vector3i(x - offset.x, y - offset.y, MetSys.current_layer))
+	# Draw shared borders and custom elements.
+	if MetSys.settings.theme.use_shared_borders:
+		MetSys.draw_shared_borders()
+	MetSys.draw_custom_elements(self, Rect2i(-offset.x, -offset.y, SIZE.x, SIZE.y))
+	# Get the current player coordinates.
+	var coords := MetSys.get_current_flat_coords()
+	# If the delta vector (D) is enabled and player isn't on the starting position...
+	if show_delta and coords != starting_coords:
+		var start_pos := MetSys.get_cell_position(starting_coords + offset)
+		var current_pos := MetSys.get_cell_position(coords + offset)
+		# draw the vector...
+		draw_line(start_pos, current_pos, Color.WHITE, 2)
+		
+		const arrow_size = 4
+		# and arrow. This code shows how to draw custom stuff on the map outside the MetSys functions.
+		draw_set_transform(current_pos, start_pos.angle_to_point(current_pos), Vector2.ONE)
+		draw_primitive([Vector2(-arrow_size, -arrow_size), Vector2(arrow_size, 0), Vector2(-arrow_size, arrow_size)], [Color.WHITE], [])
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey:
+		if event.pressed:
+			# Toggle visibility when pressing M.
+			if event.keycode == KEY_M:
+				visible = not visible
+				if visible:
+					update_offset()
+			elif event.keycode == KEY_D:
+				# D toggles position tracking (delta vector).
+				show_delta = not show_delta
+				queue_redraw()
+
+func update_offset():
+	# Update the map offset based on the current position.
+	# Normally the offset is interactive and the player is able to move freely around the map.
+	# But in this demo, the map can overlay the game and thus is updated in real time.
+	offset = -MetSys.get_current_flat_coords() + SIZE / 2
+	player_location.offset = Vector2(offset) * MetSys.CELL_SIZE
+
+func reset_starting_coords():
+	# Starting position for the delta vector.
+	var coords := MetSys.get_current_flat_coords()
+	starting_coords = Vector2i(coords.x, coords.y)
+	queue_redraw()
+"
+
+[sub_resource type="GDScript" id="GDScript_88ws2"]
+resource_name = "PercentLabel"
+script/source = "# Displays map completion percentage
+extends Label
+
+func _ready() -> void:
+	# The percentage may change when map is updated.
+	MetSys.map_updated.connect(update)
+
+func _notification(what: int) -> void:
+	# Update when the label is made visible. This happens when the map is toggled.
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		update()
+
+func update():
+	# Only update when visible.
+	if is_visible_in_tree():
+		# Show the percentage.
+		text = \"%03d%%\" % int(MetSys.get_explored_ratio() * 100)
+"
+
+[node name="Game" type="Node2D"]
 texture_filter = 1
+script = ExtResource("1_jq20o")
+starting_map = "forest_test.tscn"
 metadata/_edit_vertical_guides_ = [432.0]
 metadata/_edit_horizontal_guides_ = [240.0]
 
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
 position = Vector2(168, 634)
 
-[node name="TileMap" type="TileMap" parent="."]
-position = Vector2(0, 496)
-tile_set = ExtResource("2_wtd2k")
-format = 2
-layer_0/tile_data = PackedInt32Array(524294, 65536, 2, 524295, 131072, 2, 524296, 131072, 2, 524297, 196608, 2, 327683, 65536, 2, 327684, 131072, 5, 327687, 196608, 2, 655370, 65536, 2, 655371, 131072, 2, 655372, 131072, 2, 655373, 131072, 2, 655374, 196608, 2, 1, 131072, 2, 0, 65536, 1, 196609, 196608, 0, 262145, 196608, 4, 327681, 196608, 4, 393217, 196608, 4, 458753, 196608, 1, 524289, 196608, 4, 589825, 196608, 1, 655360, 65536, 1, 589824, 65536, 4, 720896, 65536, 1, 720897, 196608, 1, 786433, 196608, 4, 65536, 65536, 1, 131072, 65536, 1, 196608, 65536, 1, 262144, 65536, 4, 327680, 65536, 4, 393216, 65536, 4, 458752, 65536, 4, 524288, 65536, 4, 655361, 196608, 4, 786432, 65536, 4, 851968, 131072, 1, 917504, 131072, 1, 983040, 131072, 2, 851969, 196608, 4, 917505, 131072, 1, 983041, 131072, 2, 983042, 131072, 2, 983043, 131072, 2, 983044, 131072, 2, 983046, 131072, 2, 983045, 131072, 5, 983047, 131072, 2, 983048, 131072, 5, 917506, 131072, 0, 917507, 131072, 3, 917508, 131072, 0, 917509, 131072, 0, 917510, 131072, 3, 917512, 131072, 0, 917511, 131072, 3, 917513, 131072, 3, 917514, 131072, 0, 917515, 131072, 0, 917516, 131072, 0, 917517, 131072, 3, 917518, 131072, 3, 917519, 196608, 0, 983055, 131072, 2, 983056, 131072, 2, 983057, 131072, 2, 983058, 131072, 2, 983059, 131072, 2, 983060, 131072, 2, 983061, 131072, 2, 983062, 131072, 2, 983063, 131072, 2, 983064, 131072, 2, 983065, 131072, 5, 983066, 131072, 2, 983067, 131072, 5, 917531, 196608, 4, 917530, 131072, 4, 851995, 196608, 4, 786459, 196608, 4, 720923, 196608, 4, 655387, 196608, 4, 589851, 196608, 1, 131099, 196608, 4, 65563, 196608, 1, 65562, 65536, 0, 131098, 65536, 4, 589850, 65536, 4, 655386, 65536, 1, 720922, 65536, 1, 786458, 65536, 4, 851994, 131072, 4, 917529, 131072, 4, 851993, 65536, 0, 917528, 131072, 0, 458777, 131072, 2, 458776, 131072, 5, 458775, 131072, 5, 458774, 131072, 5, 458773, 131072, 5, 458770, 65536, 2, -65536, 65536, 1, -65535, 131072, 3, 131087, 131072, 3, 196624, 196608, 2, 196623, 131072, 2, 786449, 65536, 2, 786450, 131072, 2, 786451, 131072, 2, 786452, 131072, 2, 786453, 196608, 2, 131088, 196608, 0, 196622, 65536, 2, -1048576, 65536, 0, -983040, 196608, 1, -917504, 196608, 1, -851968, 196608, 1, -786432, 196608, 1, -720896, 196608, 1, -655360, 196608, 1, -524288, 131072, 1, -327680, 196608, 1, -262144, 196608, 1, -196608, 196608, 1, -131072, 196608, 1, -1048549, 131072, 0, -1048550, 131072, 2, -1048551, 131072, 2, -1048552, 131072, 2, -1048553, 131072, 2, -1048554, 131072, 2, -1048555, 131072, 2, -1048556, 131072, 2, -1048557, 131072, 2, -1048558, 131072, 2, -1048559, 131072, 2, -1048560, 131072, 2, -1048561, 131072, 2, -1048562, 131072, 2, -1048563, 131072, 2, -1048564, 131072, 2, -1048565, 131072, 2, -1048566, 131072, 2, -1048567, 131072, 2, -1048568, 131072, 2, -1048569, 131072, 2, -1048570, 131072, 2, -1048571, 131072, 2, -1048572, 131072, 2, -1048573, 131072, 2, -1048574, 131072, 2, -1048575, 131072, 2, 27, 196608, 1, -65509, 196608, 1, -131045, 131072, 1, -196581, 196608, 1, -262117, 196608, 1, -327653, 196608, 1, -393189, 196608, 0, -786405, 196608, 0, -983013, 196608, 2, -65533, 131072, 3, -65534, 131072, 3, -524285, 196608, 2, -524286, 131072, 2, -524287, 131072, 2, -262122, 65536, 2, -262121, 131072, 2, -262120, 131072, 2, -262119, 131072, 2, -262118, 131072, 2, -786413, 65536, 5, -786412, 131072, 3, -786411, 131072, 0, -786410, 131072, 3, -786409, 131072, 3, -786408, 131072, 3, -786407, 131072, 0, -786406, 131072, 3, -1048548, 131072, 2, -1048547, 131072, 2, 983078, 131072, 2, 983077, 131072, 2, 983076, 131072, 2, 983075, 131072, 2, 983074, 131072, 2, 983073, 131072, 2, 983072, 131072, 2, 983071, 131072, 2, 983070, 131072, 2, 983069, 131072, 2, 983068, 131072, 2, -1048535, 196608, 1, -1048536, 131072, 2, -1048537, 131072, 2, -1048538, 131072, 2, -1048539, 131072, 2, -1048540, 131072, 2, -1048541, 131072, 2, -1048542, 131072, 2, -1048543, 131072, 2, -1048544, 131072, 2, -1048545, 131072, 2, -1048546, 131072, 2, 983081, 196608, 2, 917545, 196608, 1, 852009, 196608, 1, 786473, 196608, 1, 720937, 196608, 1, 655401, 196608, 1, 589865, 196608, 1, 524329, 196608, 1, 458793, 196608, 1, 393257, 196608, 1, 327721, 196608, 1, 262185, 196608, 1, 196649, 196608, 1, 131113, 196608, 1, 65577, 196608, 1, 41, 196608, 1, -65495, 196608, 1, -131031, 196608, 1, -196567, 196608, 1, -262103, 196608, 1, -327639, 196608, 1, -393175, 196608, 1, -458711, 196608, 1, -524247, 196608, 1, -589783, 196608, 1, -655319, 196608, 1, -720855, 196608, 1, -786391, 196608, 1, -851927, 196608, 1, -917463, 196608, 1, -982999, 196608, 1, 983080, 131072, 2, 983079, 131072, 2, -131042, 196608, 2, -131043, 131072, 2, -131044, 131072, 2, 131110, 65536, 2, 131111, 131072, 2, 131112, 131072, 2, 458782, 196608, 2, 458781, 131072, 2, 458780, 131072, 2, 720933, 65536, 2, 720934, 131072, 2, 786471, 65536, 2, 786472, 131072, 2, 720935, 196608, 0, 458786, 65536, 2, 393250, 196608, 1, 327714, 196608, 1, 262178, 65536, 0, -720861, 65536, 2, -720860, 131072, 2, -720859, 131072, 2, -720858, 131072, 2, -720857, 131072, 2, -720856, 131072, 2, 262151, 196608, 0, 917540, 1, 65536, 655397, 1, 65536, 393251, 131072, 0, 393252, 196608, 0, 458788, 196608, 2, 458787, 131072, 2, 262179, 196608, 0, 327715, 196608, 2, 327716, 1, 65536, 393246, 1, 65536, 65574, 1, 65536, -196578, 1, 65536, 131094, 131072, 5, 131093, 131072, 2, 131095, 196608, 2, 65559, 196608, 0, 65558, 131072, 3, 65557, 131072, 0, 65556, 65536, 0, 131092, 65536, 2, 65548, 131072, 4, 12, 131072, 4, -65524, 131072, 4, -131060, 131072, 3, -131061, 65536, 0, -65525, 131072, 1, -65526, 65536, 3, 10, 65536, 2, 11, 131072, 1, 65547, 65536, 5, -131059, 196608, 3, -65523, 196608, 4, 131085, 131072, 5, 65549, 131072, 4, 13, 196608, 4, 131084, 65536, 5, 65550, 196608, 3, 131086, 131072, 4, 720913, 1, 65536, 851983, 1, 65536, 589838, 1, 65536, 196634, 65536, 1, 196635, 196608, 4, 262171, 196608, 4, 327707, 196608, 1, 393243, 196608, 4, 262170, 65536, 1, 327706, 131072, 1, 393242, 131072, 4, 458778, 131072, 4, 524314, 65536, 4, 524315, 196608, 4, 458779, 131072, 4, 393244, 262144, 0, 393241, 131072, 4, 917527, 65536, 0, 983054, 131072, 2, 983053, 131072, 5, 983052, 131072, 2, 983051, 131072, 5, 983050, 131072, 2, 983049, 131072, 2, 262150, 65536, 3, 327686, 131072, 2, 327685, 131072, 2, -65532, 196608, 3, -589824, 196608, 1, -393216, 196608, 1, -458752, 196608, 1, -589821, 1, 65536, -327658, 1, 65536, 458771, 131072, 5, 458772, 131072, 2, 327705, 65536, 3, 393240, 131072, 3, 393239, 131072, 0, 393238, 131072, 3, 393237, 131072, 0, 393236, 0, 0, 262169, 1, 65536, -393190, 65536, 0, -327654, 131072, 4, -327655, 0, 0, 2, 131072, 5, 3, 131072, 5, 4, 196608, 2, -131068, 1, 65536)
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="Mushroom" parent="." instance=ExtResource("3_5dq4k")]
-position = Vector2(280, 739)
+[node name="Minimap" type="Panel" parent="UI"]
+clip_contents = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -112.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = 112.0
+grow_horizontal = 0
+script = SubResource("GDScript_qm63g")
 
-[node name="VeryBouncyShroom" parent="." instance=ExtResource("4_2ra6r")]
-position = Vector2(528, 544)
-bounce_speed = 1000.0
+[node name="ColorRect" type="ColorRect" parent="UI/Minimap"]
+modulate = Color(1, 1, 1, 0.752941)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="UpsideDownShroom" parent="." instance=ExtResource("4_2ra6r")]
-position = Vector2(464, 637)
-direction = 2
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Minimap/ColorRect"]
+libraries = {
+"": SubResource("AnimationLibrary_kkw8m")
+}
+autoplay = "Flash"
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(1344, 1008)
+[node name="MapWindow" type="Panel" parent="UI"]
+visible = false
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -160.0
+offset_right = 240.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_3j3ex")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.325484, 0.28866, 0.205512, 1)
+[node name="Percent" type="Label" parent="UI/MapWindow"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0%"
+script = SubResource("GDScript_88ws2")
 
-[node name="FireflyParticles" type="GPUParticles2D" parent="."]
-light_mask = 0
-material = SubResource("CanvasItemMaterial_ikhlx")
-position = Vector2(672, 504)
-amount = 40
-process_material = SubResource("ParticleProcessMaterial_cf1wv")
-texture = SubResource("GradientTexture2D_ow1jd")
-lifetime = 10.0
-visibility_rect = Rect2(-672, -504, 1344, 1008)
+[node name="Label" type="Label" parent="UI/MapWindow"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+text = "Press D to toggle delta vector"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+offset_left = 19.0
+offset_top = 51.0
+offset_right = 59.0
+offset_bottom = 77.0
+
+[node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_uayub")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="CollectibleCount" type="Label" parent="UI/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+vertical_alignment = 1
