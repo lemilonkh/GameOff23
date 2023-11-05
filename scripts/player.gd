@@ -40,6 +40,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var heart: TextureRect = %HealthContainer/TextureRect
 @onready var state_chart_debugger: MarginContainer = $CanvasLayer/StateChartDebugger
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var raycast: RayCast2D = $RayCast2D
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
@@ -131,11 +132,10 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
 		state_chart.send_event("attack")
 	elif event.is_action_pressed("jump"):
-		if is_on_floor():
+		if is_on_floor() or raycast.is_colliding():
 			state_chart.send_event("jump")
 		else:
-			await get_tree().create_timer(0.1).timeout
-			state_chart.send_event("jump")
+			state_chart.send_event("glide")
 		state_chart.set_expression_property("jump_held", true)
 	elif event.is_action_released("jump"):
 		state_chart.send_event("jump_released")

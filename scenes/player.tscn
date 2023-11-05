@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=65 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_t485f"]
@@ -17,7 +17,6 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/expression_guard.gd" id="18_yaync"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c25gt"]
 atlas = ExtResource("2_j472s")
@@ -395,14 +394,6 @@ _data = {
 "RESET": SubResource("Animation_7rodt")
 }
 
-[sub_resource type="Resource" id="Resource_b1mem"]
-script = ExtResource("18_yaync")
-expression = "jump_held"
-
-[sub_resource type="Resource" id="Resource_e5b6b"]
-script = ExtResource("18_yaync")
-expression = "!jump_held"
-
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 script = ExtResource("1_t485f")
@@ -427,6 +418,10 @@ debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(0, 0.6, 0.701961, 0)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, 22)
+target_position = Vector2(0, 32)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 limit_left = 0
@@ -562,10 +557,10 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Fall/NoJump")
 event = &"falling"
 
-[node name="OnJump" type="Node" parent="StateChart/Root/Movement/Airborne/Jump"]
+[node name="OnGlide" type="Node" parent="StateChart/Root/Movement/Airborne/Jump"]
 script = ExtResource("12_1ugos")
 to = NodePath("../../Glide")
-event = &"jump"
+event = &"glide"
 
 [node name="Fall" type="Node" parent="StateChart/Root/Movement/Airborne"]
 script = ExtResource("2_qoktu")
@@ -594,7 +589,7 @@ script = ExtResource("3_q6skx")
 
 [node name="OnJump" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/NoJump"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../../Glide")
+to = NodePath("../../JumpBuffer")
 event = &"jump"
 
 [node name="JumpBuffer" type="Node" parent="StateChart/Root/Movement/Airborne/Fall"]
@@ -605,16 +600,9 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../../Jump")
 event = &"grounded"
 
-[node name="OnExpirationJumpHeld" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/JumpBuffer"]
-script = ExtResource("12_1ugos")
-to = NodePath("../../../Glide")
-guard = SubResource("Resource_b1mem")
-delay_seconds = 0.2
-
 [node name="OnExpiration" type="Node" parent="StateChart/Root/Movement/Airborne/Fall/JumpBuffer"]
 script = ExtResource("12_1ugos")
 to = NodePath("../../NoJump")
-guard = SubResource("Resource_e5b6b")
 delay_seconds = 0.2
 
 [node name="Glide" type="Node" parent="StateChart/Root/Movement/Airborne"]
