@@ -35,7 +35,7 @@ extends CharacterBody2D
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var state_chart: Node = $StateChart
+@onready var state_chart: StateChart = $StateChart
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
 @onready var state_chart_debugger: MarginContainer = $CanvasLayer/StateChartDebugger
@@ -71,6 +71,7 @@ func _ready() -> void:
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
+	state_chart.set_expression_property("jump_held", false)
 
 func _update_health() -> void:
 	for i in range(max_health):
@@ -126,10 +127,12 @@ func _physics_process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
 		state_chart.send_event("attack")
-	elif event.is_action_pressed("glide"):
-		state_chart.send_event("glide")
 	elif event.is_action_pressed("jump"):
 		state_chart.send_event("jump")
+		state_chart.set_expression_property("jump_held", true)
+	elif event.is_action_released("jump"):
+		state_chart.send_event("jump_released")
+		state_chart.set_expression_property("jump_held", false)
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
