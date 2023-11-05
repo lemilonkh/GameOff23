@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=11 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
-[ext_resource type="Texture2D" uid="uid://wiq0mic5m6is" path="res://SampleProject/Sprites/Collectible.png" id="3_uayub"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -187,6 +186,15 @@ func update():
 		text = \"%03d%%\" % int(MetSys.get_explored_ratio() * 100)
 "
 
+[sub_resource type="Gradient" id="Gradient_i0ait"]
+offsets = PackedFloat32Array(0, 0.300546, 0.568306)
+colors = PackedColorArray(1.15514e-06, 0.518514, 0.510531, 1, 0.317647, 0.670588, 0.666667, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m122b"]
+gradient = SubResource("Gradient_i0ait")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Game" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_jq20o")
@@ -273,7 +281,7 @@ offset_bottom = 77.0
 
 [node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer"]
 layout_mode = 2
-texture = ExtResource("3_uayub")
+texture = SubResource("GradientTexture2D_m122b")
 expand_mode = 2
 stretch_mode = 5
 
