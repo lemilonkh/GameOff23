@@ -558,7 +558,7 @@ script = ExtResource("5_u4fdu")
 script = ExtResource("11_hwrpv")
 to = NodePath("../../Passive")
 event = &"passive"
-delay_seconds = 0.2
+delay_seconds = 4.0
 
 [node name="Hit" type="Node" parent="StateChart/Root/Action"]
 script = ExtResource("5_u4fdu")
