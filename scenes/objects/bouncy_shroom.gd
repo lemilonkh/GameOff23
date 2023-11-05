@@ -20,8 +20,10 @@ func on_collision(collider: Object) -> void:
 	if collider is CharacterBody2D:
 		match direction:
 			Direction.UP:
+				collider.velocity.x = 0
 				collider.velocity.y = -bounce_speed
 			Direction.DOWN:
+				collider.velocity.x = 0
 				collider.velocity.y = bounce_speed
 			Direction.LEFT:
 				collider.velocity.x = -bounce_speed
