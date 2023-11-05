@@ -73,7 +73,9 @@ func goto_map(map_path: String):
 	
 	# If previous map has existed, teleport the player based on map position difference.
 	if prev_map_position != Vector2i.MAX:
-		player.position -= Vector2(MetSys.get_current_room_instance().get_base_coords() - prev_map_position) * MetSys.settings.in_game_cell_size
+		var map_grid_difference := Vector2(MetSys.get_current_room_instance().get_base_coords() - prev_map_position)
+		var target_position := player.position - map_grid_difference * MetSys.settings.in_game_cell_size
+		player.teleport(target_position)
 		player.on_enter()
 
 func _physics_process(delta: float) -> void:

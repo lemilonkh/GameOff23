@@ -30,15 +30,21 @@ extends CharacterBody2D
 @export_range(0, 1000) var glide_acceleration := 50.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 200.0
+<<<<<<< .merge_file_a17548
 ## Variable jump increase cutoff time
 @export_range(0, 500) var jump_increase_time := 130.0
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
+=======
+## How much the player is knocked back when taking damage
+@export_range(0, 1000) var spike_knockback := 400.0
+>>>>>>> .merge_file_a17100
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var camera: Camera2D = $Camera2D
 @onready var state_chart: StateChart = $StateChart
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
@@ -75,6 +81,12 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see game.gd).
 	reset_position = position
+
+func teleport(target_position: Vector2) -> void:
+	camera.position_smoothing_enabled = false
+	position = target_position
+	await get_tree().create_timer(0.1).timeout
+	camera.position_smoothing_enabled = true
 
 func _ready() -> void:
 	health_container.remove_child(heart)
@@ -113,9 +125,11 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	for c in get_slide_collision_count():
-		var col := get_slide_collision(c)
-		if col.get_collider().has_method("on_collision"):
-			col.get_collider().on_collision(self)
+		var col := get_slide_collision(c).get_collider()
+		if col is TileMap:
+			_check_tile_collision(col)
+		if col.has_method("on_collision"):
+			col.on_collision(self)
 			if velocity.y < 0:
 				state_chart.send_event("jump")
 
@@ -159,6 +173,20 @@ func _input(event: InputEvent) -> void:
 		state_chart.set_expression_property("jump_held", false)
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
+
+func _check_tile_collision(tilemap: TileMap) -> void:
+	var foot_pos: Vector2 = raycast.global_position + Vector2(0, tilemap.tile_set.tile_size.y / 2)
+	var tile_pos := tilemap.local_to_map(tilemap.to_local(foot_pos))
+	var tile := tilemap.get_cell_tile_data(0, tile_pos)
+	if !tile:
+		return
+	
+	var can_hurt: bool = tile.get_custom_data("can_hurt")
+	
+	if can_hurt:
+		var tile_global_pos: Vector2 = tilemap.global_position + Vector2(tile_pos * tilemap.tile_set.tile_size.x)
+		var hit_direction := tile_global_pos.direction_to(global_position)
+		take_hit(1, null, hit_direction, spike_knockback)
 
 func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
