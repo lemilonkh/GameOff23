@@ -105,12 +105,12 @@ func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction:
-		velocity.x += direction * default_deceleration * delta
+		velocity.x += direction * acceleration * delta
 		if abs(velocity.x) > max_speed:
 			# TODO gradually decrease for bouncy/ knockback?
 			velocity.x = signf(velocity.x) * max_speed
 	else:
-		var change := -signf(velocity.x) * acceleration * delta
+		var change := -signf(velocity.x) * default_deceleration * delta
 		if absf(change) > absf(velocity.x):
 			velocity.x = 0
 		else:
