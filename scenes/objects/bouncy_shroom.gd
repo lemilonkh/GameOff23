@@ -30,5 +30,5 @@ func on_collision(collider: Object) -> void:
 			Direction.RIGHT:
 				collider.velocity.x = bounce_speed
 
-func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
+func take_hit(amount: float, attacker: Node2D = null, hit_direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	animation_player.play(&"bounce")

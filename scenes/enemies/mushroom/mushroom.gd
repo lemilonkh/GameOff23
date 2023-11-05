@@ -6,7 +6,7 @@ extends CharacterBody2D
 @export var idle_distance_to_player := 100.0
 @export var projectile: PackedScene
 @export var wait_before_deactivate := 4.0
-@export var knockback_force := 80.0
+@export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
 @export var attack_wait_time : int = 80
 @export var switch_chanse : int = 50
@@ -26,9 +26,7 @@ var _active_time := Time.get_ticks_msec()
 var _player_in_range := false
 var _hit_effect := false
 var _hit_slowdown := 0.0
-var _wait_time := 0.0
 var _player_visible := false
-var _last_attack_time := 0.0
 
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, \
@@ -141,7 +139,7 @@ func _on_attack_state_entered():
 func _physics_process(delta):
 	# Knockback effect
 	if _hit_effect:
-		_hit_slowdown = knockback_force
+		_hit_slowdown = knockback_amount
 		_hit_effect = false
 	_hit_slowdown = max(0, _hit_slowdown - knockback_decrease)
 	
