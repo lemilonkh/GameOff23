@@ -35,6 +35,7 @@ extends CharacterBody2D
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var camera: Camera2D = $Camera2D
 @onready var state_chart: StateChart = $StateChart
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
@@ -70,6 +71,12 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see game.gd).
 	reset_position = position
+
+func teleport(target_position: Vector2) -> void:
+	camera.position_smoothing_enabled = false
+	position = target_position
+	await get_tree().create_timer(0.1).timeout
+	camera.position_smoothing_enabled = true
 
 func _ready() -> void:
 	health_container.remove_child(heart)
