@@ -8,7 +8,9 @@ extends CharacterBody2D
 @export var wait_before_deactivate := 4.0
 @export var knockback_force := 80.0
 @export var knockback_decrease := 3.0
-@export var attack_wait_time := 20
+@export var attack_wait_time : int = 80
+@export var switch_chanse : int = 50
+
 
 @onready var _sprite := $AnimatedSprite2D
 @onready var _state := $StateChart
@@ -17,6 +19,7 @@ extends CharacterBody2D
 @onready var _left_side := $Raycasts/RayCastLeft
 @onready var _right_side := $Raycasts/RayCastRight
 @onready var _attack_spawner := $AttackSpawner
+@onready var _collider := $CollisionShape2D
 
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
@@ -71,8 +74,10 @@ func _on_deactivate_state_entered():
 func _on_idle_state_processing(delta):
 	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
 		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
-		# TODO: Add smarter indicators when to walk towards the player
 		return
+	if not _player_in_range and not _player_visible and (!(randi() % switch_chanse)):
+		pass
+		#_state.send_event("search")
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
 		_state.send_event("walk")
 
@@ -90,6 +95,15 @@ func _on_walk_state_physics_processing(delta):
 		_state.send_event("idle")
 		return
 	self.velocity.x = speed if _player.position.x - self.position.x > 0 else -speed
+
+
+func _on_search_state_physics_processing(delta: float) -> void:
+	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
+		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
+		_sprite.stop()
+		_state.send_event("idle")
+		return
+	self.velocity.x = -speed if _player.position.x - self.position.x > 0 else speed
 
 
 func _on_walk_state_exited():
@@ -112,7 +126,7 @@ func _on_hit_state_entered():
 
 
 func _on_passive_state_processing(delta):
-	if _player_visible and !(randi() % attack_wait_time):
+	if _player_visible and (!(randi() % attack_wait_time)):
 		_state.send_event("attack")
 
 
@@ -150,7 +164,8 @@ func _physics_process(delta):
 	if (state != "Inactive") and (state != "Deactiva") \
 		and (state != "Activate") and (state.left(4) != "Dead"):
 		_sprite.scale.x = 1 if (_player.position.x - self.position.x < 0) else -1
-		#$CollisionShape2D.position.x = -position.x if (_player.position.x - self.position.x < 0) else -1
+		_collider.position.x = -abs(_collider.position.x) if (_player.position.x - \
+			self.position.x < 0) else abs(_collider.position.x)
 	
 	# Update player visibility
 	var space_state := get_world_2d().direct_space_state
@@ -160,4 +175,7 @@ func _physics_process(delta):
 	var result := space_state.intersect_ray(query)
 	if result:
 		_player_visible = (result["collider"] == _player)
+
+
+
 
