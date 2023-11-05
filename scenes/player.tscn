@@ -18,6 +18,10 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
+radius = 8.0
+height = 40.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_c25gt"]
 atlas = ExtResource("2_j472s")
 region = Rect2(300, 0, 150, 150)
@@ -342,10 +346,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
 size = Vector2(102, 114)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
-radius = 8.0
-height = 40.0
-
 [sub_resource type="Gradient" id="Gradient_b4r1s"]
 offsets = PackedFloat32Array(0, 0.72)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -369,7 +369,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
+"update": 0,
 "values": [false, true, false]
 }
 
@@ -384,7 +384,7 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [false]
 }
 
@@ -398,6 +398,11 @@ _data = {
 collision_layer = 2
 script = ExtResource("1_t485f")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("CapsuleShape2D_fjgps")
+debug_color = Color(0, 0.6, 0.701961, 0)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
 animation = &"Attack"
@@ -405,7 +410,7 @@ autoplay = "Idle"
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 4
+collision_mask = 12
 monitorable = false
 script = ExtResource("11_oftqw")
 
@@ -414,10 +419,14 @@ position = Vector2(0, 13)
 shape = SubResource("RectangleShape2D_qusf1")
 debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
-debug_color = Color(0, 0.6, 0.701961, 0)
+debug_color = Color(0.87451, 0, 0.643137, 0.192157)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, 22)
@@ -670,6 +679,9 @@ delay_seconds = 5.0
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]
 [connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
+[connection signal="tile_hit" from="Hurtbox" to="." method="_on_hurtbox_tile_hit"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_shape_entered" from="Hitbox" to="." method="_on_hitbox_body_shape_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
 [connection signal="state_entered" from="StateChart/Root/Movement/Airborne/Jump" to="." method="_on_jump_state_entered"]
