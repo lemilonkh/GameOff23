@@ -118,7 +118,10 @@ func _physics_process(delta: float) -> void:
 		state_chart.send_event("airborne")
 		if velocity.y >= 0:
 			state_chart.send_event("falling")
-
+	
+	if is_on_wall():
+		state_chart.send_event("hit_wall")
+	
 	if velocity.length_squared() <= 0.005:
 		state_chart.send_event("idle")
 	else:

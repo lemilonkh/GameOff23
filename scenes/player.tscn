@@ -685,6 +685,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Fall/NoJump")
 event = &"jump_released"
 
+[node name="OnHitWall" type="Node" parent="StateChart/Root/Movement/Airborne/Glide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall/NoJump")
+event = &"hit_wall"
+
 [node name="Attack" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("3_q6skx")
 
