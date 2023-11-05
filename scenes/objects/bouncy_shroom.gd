@@ -7,7 +7,7 @@ enum Direction {
 	RIGHT,
 }
 
-@export var bounce_speed := 600.0
+@export var bounce_speed := 500.0
 @export var direction: Direction = Direction.UP
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
