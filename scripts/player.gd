@@ -30,15 +30,12 @@ extends CharacterBody2D
 @export_range(0, 1000) var glide_acceleration := 50.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 200.0
-<<<<<<< .merge_file_a17548
 ## Variable jump increase cutoff time
 @export_range(0, 500) var jump_increase_time := 130.0
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
-=======
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var spike_knockback := 400.0
->>>>>>> .merge_file_a17100
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
