@@ -2,6 +2,7 @@ extends Area2D
 class_name Hurtbox
 
 signal hit(body: Node2D)
+signal tile_hit(tilemap: TileMap)
 
 @export_range(0, 50) var damage := 1.0
 @export var is_enabled := false: set = set_enabled
@@ -23,3 +24,5 @@ func deal_damage(body: Node2D) -> void:
 		var direction := global_position.direction_to(body.global_position)
 		body.take_hit(damage, self, direction)
 		hit.emit(body)
+	elif body is TileMap:
+		tile_hit.emit(body)
