@@ -13,7 +13,7 @@ extends CharacterBody2D
 ## Default movement deceleration (speed change per second when breaking)
 @export_range(0, 2000) var default_deceleration := 1200.0
 ## How far up a jump goes
-@export_range(0, 1000) var jump_velocity := 430.0
+@export_range(0, 1000) var jump_velocity := 240.0
 ## How far up a pogo jump goes (when attacking an enemy below in mid-air)
 @export_range(0, 1000) var pogo_velocity := 700.0
 ## Duration of initial drop for glide in seconds
@@ -30,6 +30,10 @@ extends CharacterBody2D
 @export_range(0, 1000) var glide_acceleration := 50.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 200.0
+## Variable jump increase cutoff time
+@export_range(0, 500) var jump_increase_time := 130.0
+## Variable jump accelleration (The higher, the higher the jump)
+@export_range(0, 500) var jump_acceleration := 53.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -54,6 +58,7 @@ var acceleration := default_acceleration
 var gravity_tween: Tween
 var last_direction := 1.0
 var reset_position: Vector2
+var long_jump_time := jump_increase_time
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	health -= amount
@@ -132,17 +137,24 @@ func _physics_process(delta: float) -> void:
 		state_chart.send_event("idle")
 	else:
 		state_chart.send_event("moving")
+	
+	# Long jump velocity counter
+	if Input.is_action_pressed("jump"):
+		if long_jump_time < jump_increase_time:
+			long_jump_time += 1
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("attack"):
 		state_chart.send_event("attack")
 	elif event.is_action_pressed("jump"):
 		if is_on_floor() or raycast.is_colliding():
+			long_jump_time = 0
 			state_chart.send_event("jump")
 		else:
 			state_chart.send_event("glide")
 		state_chart.set_expression_property("jump_held", true)
 	elif event.is_action_released("jump"):
+		long_jump_time = jump_increase_time
 		state_chart.send_event("jump_released")
 		state_chart.set_expression_property("jump_held", false)
 	elif event.is_action_pressed("debug"):
@@ -157,6 +169,10 @@ func _play_animation(animation: StringName) -> void:
 func _on_jump_state_entered() -> void:
 	if velocity.y >= 0:
 		velocity.y = -jump_velocity
+
+func _on_jump_state_physics_processing(delta: float) -> void:
+	if long_jump_time < jump_increase_time:
+		velocity.y -= jump_acceleration/sqrt(long_jump_time)
 
 func _on_glide_state_entered() -> void:
 	velocity.y = 0
