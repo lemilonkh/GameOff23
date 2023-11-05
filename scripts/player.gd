@@ -200,12 +200,14 @@ func _on_glide_state_exited() -> void:
 	max_speed = default_max_speed
 
 func _on_death_state_entered() -> void:
-	print("Death")
 	max_speed = 0
 	# TODO show game over popup with prompt to reload from last checkpoint
 
 func _on_death_state_exited() -> void:
 	position = reset_position
+	max_speed = default_max_speed
+	health = max_health
+	_update_health()
 
 func _on_hurtbox_hit(body: Node2D) -> void:
 	if not is_on_floor():
