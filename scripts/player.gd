@@ -23,7 +23,7 @@ extends CharacterBody2D
 ## How much you drop during the rest of the glide
 @export_range(0, 1) var glide_gravity_factor := 0.05
 ## Amount of the speed added when starting a glide
-@export_range(0, 5) var glide_initial_speed := 500.0
+@export_range(0, 5) var glide_initial_speed := 0.0
 ## Glide movement speed (maximum)
 @export_range(0, 1000) var glide_max_speed := 800.0
 ## Speed change per second during gliding
