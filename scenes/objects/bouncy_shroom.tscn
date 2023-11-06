@@ -51,6 +51,7 @@ _data = {
 [node name="BouncyShroom" type="StaticBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_gq3ri")
 script = ExtResource("1_g1381")
+bounce_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_qqg8q")

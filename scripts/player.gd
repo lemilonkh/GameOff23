@@ -7,9 +7,9 @@ extends CharacterBody2D
 
 @export_category("Movement")
 ## Default movement speed (maximum)
-@export_range(0, 1000) var default_max_speed := 300.0
+@export_range(0, 1000) var default_max_speed := 200.0
 ## Default movement acceleration (speed change per second)
-@export_range(0, 2000) var default_acceleration := 900.0
+@export_range(0, 2000) var default_acceleration := 2000.0
 ## Default movement deceleration (speed change per second when breaking)
 @export_range(0, 2000) var default_deceleration := 1200.0
 ## How far up a jump goes
@@ -17,21 +17,21 @@ extends CharacterBody2D
 ## How far up a pogo jump goes (when attacking an enemy below in mid-air)
 @export_range(0, 1000) var pogo_velocity := 700.0
 ## Duration of initial drop for glide in seconds
-@export_range(0, 2) var glide_drop_duration := 0.2
+@export_range(0, 2) var glide_drop_duration := 0.0
 ## How much you drop at the start of the glide
-@export_range(0, 1) var glide_initial_gravity_factor := 0.6
+@export_range(0, 1) var glide_initial_gravity_factor := 0.0
 ## How much you drop during the rest of the glide
-@export_range(0, 1) var glide_gravity_factor := 0.05
+@export_range(0, 1) var glide_gravity_factor := 0.1
 ## Amount of the speed added when starting a glide
 @export_range(0, 5) var glide_initial_speed := 0.0
 ## Glide movement speed (maximum)
-@export_range(0, 1000) var glide_max_speed := 800.0
+@export_range(0, 1000) var glide_max_speed := 400.0
 ## Speed change per second during gliding
-@export_range(0, 1000) var glide_acceleration := 50.0
+@export_range(0, 1000) var glide_acceleration := 600.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 200.0
 ## Variable jump increase cutoff time
-@export_range(0, 500) var jump_increase_time := 130.0
+@export_range(0, 500) var jump_increase_time := 10.0
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
 ## How much the player is knocked back when taking damage
