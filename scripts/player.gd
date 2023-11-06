@@ -35,7 +35,11 @@ extends CharacterBody2D
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var spike_knockback := 400.0
+@export_range(0, 1000) var spike_knockback := 500.0
+
+@export_category("States")
+## Duration of invulnerability after being hit in settings (also needs to be set in StateChart)
+@export var invulnerability_duration := 3.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -54,6 +58,7 @@ const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 var health := max_health
 var energy := 0.0
+var is_invulnerable := false
 
 var max_speed := default_max_speed
 var gravity_factor := 1.0
@@ -64,6 +69,9 @@ var reset_position: Vector2
 var long_jump_time := jump_increase_time
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
+	if is_invulnerable:
+		return
+
 	health -= amount
 	velocity += knockback_force * direction
 	
@@ -219,5 +227,16 @@ func _on_attack_started() -> void:
 
 func _on_hitbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	var shape_transform := PhysicsServer2D.body_get_shape_transform(body_rid, body_shape_index)
+	# TODO this always points to the left for tilemap
 	var hit_direction := shape_transform.origin.direction_to(global_position)
 	take_hit(1, null, hit_direction, spike_knockback)
+
+func _on_invulnerable_state_entered() -> void:
+	AudioManager.animate_filter(&"Music", invulnerability_duration)
+	animation_player.play("Invulnerable")
+	is_invulnerable = true
+
+func _on_invulnerable_state_exited() -> void:
+	is_invulnerable = false
+	if animation_player.current_animation == "Invulnerable":
+		animation_player.stop()

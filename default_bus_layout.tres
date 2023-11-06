@@ -1,0 +1,17 @@
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://c37xkd1fd1l88"]
+
+[sub_resource type="AudioEffectBandPassFilter" id="AudioEffectBandPassFilter_bhx8b"]
+resource_name = "BandPassFilter"
+cutoff_hz = 800.0
+resonance = 0.0
+db = 3
+
+[resource]
+bus/1/name = &"Music"
+bus/1/solo = false
+bus/1/mute = false
+bus/1/bypass_fx = false
+bus/1/volume_db = -1.12151
+bus/1/send = &"Master"
+bus/1/effect/0/effect = SubResource("AudioEffectBandPassFilter_bhx8b")
+bus/1/effect/0/enabled = true

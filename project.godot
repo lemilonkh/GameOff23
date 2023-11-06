@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 MetSys="*res://addons/MetroidvaniaSystem/Nodes/Singleton.tscn"
+AudioManager="*res://scripts/audio_manager.gd"
 
 [debug]
 
