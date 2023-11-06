@@ -532,6 +532,17 @@ event = &"idle"
 [node name="Search" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("5_u4fdu")
 
+[node name="Idle" type="Node" parent="StateChart/Root/Movement/Search"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Idle")
+event = &"idle"
+
+[node name="IdleWait" type="Node" parent="StateChart/Root/Movement/Search"]
+script = ExtResource("11_hwrpv")
+to = NodePath("../../Idle")
+event = &"idle_wait"
+delay_seconds = 2.0
+
 [node name="Dead" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("5_u4fdu")
 

@@ -1,15 +1,16 @@
 extends CharacterBody2D
 
-@export var health := 100.0
+@export var health := 3.0
 @export var speed := 20.0
 @export var gravity := 200.0
 @export var idle_distance_to_player := 100.0
 @export var projectile: PackedScene
-@export var wait_before_deactivate := 4.0
+@export var wait_before_deactivate := 10.0
 @export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
 @export var attack_wait_time : int = 80
-@export var switch_chanse : int = 50
+@export var stealth_chanse : int = 1
+@export var stop_stealth_chanse : int = 1
 
 
 @onready var _sprite := $AnimatedSprite2D
@@ -73,7 +74,7 @@ func _on_idle_state_processing(delta):
 	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
 		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
 		return
-	if not _player_in_range and not _player_visible and (!(randi() % switch_chanse)):
+	if not _player_in_range and not _player_visible and (!(randi() % stealth_chanse)):
 		pass
 		#_state.send_event("search")
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
@@ -96,10 +97,14 @@ func _on_walk_state_physics_processing(delta):
 
 
 func _on_search_state_physics_processing(delta: float) -> void:
-	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
-		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
+	if  not _left_side.is_colliding() or not _right_side.is_colliding() \
+		or _player_in_range or _player_visible: 
 		_sprite.stop()
 		_state.send_event("idle")
+		return
+	if (!(randi() % stop_stealth_chanse)):
+		_sprite.stop()
+		_state.send_event("idle_wait")
 		return
 	self.velocity.x = -speed if _player.position.x - self.position.x > 0 else speed
 
