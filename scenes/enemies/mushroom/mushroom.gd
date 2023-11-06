@@ -75,8 +75,8 @@ func _on_idle_state_processing(delta):
 		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
 		return
 	if not _player_in_range and not _player_visible and (!(randi() % stealth_chanse)):
-		print("searching")
-		_state.send_event("search")
+		pass
+		#_state.send_event("search")
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
 		_state.send_event("walk")
 

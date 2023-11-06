@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2kdoahbbya4q"]
+
+[ext_resource type="Texture2D" uid="uid://s6mehjjuhuts" path="res://addons/MetroidvaniaSystem/Themes/MF/Corner.png" id="1_5ok18"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aevuo"]
+
+[node name="FlyingEnemy" type="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_aevuo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9.53674e-07, 0)
+scale = Vector2(5.125, 5)
+texture = ExtResource("1_5ok18")
