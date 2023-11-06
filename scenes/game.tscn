@@ -206,7 +206,7 @@ metadata/_edit_horizontal_guides_ = [240.0]
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
 position = Vector2(168, 634)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_x4xuy")
 autoplay = true
 bus = &"Music"
