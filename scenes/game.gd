@@ -4,8 +4,9 @@ class_name Game
 
 # The game starts in this map. Note that it's scene name only, just like MetSys refers to rooms.
 @export var starting_map: String
-# Player node, bruh.
+
 @onready var player: CharacterBody2D = $Player
+@onready var map_container: Node2D = $MapContainer
 
 # The current map scene instance.
 var map: Node2D
@@ -65,7 +66,7 @@ func goto_map(map_path: String):
 	
 	# Load the new map scene.
 	map = load(map_path).instantiate()
-	add_child(map)
+	map_container.add_child(map)
 	# Adjust the camera.
 	MetSys.get_current_room_instance().adjust_camera_limits($Player/Camera2D)
 	# Set the current layer to the room's layer.

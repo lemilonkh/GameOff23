@@ -203,6 +203,8 @@ starting_map = "forest_test.tscn"
 metadata/_edit_vertical_guides_ = [432.0]
 metadata/_edit_horizontal_guides_ = [240.0]
 
+[node name="MapContainer" type="Node2D" parent="."]
+
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
 position = Vector2(168, 634)
 
