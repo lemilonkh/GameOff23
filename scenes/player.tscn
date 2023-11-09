@@ -651,6 +651,19 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../JumpBuffer")
 event = &"jump"
 
+[node name="NoGlide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall"]
+script = ExtResource("3_q6skx")
+
+[node name="OnJump" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall/NoGlide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../JumpBuffer")
+event = &"jump"
+
+[node name="OnGlide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall/NoGlide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../JumpBuffer")
+event = &"glide"
+
 [node name="JumpBuffer" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
 
@@ -661,8 +674,13 @@ event = &"grounded"
 
 [node name="OnExpiration" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall/JumpBuffer"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../NoJump")
+to = NodePath("../../NoGlide")
 delay_seconds = 0.2
+
+[node name="OnGlide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall/JumpBuffer"]
+script = ExtResource("12_1ugos")
+to = NodePath("..")
+event = &"glide"
 
 [node name="Glide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne"]
 script = ExtResource("2_qoktu")
@@ -670,12 +688,12 @@ initial_state = NodePath("GlideStart")
 
 [node name="OnJumpReleased" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../Fall/NoJump")
+to = NodePath("../../Fall/NoGlide")
 event = &"jump_released"
 
 [node name="OnHitWall" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
 script = ExtResource("12_1ugos")
-to = NodePath("../../Fall/NoJump")
+to = NodePath("../../Fall/NoGlide")
 event = &"hit_wall"
 
 [node name="GlideStart" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
