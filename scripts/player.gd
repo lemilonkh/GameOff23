@@ -50,7 +50,8 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var health_container: HBoxContainer = %HealthContainer
 @onready var heart: TextureRect = %HealthContainer/TextureRect
 @onready var state_chart_debugger: MarginContainer = $CanvasLayer/StateChartDebugger
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var combat_animation: AnimationPlayer = $CombatAnimation
+@onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
@@ -223,7 +224,7 @@ func _on_hurtbox_hit(body: Node2D) -> void:
 	state_chart.send_event("hit")
 
 func _on_attack_started() -> void:
-	animation_player.play(&"Attack")
+	combat_animation.play(&"Attack")
 
 func _on_hitbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	var shape_transform := PhysicsServer2D.body_get_shape_transform(body_rid, body_shape_index)
@@ -233,10 +234,10 @@ func _on_hitbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index
 
 func _on_invulnerable_state_entered() -> void:
 	AudioManager.animate_filter(&"Music", invulnerability_duration)
-	animation_player.play("Invulnerable")
+	status_animation.play("Invulnerable")
 	is_invulnerable = true
 
 func _on_invulnerable_state_exited() -> void:
 	is_invulnerable = false
-	if animation_player.current_animation == "Invulnerable":
-		animation_player.stop()
+	if status_animation.current_animation == "Invulnerable":
+		status_animation.stop()
