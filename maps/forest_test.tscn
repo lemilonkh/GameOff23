@@ -45,13 +45,11 @@ turbulence_initial_displacement_max = 10.0
 
 [sub_resource type="Gradient" id="Gradient_ar4gl"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.732308)
-colors = PackedColorArray(5, 4, 3, 1, 1, 1, 1, 0)
+offsets = PackedFloat32Array(0, 0.035014, 0.159664, 0.703947)
+colors = PackedColorArray(5, 4, 3, 1, 4.856, 3.892, 2.928, 0.964, 3.04054, 2.5304, 2.02027, 0.510135, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_2dq2h"]
 gradient = SubResource("Gradient_ar4gl")
-width = 16
-height = 16
 use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
