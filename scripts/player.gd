@@ -14,8 +14,14 @@ extends CharacterBody2D
 @export_range(0, 2000) var default_deceleration := 1200.0
 ## How far up a jump goes
 @export_range(0, 1000) var jump_velocity := 240.0
+## Variable jump increase cutoff time
+@export_range(0, 500) var jump_increase_time := 10.0
+## Variable jump accelleration (The higher, the higher the jump)
+@export_range(0, 500) var jump_acceleration := 53.0
 ## How far up a pogo jump goes (when attacking an enemy below in mid-air)
 @export_range(0, 1000) var pogo_velocity := 700.0
+
+@export_category("Glide")
 ## Duration of initial drop for glide in seconds
 @export_range(0, 2) var glide_drop_duration := 0.0
 ## How much you drop at the start of the glide
@@ -28,16 +34,14 @@ extends CharacterBody2D
 @export_range(0, 1000) var glide_max_speed := 400.0
 ## Speed change per second during gliding
 @export_range(0, 1000) var glide_acceleration := 600.0
+
+@export_category("Combat")
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var default_knockback := 200.0
-## Variable jump increase cutoff time
-@export_range(0, 500) var jump_increase_time := 10.0
-## Variable jump accelleration (The higher, the higher the jump)
-@export_range(0, 500) var jump_acceleration := 53.0
 ## How much the player is knocked back when taking damage
 @export_range(0, 1000) var spike_knockback := 500.0
 
-@export_category("States")
+@export_category("Status")
 ## Duration of invulnerability after being hit in settings (also needs to be set in StateChart)
 @export var invulnerability_duration := 3.0
 
