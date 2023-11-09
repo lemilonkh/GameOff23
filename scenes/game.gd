@@ -81,14 +81,11 @@ func _process(delta: float) -> void:
 
 func load_maps() -> void:
 	var maps := MetSys.map_data.assigned_scenes.keys()
-	print("Maps ", maps)
 	for map_path in maps:
 		var full_path := get_full_map_path(map_path)
-		print("Queueing load for map ", full_path)
 		ResourceLoader.load_threaded_request(full_path, "PackedScene")
 		loaded_map_paths.push_back(full_path)
 	is_loading = true
-	print("Loaded maps", loaded_map_paths)
 
 func get_full_map_path(map_path: String) -> String:
 	if map_path.begins_with("/"):
