@@ -22,10 +22,6 @@ extends CharacterBody2D
 @export_range(0, 1000) var pogo_velocity := 700.0
 
 @export_category("Glide")
-## Duration of initial drop for glide in seconds
-@export_range(0, 2) var glide_drop_duration := 0.0
-## How much you drop at the start of the glide
-@export_range(0, 1) var glide_initial_gravity_factor := 0.0
 ## How much you drop during the rest of the glide
 @export_range(0, 1) var glide_gravity_factor := 0.1
 ## Amount of the speed added when starting a glide
@@ -34,6 +30,8 @@ extends CharacterBody2D
 @export_range(0, 1000) var glide_max_speed := 400.0
 ## Speed change per second during gliding
 @export_range(0, 1000) var glide_acceleration := 600.0
+## Speed change per second during gliding
+@export_range(0, 1000) var glide_deceleration := 400.0
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
@@ -68,7 +66,7 @@ var is_invulnerable := false
 var max_speed := default_max_speed
 var gravity_factor := 1.0
 var acceleration := default_acceleration
-var gravity_tween: Tween
+var deceleration := default_deceleration
 var last_direction := 1.0
 var reset_position: Vector2
 var long_jump_time := jump_increase_time
@@ -124,7 +122,7 @@ func _physics_process(delta: float) -> void:
 			# TODO gradually decrease for bouncy/ knockback?
 			velocity.x = signf(velocity.x) * max_speed
 	else:
-		var change := -signf(velocity.x) * default_deceleration * delta
+		var change := -signf(velocity.x) * deceleration * delta
 		if absf(change) > absf(velocity.x):
 			velocity.x = 0
 		else:
@@ -197,19 +195,18 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 	if long_jump_time < jump_increase_time:
 		velocity.y -= jump_acceleration/sqrt(long_jump_time)
 
-func _on_glide_state_entered() -> void:
+func _on_gliding_state_entered() -> void:
 	velocity.y = 0
-	velocity.x += last_direction * glide_initial_speed
-	gravity_factor = glide_initial_gravity_factor
-	gravity_tween = create_tween().set_trans(Tween.TRANS_QUAD)
-	gravity_tween.tween_property(self, "gravity_factor", glide_gravity_factor, glide_drop_duration)
+	velocity.x += last_direction * glide_initial_speed # TODO initial acceleration instead?
+	gravity_factor = glide_gravity_factor
 	acceleration = glide_acceleration
+	deceleration = glide_deceleration
 	max_speed = glide_max_speed
 
-func _on_glide_state_exited() -> void:
-	gravity_tween.kill()
+func _on_gliding_state_exited() -> void:
 	gravity_factor = 1.0
 	acceleration = default_acceleration
+	deceleration = default_deceleration
 	max_speed = default_max_speed
 
 func _on_death_state_entered() -> void:
