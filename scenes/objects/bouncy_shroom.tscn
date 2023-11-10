@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dq3voh75yv3ib"]
+[gd_scene load_steps=12 format=3 uid="uid://dq3voh75yv3ib"]
 
 [ext_resource type="Script" path="res://scenes/objects/bouncy_shroom.gd" id="1_g1381"]
 [ext_resource type="Texture2D" uid="uid://dppag0nfhnv4q" path="res://sprites/objects/bouncy_shroom.png" id="1_qqg8q"]
+[ext_resource type="AudioStream" uid="uid://fs2iuncl6dke" path="res://sounds/Foley/Mushroom_Bounce_001.wav" id="3_lpj3f"]
+[ext_resource type="AudioStream" uid="uid://ditbrg6bvuagp" path="res://sounds/Foley/Mushroom_Bounce_002.wav" id="4_ve25y"]
+[ext_resource type="AudioStream" uid="uid://fgrya8y6fq1f" path="res://sounds/Foley/Mushroom_Bounce_003.wav" id="5_oi0gw"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_gq3ri"]
 friction = 0.3
@@ -48,6 +51,17 @@ _data = {
 "bounce": SubResource("Animation_54dmy")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ckc5j"]
+random_pitch = 1.1
+random_volume_offset_db = 0.1
+streams_count = 3
+stream_0/stream = ExtResource("3_lpj3f")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_ve25y")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_oi0gw")
+stream_2/weight = 1.0
+
 [node name="BouncyShroom" type="StaticBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_gq3ri")
 script = ExtResource("1_g1381")
@@ -65,3 +79,7 @@ shape = SubResource("RectangleShape2D_61xlk")
 libraries = {
 "": SubResource("AnimationLibrary_5c55o")
 }
+
+[node name="BouncePlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ckc5j")
+bus = &"Sounds"

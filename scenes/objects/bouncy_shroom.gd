@@ -11,12 +11,14 @@ enum Direction {
 @export var direction: Direction = Direction.UP
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var bounce_player: AudioStreamPlayer = $BouncePlayer
 
 func _ready() -> void:
 	rotation = -direction * PI / 2
 
 func on_collision(collider: Object) -> void:
 	animation_player.play(&"bounce")
+	bounce_player.play()
 	if collider is CharacterBody2D:
 		var target_velocity: Vector2 = collider.velocity
 		match direction:
