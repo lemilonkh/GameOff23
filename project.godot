@@ -43,6 +43,10 @@ enabled=PackedStringArray("res://addons/MetroidvaniaSystem/plugin.cfg", "res://a
 
 import/blender/enabled=false
 
+[gui]
+
+theme/custom_font="res://resources/ChevyRay - Classified.ttf"
+
 [input]
 
 jump={
