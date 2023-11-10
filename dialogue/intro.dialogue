@@ -1,0 +1,13 @@
+~ intro
+
+{{npc_name}}: [[Hi|Hello|Greetings|Salutations]], I am {{npc_name}}.
+{{npc_name}}: Here are some choices.
+- First one
+	{{npc_name}}: You picked the first one.
+- Second one
+	{{npc_name}}: You picked the second one.
+- Start again => intro
+- End the conversation => END
+{{npc_name}}: For more information see the online documentation.
+
+=> END

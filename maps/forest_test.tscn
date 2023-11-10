@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://b2pyv11tjgsre"]
+[gd_scene load_steps=12 format=3 uid="uid://b2pyv11tjgsre"]
 
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="1_wiw6u"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="2_nhqel"]
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="3_b5ka3"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="4_7dsyq"]
+[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/aila.tscn" id="5_tdsf0"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vkv67"]
 blend_mode = 1
@@ -96,3 +97,6 @@ lifetime = 10.0
 visibility_rect = Rect2(-672, -504, 1344, 1008)
 
 [node name="RoomInstance" parent="." instance=ExtResource("4_7dsyq")]
+
+[node name="Aila" parent="." instance=ExtResource("5_tdsf0")]
+position = Vector2(114, 636)
