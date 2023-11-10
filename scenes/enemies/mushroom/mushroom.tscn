@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://byfj0v8kch7xa" path="res://sprites/mushroom/Big Mushroom_De Spawn.png" id="3_op74h"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_qe3s4"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_2u0j0"]
-[ext_resource type="Texture2D" uid="uid://cpl0fhbla5k0m" path="res://sprites/mushroom/Big Mushroom_Die.png" id="4_jhkf6"]
+[ext_resource type="Texture2D" uid="uid://1uwrdkjxheqq" path="res://sprites/mushroom/Big Mushroom_Die.png" id="4_jhkf6"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="5_u4fdu"]
 [ext_resource type="Texture2D" uid="uid://qtd8j3h5q0xw" path="res://sprites/mushroom/Big Mushroom_Hurt.png" id="7_f24u4"]
 [ext_resource type="Shader" path="res://scenes/enemies/mushroom/mushroom_disolve.gdshader" id="8_i1vo8"]

@@ -114,6 +114,8 @@ func _on_walk_state_exited():
 
 
 func _on_dead_state_entered():
+	# prevent further collisions with this enemy
+	collision_layer = 0
 	_sprite.play("Die")
 	await _sprite.animation_finished
 	await get_tree().create_timer(3.0).timeout
