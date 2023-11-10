@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b2pyv11tjgsre"]
+[gd_scene load_steps=14 format=3 uid="uid://b2pyv11tjgsre"]
 
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="1_wiw6u"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="2_nhqel"]
@@ -8,6 +8,14 @@
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vkv67"]
 blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_m0xvc"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.139875, 0.267223, 0.455115, 0.607516, 0.805845, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0.266575, 0.266575, 0.266575, 1, 1, 1, 1, 1, 0.165656, 0.165656, 0.165656, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t5lxs"]
+gradient = SubResource("Gradient_m0xvc")
 
 [sub_resource type="Curve" id="Curve_3rs64"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.501558, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -36,6 +44,7 @@ tangential_accel_max = 3.0
 damping_min = 0.1
 damping_max = 2.0
 scale_curve = SubResource("CurveTexture_7hjie")
+color_ramp = SubResource("GradientTexture1D_t5lxs")
 hue_variation_min = -0.68
 hue_variation_max = 0.24
 turbulence_noise_speed = Vector3(2, 4, 0)
