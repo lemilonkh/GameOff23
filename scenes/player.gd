@@ -191,6 +191,8 @@ func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
 
 func _play_animation(animation: StringName) -> void:
+	if sprite.is_playing() and sprite.animation in [&"Attack", &"AirAttack"]:
+		await sprite.animation_finished
 	sprite.play(animation)
 
 func _on_jump_state_entered() -> void:
