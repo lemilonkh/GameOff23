@@ -13,14 +13,14 @@ extends CharacterBody2D
 @export var stop_stealth_chanse : int = 1
 
 
-@onready var _sprite := $AnimatedSprite2D
-@onready var _state := $StateChart
-@onready var _move_states := $StateChart/Root/Movement
-@onready var _animations := $AnimationPlayer
-@onready var _left_side := $Raycasts/RayCastLeft
-@onready var _right_side := $Raycasts/RayCastRight
-@onready var _attack_spawner := $AttackSpawner
-@onready var _collider := $CollisionShape2D
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _state: StateChart = $StateChart
+@onready var _move_states: CompoundState = $StateChart/Root/Movement
+@onready var _animations: AnimationPlayer = $AnimationPlayer
+@onready var _left_side: RayCast2D = $Raycasts/RayCastLeft
+@onready var _right_side: RayCast2D = $Raycasts/RayCastRight
+@onready var _attack_spawner: Node2D = $AttackSpawner
+@onready var _collider: CollisionShape2D = $CollisionShape2D
 
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
