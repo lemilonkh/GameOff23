@@ -18,17 +18,21 @@ func _ready() -> void:
 func on_collision(collider: Object) -> void:
 	animation_player.play(&"bounce")
 	if collider is CharacterBody2D:
+		var target_velocity: Vector2 = collider.velocity
 		match direction:
 			Direction.UP:
-				collider.velocity.x = 0
-				collider.velocity.y = -bounce_speed
+				target_velocity.x = 0
+				target_velocity.y = -bounce_speed
 			Direction.DOWN:
-				collider.velocity.x = 0
-				collider.velocity.y = bounce_speed
+				target_velocity.x = 0
+				target_velocity.y = bounce_speed
 			Direction.LEFT:
-				collider.velocity.x = -bounce_speed
+				target_velocity.x = -bounce_speed
 			Direction.RIGHT:
-				collider.velocity.x = bounce_speed
+				target_velocity.x = bounce_speed
+		
+		if collider.has_method(&"bounce"):
+			collider.bounce(target_velocity)
 
 func take_hit(amount: float, attacker: Node2D = null, hit_direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	animation_player.play(&"bounce")

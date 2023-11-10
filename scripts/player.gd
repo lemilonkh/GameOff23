@@ -96,6 +96,11 @@ func teleport(target_position: Vector2) -> void:
 	await get_tree().create_timer(0.1).timeout
 	camera.position_smoothing_enabled = true
 
+func bounce(target_velocity: Vector2) -> void:
+	velocity = target_velocity
+	if velocity.y < 0:
+		state_chart.send_event("bounce")
+
 func _ready() -> void:
 	health_container.remove_child(heart)
 	for i in range(max_health):
@@ -119,7 +124,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		velocity.x += direction * acceleration * delta
 		if abs(velocity.x) > max_speed:
-			# TODO gradually decrease for bouncy/ knockback?
+			# TODO gradually decrease for bounce/ knockback?
 			velocity.x = signf(velocity.x) * max_speed
 	else:
 		var change := -signf(velocity.x) * deceleration * delta
@@ -133,12 +138,6 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = velocity.x < 0
 
 	move_and_slide()
-	for c in get_slide_collision_count():
-		var col := get_slide_collision(c).get_collider()
-		if col.has_method("on_collision"):
-			col.on_collision(self)
-			if velocity.y < 0:
-				state_chart.send_event("jump")
 
 	# Add the gravity.
 	if is_on_floor():
@@ -158,6 +157,12 @@ func _physics_process(delta: float) -> void:
 		state_chart.send_event("idle")
 	else:
 		state_chart.send_event("moving")
+	
+	# process tile interactions like bounce
+	for c in get_slide_collision_count():
+		var col := get_slide_collision(c).get_collider()
+		if col.has_method("on_collision"):
+			col.on_collision(self)
 	
 	# Long jump velocity counter
 	if Input.is_action_pressed("jump"):

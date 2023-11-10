@@ -554,6 +554,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../../Death")
 event = &"death"
 
+[node name="OnBounce" type="Node" parent="StateChart/Root/Parallel/Movement"]
+script = ExtResource("12_1ugos")
+to = NodePath("../Airborne/Bounce")
+event = &"bounce"
+
 [node name="OnTakeHit" type="Node" parent="StateChart/Root/Parallel/Movement"]
 script = ExtResource("12_1ugos")
 to = NodePath("../TakeHit")
@@ -617,6 +622,19 @@ to = NodePath("../../Fall/NoJump")
 event = &"falling"
 
 [node name="OnGlide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Jump"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Glide")
+event = &"glide"
+
+[node name="Bounce" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne"]
+script = ExtResource("3_q6skx")
+
+[node name="OnFalling" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Bounce"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall/NoJump")
+event = &"falling"
+
+[node name="OnGlide" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Bounce"]
 script = ExtResource("12_1ugos")
 to = NodePath("../../Glide")
 event = &"glide"
@@ -786,6 +804,7 @@ delay_seconds = 5.0
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Jump" to="." method="_on_jump_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Jump" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_physics_processing" from="StateChart/Root/Parallel/Movement/Airborne/Jump" to="." method="_on_jump_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Bounce" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/GlideStart" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_entered"]
