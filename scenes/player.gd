@@ -55,6 +55,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var combat_animation: AnimationPlayer = $CombatAnimation
 @onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var jump_player: AudioStreamPlayer = $JumpPlayer
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
@@ -193,8 +194,8 @@ func _play_animation(animation: StringName) -> void:
 	sprite.play(animation)
 
 func _on_jump_state_entered() -> void:
-	if velocity.y >= 0:
-		velocity.y = -jump_velocity
+	velocity.y = -jump_velocity
+	jump_player.play()
 
 func _on_jump_state_physics_processing(delta: float) -> void:
 	if long_jump_time < jump_increase_time:

@@ -1,7 +1,7 @@
-[gd_scene load_steps=69 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=74 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_t485f"]
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
 [ext_resource type="Texture2D" uid="uid://cdjda0qifhybl" path="res://sprites/player/Attack2.png" id="2_j472s"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="2_qoktu"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
@@ -16,7 +16,11 @@
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
+[ext_resource type="AudioStream" uid="uid://mt6sl3eiedba" path="res://sounds/Character/Player_Jump_001.wav" id="12_g553q"]
+[ext_resource type="AudioStream" uid="uid://bfd1pn5yx4d1f" path="res://sounds/Character/Player_Jump_002.wav" id="13_gjbf3"]
+[ext_resource type="AudioStream" uid="uid://b06ok1qu7e61x" path="res://sounds/Character/Player_Jump_003.wav" id="14_j44v6"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
+[ext_resource type="AudioStream" uid="uid://cfurrgaaxxsao" path="res://sounds/Character/Player_Jump_004.wav" id="15_crs1j"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="16_ywi16"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
@@ -434,9 +438,22 @@ _data = {
 "RESET": SubResource("Animation_7rodt")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7q1d0"]
+random_pitch = 1.1
+random_volume_offset_db = 0.1
+streams_count = 4
+stream_0/stream = ExtResource("12_g553q")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("13_gjbf3")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("14_j44v6")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("15_crs1j")
+stream_3/weight = 1.0
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
-script = ExtResource("1_t485f")
+script = ExtResource("1_an7jc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -498,6 +515,15 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_iy11v")
 }
+
+[node name="AudioListener2D" type="AudioListener2D" parent="."]
+position = Vector2(0, -10)
+current = true
+
+[node name="JumpPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_7q1d0")
+volume_db = -2.0
+bus = &"Sounds"
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
