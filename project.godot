@@ -26,6 +26,10 @@ DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
 gdscript/warnings/unused_parameter=0
 
+[dialogue_manager]
+
+general/custom_test_scene_path="res://scenes/dialogue_balloon/test_dialogue.tscn"
+
 [display]
 
 window/size/viewport_width=864
