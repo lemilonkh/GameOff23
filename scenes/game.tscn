@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=13 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
+[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -326,3 +327,6 @@ layout_mode = 2
 [node name="Label" type="Label" parent="UI/LoadOverlay/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Loading game world..."
+
+[node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
+visible = false
