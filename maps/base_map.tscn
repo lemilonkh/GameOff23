@@ -8,6 +8,5 @@
 [node name="RoomInstance" parent="." instance=ExtResource("1_5xrb7")]
 
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2(0, 496)
 tile_set = ExtResource("2_dugpo")
 format = 2
