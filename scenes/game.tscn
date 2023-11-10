@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=14 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
+[ext_resource type="AudioStream" uid="uid://d4n3y63tn6ie5" path="res://sounds/Ambience/Ambience_Jungle.ogg" id="4_nkm84"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -213,6 +214,11 @@ position = Vector2(168, 634)
 stream = ExtResource("3_x4xuy")
 autoplay = true
 bus = &"Music"
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_nkm84")
+autoplay = true
+bus = &"Sounds"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
