@@ -111,7 +111,6 @@ func _ready() -> void:
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
-	state_chart.set_expression_property("jump_held", false)
 	on_enter()
 
 func _update_health() -> void:
@@ -182,11 +181,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			state_chart.send_event("jump")
 		else:
 			state_chart.send_event("glide")
-		state_chart.set_expression_property("jump_held", true)
 	elif event.is_action_released("jump"):
 		long_jump_time = jump_increase_time
 		state_chart.send_event("jump_released")
-		state_chart.set_expression_property("jump_held", false)
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
