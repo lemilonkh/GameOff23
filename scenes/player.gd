@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 @export_category("Stats")
 @export_range(0, 20) var max_health := 6.0
@@ -72,6 +73,8 @@ var last_direction := 1.0
 var reset_position: Vector2
 var long_jump_time := jump_increase_time
 
+var abilities := []
+
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	if is_invulnerable:
 		return
@@ -93,7 +96,7 @@ func on_enter():
 
 func teleport(target_position: Vector2) -> void:
 	camera.position_smoothing_enabled = false
-	position = target_position
+	global_position = target_position
 	await get_tree().create_timer(0.1).timeout
 	camera.position_smoothing_enabled = true
 
