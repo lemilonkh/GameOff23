@@ -10,3 +10,12 @@
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_dugpo")
 format = 2
+layer_0/name = "Ground"
+layer_1/name = "Vines"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = -1
+layer_1/navigation_enabled = true
+layer_1/tile_data = PackedInt32Array()
