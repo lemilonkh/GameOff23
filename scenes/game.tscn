@@ -55,18 +55,19 @@ func _input(event: InputEvent) -> void:
 
 [sub_resource type="Animation" id="Animation_lgykt"]
 resource_name = "Flash"
+length = 1.6
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(0.5, 2),
 "update": 0,
-"values": [Color(1, 1, 1, 0.752941), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0.372549), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0p0d4"]
