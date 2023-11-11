@@ -7,8 +7,10 @@ class_name Player
 @export_range(0, 100) var melee_damage := 1.0
 
 @export_category("Movement")
-## Default movement speed (maximum)
+## Default movement speed maximum
 @export_range(0, 1000) var default_max_speed := 200.0
+## Default vertical speed maximum (falling or jumping)
+@export_range(0, 1000) var default_max_vertical_speed := 600.0
 ## Default movement acceleration (speed change per second)
 @export_range(0, 2000) var default_acceleration := 2000.0
 ## Default movement deceleration (speed change per second when breaking)
@@ -33,6 +35,8 @@ class_name Player
 @export_range(0, 1000) var glide_acceleration := 600.0
 ## Speed change per second during gliding
 @export_range(0, 1000) var glide_deceleration := 400.0
+## How much a wind gust accelerates the player upwards
+@export_range(0, 1000) var wind_acceleration := 700.0
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
@@ -69,9 +73,11 @@ var max_speed := default_max_speed
 var gravity_factor := 1.0
 var acceleration := default_acceleration
 var deceleration := default_deceleration
+var vertical_acceleration := 0.0
 var last_direction := 1.0
 var reset_position: Vector2
 var long_jump_time := jump_increase_time
+var is_gliding := false
 
 var abilities := []
 
@@ -104,6 +110,12 @@ func bounce(target_velocity: Vector2) -> void:
 	velocity = target_velocity
 	if velocity.y < 0:
 		state_chart.send_event("bounce")
+
+func apply_wind() -> void:
+	vertical_acceleration = wind_acceleration
+
+func stop_wind() -> void:
+	vertical_acceleration = 0.0
 
 func _ready() -> void:
 	health_container.remove_child(heart)
@@ -139,7 +151,10 @@ func _physics_process(delta: float) -> void:
 	if signf(velocity.x) != 0:
 		last_direction = signf(velocity.x)
 		sprite.flip_h = velocity.x < 0
-
+	
+	# limit vertical speed
+	velocity.y = min(velocity.y, default_max_vertical_speed)
+	
 	move_and_slide()
 
 	# Add the gravity.
@@ -152,6 +167,9 @@ func _physics_process(delta: float) -> void:
 		state_chart.send_event("airborne")
 		if velocity.y >= 0:
 			state_chart.send_event("falling")
+	
+	if is_gliding:
+		velocity.y -= vertical_acceleration * delta
 	
 	if is_on_wall():
 		state_chart.send_event("hit_wall")
@@ -206,12 +224,14 @@ func _on_jump_state_physics_processing(delta: float) -> void:
 func _on_gliding_state_entered() -> void:
 	velocity.y = 0
 	velocity.x += last_direction * glide_initial_speed # TODO initial acceleration instead?
+	is_gliding = true
 	gravity_factor = glide_gravity_factor
 	acceleration = glide_acceleration
 	deceleration = glide_deceleration
 	max_speed = glide_max_speed
 
 func _on_gliding_state_exited() -> void:
+	is_gliding = false
 	gravity_factor = 1.0
 	acceleration = default_acceleration
 	deceleration = default_deceleration
