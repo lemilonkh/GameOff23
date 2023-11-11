@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b2pyv11tjgsre"]
+[gd_scene load_steps=15 format=3 uid="uid://b2pyv11tjgsre"]
 
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="1_wiw6u"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="2_nhqel"]
@@ -64,6 +64,9 @@ use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xsr3"]
+size = Vector2(128, 32)
+
 [node name="ForestTest" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -109,3 +112,18 @@ visibility_rect = Rect2(-672, -504, 1344, 1008)
 
 [node name="Aila" parent="." instance=ExtResource("5_tdsf0")]
 position = Vector2(114, 636)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(480, 320)
+metadata/_edit_group_ = true
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = -64.0
+offset_top = -16.0
+offset_right = 64.0
+offset_bottom = 16.0
+color = Color(0.454902, 0, 0.498039, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_0xsr3")
+one_way_collision = true
