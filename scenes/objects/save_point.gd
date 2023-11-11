@@ -2,14 +2,16 @@
 extends Area2D
 
 @onready var start_time := Time.get_ticks_msec()
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-func _ready() -> void:
-	body_entered.connect(on_body_entered)
-
-# Player enter save point. Note that in a legit code this should check whether body is really a player.
-func on_body_entered(body: Node2D) -> void:
+# Player entered save point
+func _on_body_entered(body: Node2D) -> void:
 	if Time.get_ticks_msec() - start_time < 1000:
 		return # Small hack to prevent saving at the game start.
+	start_time = Time.get_ticks_msec()
+	animation_player.play(&"save")
+	print("Saving game...")
+	
 	# Get the game-specific save data Dictionary.
 	var save_data := Game.get_singleton().get_save_data()
 	# Merge it with the Dicionary from MetSys.
@@ -19,6 +21,6 @@ func on_body_entered(body: Node2D) -> void:
 	# Starting coords for the delta vector feature.
 	Game.get_singleton().reset_map_starting_coords()
 	
-func _draw() -> void:
+#func _draw() -> void:
 	# Draws the circle.
-	$CollisionShape2D.shape.draw(get_canvas_item(), Color.BLUE)
+	#$CollisionShape2D.shape.draw(get_canvas_item(), Color.BLUE)
