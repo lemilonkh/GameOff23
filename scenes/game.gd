@@ -5,7 +5,7 @@ class_name Game
 # The game starts in this map. Note that it's scene name only, just like MetSys refers to rooms.
 @export var starting_map: String
 
-@onready var player: CharacterBody2D = $Player
+@onready var player: Player = $Player
 @onready var map_container: Node2D = $MapContainer
 @onready var load_overlay: ColorRect = %LoadOverlay
 @onready var load_progress: ProgressBar = %LoadProgress
@@ -62,8 +62,11 @@ func _on_finish_loading() -> void:
 	goto_map(MetSys.get_full_room_path(starting_map))
 	# Find the save point and teleport the player to it, to start at the save point.
 	var start := map.get_node_or_null(^"SavePoint")
+	if not start:
+		await get_tree().process_frame
+		start = map.get_node_or_null(^"TileMap/SavePoint")
 	if start:
-		player.position = start.position
+		player.teleport(start.global_position)
 	
 	# Connect the room_changed signal to handle room transitions.
 	MetSys.room_changed.connect(on_room_changed, CONNECT_DEFERRED)
