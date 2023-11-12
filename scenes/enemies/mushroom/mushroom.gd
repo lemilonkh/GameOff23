@@ -9,8 +9,8 @@ extends CharacterBody2D
 @export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
 @export var attack_wait_time : int = 80
-@export var stealth_chanse : int = 1
-@export var stop_stealth_chanse : int = 1
+@export var stealth_chance : int = 1
+@export var stop_stealth_chance : int = 1
 
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -74,7 +74,7 @@ func _on_idle_state_processing(delta):
 	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
 		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
 		return
-	if not _player_in_range and not _player_visible and (!(randi() % stealth_chanse)):
+	if not _player_in_range and not _player_visible and (!(randi() % stealth_chance)):
 		pass
 		#_state.send_event("search")
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
@@ -102,7 +102,7 @@ func _on_search_state_physics_processing(delta: float) -> void:
 		_sprite.stop()
 		_state.send_event("idle")
 		return
-	if (!(randi() % stop_stealth_chanse)):
+	if (!(randi() % stop_stealth_chance)):
 		_sprite.stop()
 		_state.send_event("idle_wait")
 		return
@@ -181,11 +181,6 @@ func _physics_process(delta):
 	if result:
 		_player_visible = (result["collider"] == _player)
 	
-	
-	# TODO: Debug - remove
-	if Input.is_action_just_pressed("ui_cancel"):
-		$CanvasLayer.visible = !$CanvasLayer.visible
-
-
-
-
+	# Debug enemy state machine
+	#if Input.is_action_just_pressed("ui_cancel"):
+		#$CanvasLayer.visible = !$CanvasLayer.visible
