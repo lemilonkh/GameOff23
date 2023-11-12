@@ -37,6 +37,8 @@ class_name Player
 @export_range(0, 1000) var glide_deceleration := 400.0
 ## How much a wind gust accelerates the player upwards
 @export_range(0, 1000) var wind_acceleration := 700.0
+## How long you have to collide with a wall to stop the glide in seconds
+@export_range(0, 10) var glide_stop_wall_duration := 0.8
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
@@ -78,6 +80,7 @@ var last_direction := 1.0
 var reset_position: Vector2
 var long_jump_time := jump_increase_time
 var is_gliding := false
+var on_wall_timer := 0.0
 
 var abilities := []
 
@@ -172,7 +175,11 @@ func _physics_process(delta: float) -> void:
 		velocity.y -= vertical_acceleration * delta
 	
 	if is_on_wall():
-		state_chart.send_event("hit_wall")
+		on_wall_timer += delta
+		if on_wall_timer > glide_stop_wall_duration:
+			state_chart.send_event("hit_wall")
+	else:
+		on_wall_timer = 0.0
 	
 	if velocity.length_squared() <= 0.005:
 		state_chart.send_event("idle")
