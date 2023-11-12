@@ -55,6 +55,8 @@ class_name Player
 @export var energy_per_pixel := 0.05
 ## Amount of energy required for healing one heart
 @export_range(0, 100) var energy_required_heal := 20.0
+## Duration required for healing one heart
+@export_range(0, 100) var heal_duration := 5.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -82,6 +84,7 @@ enum Ability {
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
+@onready var heal_particles: GPUParticles2D = $HealParticles
 
 var health := max_health
 var is_invulnerable := false
@@ -100,6 +103,8 @@ var reset_position: Vector2
 var long_jump_time := jump_increase_time
 var is_gliding := false
 var on_wall_timer := 0.0
+var heal_timer := 0.0
+var energy_drain := 0.0
 
 var abilities: Array[Ability] = [Ability.ATTACK, Ability.HEAL, Ability.GRAPPLE, Ability.DASH]
 
@@ -229,17 +234,21 @@ func _physics_process(delta: float) -> void:
 			long_jump_time += 1
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("attack"):
+	if event.is_action_pressed(&"attack"):
 		state_chart.send_event("attack")
-	elif event.is_action_pressed("jump"):
+	elif event.is_action_pressed(&"jump"):
 		if is_on_floor() or raycast.is_colliding():
 			long_jump_time = 0
 			state_chart.send_event("jump")
 		else:
 			state_chart.send_event("glide")
-	elif event.is_action_released("jump"):
+	elif event.is_action_released(&"jump"):
 		long_jump_time = jump_increase_time
 		state_chart.send_event("jump_released")
+	elif event.is_action_pressed(&"heal"):
+		state_chart.send_event("heal")
+	elif event.is_action_released(&"heal"):
+		state_chart.send_event("heal_released")
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
@@ -320,3 +329,33 @@ func _on_invulnerable_state_exited() -> void:
 	is_invulnerable = false
 	if status_animation.current_animation == "Invulnerable":
 		status_animation.stop()
+
+func _on_heal_state_entered() -> void:
+	heal_particles.emitting = true
+	heal_timer = 0
+	energy_drain = energy_required_heal / heal_duration
+	velocity = Vector2.ZERO
+	acceleration = 0
+
+func _on_heal_state_processing(delta: float) -> void:
+	if energy > 0:
+		energy -= energy_drain * delta
+	else:
+		state_chart.send_event("heal_stop")
+		return
+	
+	if health == max_health:
+		state_chart.send_event("heal_stop")
+		return
+	
+	heal_timer += delta
+	if heal_timer > heal_duration:
+		heal_timer -= heal_duration
+		health += 1
+		_update_health()
+
+func _on_heal_state_exited() -> void:
+	heal_particles.emitting = false
+	energy_drain = 0
+	heal_timer = 0
+	acceleration = default_acceleration
