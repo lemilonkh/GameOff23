@@ -60,6 +60,15 @@ class_name Player
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 const TILE_SIZE := 32
+const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
+const HEART_FULL = preload("res://sprites/ui/heart_full.png")
+
+enum Ability {
+	ATTACK,
+	HEAL,
+	GRAPPLE,
+	DASH,
+}
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
@@ -73,9 +82,6 @@ const TILE_SIZE := 32
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
-
-const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
-const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 var health := max_health
 var is_invulnerable := false
@@ -95,7 +101,7 @@ var long_jump_time := jump_increase_time
 var is_gliding := false
 var on_wall_timer := 0.0
 
-var abilities := []
+var abilities: Array[Ability] = [Ability.ATTACK, Ability.HEAL, Ability.GRAPPLE, Ability.DASH]
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	if is_invulnerable:
