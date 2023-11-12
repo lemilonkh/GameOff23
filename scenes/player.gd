@@ -21,8 +21,8 @@ class_name Player
 @export_range(0, 500) var jump_increase_time := 10.0
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
-## How far up a pogo jump goes (when attacking an enemy below in mid-air)
-@export_range(0, 1000) var pogo_velocity := 700.0
+## How far up a pogo jump goes in tiles (when attacking an enemy below in mid-air)
+@export_range(0, 1000) var pogo_height := 6.0
 
 @export_category("Glide")
 ## How much you drop during the rest of the glide
@@ -64,7 +64,7 @@ const TILE_SIZE := 32
 @onready var combat_animation: AnimationPlayer = $CombatAnimation
 @onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
-@onready var floor_distance_raycast: RayCast2D = $FloorDistanceRayCast
+@onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
@@ -114,16 +114,15 @@ func teleport(target_position: Vector2) -> void:
 
 func bounce(target_direction: Vector2, bounce_distance: float) -> void:
 	if target_direction.y != 0:
-		var distance := bounce_distance * TILE_SIZE
 		# make bounce height consistent
-		if floor_distance_raycast.is_colliding():
-			distance -= floor_distance_raycast.global_position.distance_to(floor_distance_raycast.get_collision_point())
+		var distance := bounce_distance * TILE_SIZE - _get_floor_distance()
 		velocity.y = target_direction.y * Utils.calculate_jump_velocity(distance, gravity)
 	else:
 		velocity.y = 0
 	
 	if target_direction.x != 0:
-		velocity.x = target_direction.x * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, default_deceleration)
+		var distance := bounce_distance * TILE_SIZE
+		velocity.x = target_direction.x * Utils.calculate_jump_velocity(distance, default_deceleration)
 	else:
 		velocity.x = 0
 	
@@ -228,6 +227,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
+func _get_floor_distance() -> float:
+	if floor_distance_shape_cast.is_colliding():
+		var collision_point := floor_distance_shape_cast.get_collision_point(0)
+		return collision_point.y - floor_distance_shape_cast.global_position.y
+	else:
+		return 0.0
+
 func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
 
@@ -271,8 +277,10 @@ func _on_death_state_exited() -> void:
 	_update_health()
 
 func _on_hurtbox_hit(body: Node2D) -> void:
-	if not is_on_floor():
-		velocity.y = -pogo_velocity
+	# only pogo if enemy is directly below
+	if not is_on_floor() and floor_distance_shape_cast.is_colliding():
+		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
+		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
 	state_chart.send_event("hit")
 
 func _on_attack_started() -> void:

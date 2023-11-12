@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=75 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -351,6 +351,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
 size = Vector2(102, 114)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5voeg"]
+size = Vector2(64, 20)
+
 [sub_resource type="Gradient" id="Gradient_b4r1s"]
 offsets = PackedFloat32Array(0, 0.72)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -488,9 +491,10 @@ position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(1, 0.345098, 0.85098, 0.270588)
 
-[node name="FloorDistanceRayCast" type="RayCast2D" parent="."]
-position = Vector2(0, 22)
-target_position = Vector2(0, 64)
+[node name="FloorDistanceShapeCast" type="ShapeCast2D" parent="."]
+position = Vector2(0, 32)
+shape = SubResource("RectangleShape2D_5voeg")
+target_position = Vector2(0, 43)
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 modulate = Color(0, 0.745098, 0.215686, 1)
