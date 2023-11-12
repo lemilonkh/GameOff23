@@ -63,9 +63,10 @@ stream_2/stream = ExtResource("5_oi0gw")
 stream_2/weight = 1.0
 
 [node name="BouncyShroom" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
 physics_material_override = SubResource("PhysicsMaterial_gq3ri")
 script = ExtResource("1_g1381")
-bounce_speed = 600.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_qqg8q")

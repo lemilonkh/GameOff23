@@ -64,6 +64,7 @@ const TILE_SIZE := 32
 @onready var combat_animation: AnimationPlayer = $CombatAnimation
 @onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
+@onready var floor_distance_raycast: RayCast2D = $FloorDistanceRayCast
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
@@ -112,8 +113,20 @@ func teleport(target_position: Vector2) -> void:
 	camera.position_smoothing_enabled = true
 
 func bounce(target_direction: Vector2, bounce_distance: float) -> void:
-	velocity.x = target_direction.x * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, default_deceleration)
-	velocity.y = target_direction.y * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, gravity)
+	if target_direction.y != 0:
+		var distance := bounce_distance * TILE_SIZE
+		# make bounce height consistent
+		if floor_distance_raycast.is_colliding():
+			distance -= floor_distance_raycast.global_position.distance_to(floor_distance_raycast.get_collision_point())
+		velocity.y = target_direction.y * Utils.calculate_jump_velocity(distance, gravity)
+	else:
+		velocity.y = 0
+	
+	if target_direction.x != 0:
+		velocity.x = target_direction.x * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, default_deceleration)
+	else:
+		velocity.x = 0
+	
 	if velocity.y < 0:
 		state_chart.send_event("bounce")
 

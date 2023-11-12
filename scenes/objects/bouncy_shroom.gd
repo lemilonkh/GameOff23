@@ -7,7 +7,7 @@ enum Direction {
 	RIGHT,
 }
 
-@export var bounce_distance := 6.0 ## in tiles
+@export var bounce_distance := 8.0 ## in tiles
 @export var direction: Direction = Direction.UP
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
