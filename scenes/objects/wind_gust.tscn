@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://ftvatyfyxf5c"]
+[gd_scene load_steps=21 format=3 uid="uid://ftvatyfyxf5c"]
 
 [ext_resource type="Script" path="res://scenes/objects/wind_gust.gd" id="1_3xxtp"]
 [ext_resource type="Texture2D" uid="uid://erty8b5puib2" path="res://sprites/particles/leaf.png" id="1_6l7ve"]
@@ -8,18 +8,11 @@
 size = Vector2(32, 64)
 
 [sub_resource type="Curve" id="Curve_om7dd"]
-_data = [Vector2(0.00608519, 0), 0.0, 0.0, 0, 0, Vector2(0.117647, 1), 0.0, 0.0, 0, 0, Vector2(0.892495, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0.00608519, 0), 0.0, 0.0, 0, 0, Vector2(0.30303, 1), 0.0, 0.0, 0, 0, Vector2(0.632576, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_1em86"]
 curve = SubResource("Curve_om7dd")
-
-[sub_resource type="Gradient" id="Gradient_kvtfy"]
-offsets = PackedFloat32Array(0, 0.412903, 0.836559, 1)
-colors = PackedColorArray(0.197937, 0.197937, 0.197937, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.277528, 0.277528, 0.277528, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_vomlb"]
-gradient = SubResource("Gradient_kvtfy")
 
 [sub_resource type="Curve" id="Curve_c0dnj"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -75,21 +68,20 @@ scale_curve = SubResource("CurveXYZTexture_whhvm")
 scale_over_velocity_max = 80.0
 scale_over_velocity_curve = SubResource("CurveXYZTexture_otsq3")
 color = Color(1, 1, 1, 0.533333)
-color_ramp = SubResource("GradientTexture1D_vomlb")
 alpha_curve = SubResource("CurveTexture_1em86")
+
+[sub_resource type="Curve" id="Curve_7atmy"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.253788, 1), 0.0, 0.0, 0, 0, Vector2(0.734849, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_a0hmu"]
+curve = SubResource("Curve_7atmy")
 
 [sub_resource type="Gradient" id="Gradient_rhmam"]
 colors = PackedColorArray(0.310617, 0.310617, 0.310617, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_336ds"]
 gradient = SubResource("Gradient_rhmam")
-
-[sub_resource type="Gradient" id="Gradient_mhlhc"]
-offsets = PackedFloat32Array(0, 0.195699, 0.901075, 1)
-colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_cdpmm"]
-gradient = SubResource("Gradient_mhlhc")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_30ohi"]
 particle_flag_disable_z = true
@@ -109,8 +101,8 @@ gravity = Vector3(0, 0, 0)
 linear_accel_min = 20.0
 linear_accel_max = 50.0
 attractor_interaction_enabled = false
-color_ramp = SubResource("GradientTexture1D_cdpmm")
 color_initial_ramp = SubResource("GradientTexture1D_336ds")
+alpha_curve = SubResource("CurveTexture_a0hmu")
 
 [node name="WindGust" type="Area2D"]
 collision_layer = 0
@@ -126,14 +118,14 @@ position = Vector2(0, 11)
 process_material = SubResource("ParticleProcessMaterial_a32nj")
 texture = ExtResource("2_swqer")
 lifetime = 0.6
-visibility_rect = Rect2(0, 0, 0, 0)
+visibility_rect = Rect2(-32, -96, 64, 112)
 
 [node name="Leaves" type="GPUParticles2D" parent="."]
 position = Vector2(0, 16)
 amount = 30
 process_material = SubResource("ParticleProcessMaterial_30ohi")
 texture = ExtResource("1_6l7ve")
-visibility_rect = Rect2(0, 0, 0, 0)
+visibility_rect = Rect2(-32, -96, 64, 112)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
