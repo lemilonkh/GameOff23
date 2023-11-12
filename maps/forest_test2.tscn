@@ -71,7 +71,6 @@ position = Vector2(280, 739)
 
 [node name="VeryBouncyShroom" parent="." instance=ExtResource("4_6snln")]
 position = Vector2(528, 544)
-bounce_speed = 1000.0
 
 [node name="UpsideDownShroom" parent="." instance=ExtResource("4_6snln")]
 position = Vector2(464, 637)

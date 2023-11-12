@@ -53,6 +53,8 @@ class_name Player
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+const TILE_SIZE := 32
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var camera: Camera2D = $Camera2D
 @onready var state_chart: StateChart = $StateChart
@@ -109,8 +111,9 @@ func teleport(target_position: Vector2) -> void:
 	await get_tree().create_timer(0.1).timeout
 	camera.position_smoothing_enabled = true
 
-func bounce(target_velocity: Vector2) -> void:
-	velocity = target_velocity
+func bounce(target_direction: Vector2, bounce_distance: float) -> void:
+	velocity.x = target_direction.x * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, default_deceleration)
+	velocity.y = target_direction.y * Utils.calculate_jump_velocity(bounce_distance * TILE_SIZE, gravity)
 	if velocity.y < 0:
 		state_chart.send_event("bounce")
 

@@ -30,12 +30,10 @@ direction = 3
 
 [node name="BouncyShroom2" parent="." instance=ExtResource("3_1fify")]
 position = Vector2(368, 1184)
-bounce_speed = 1200.0
 direction = 3
 
 [node name="BouncyShroom3" parent="." instance=ExtResource("3_1fify")]
 position = Vector2(752, 1392)
-bounce_speed = 800.0
 
 [node name="Mushroom" parent="." instance=ExtResource("4_pgrui")]
 position = Vector2(1056, 944)

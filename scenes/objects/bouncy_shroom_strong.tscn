@@ -65,7 +65,7 @@ stream_2/weight = 1.0
 [node name="BouncyShroom" type="StaticBody2D"]
 physics_material_override = SubResource("PhysicsMaterial_gq3ri")
 script = ExtResource("1_t4tnp")
-bounce_speed = 1200.0
+bounce_distance = 12.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.247059, 0.639216, 0, 1)
