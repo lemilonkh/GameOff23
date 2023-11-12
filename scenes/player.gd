@@ -36,7 +36,7 @@ class_name Player
 ## Speed change per second during gliding
 @export_range(0, 1000) var glide_deceleration := 400.0
 ## How much a wind gust accelerates the player upwards
-@export_range(0, 1000) var wind_acceleration := 700.0
+@export_range(0, 1000) var wind_acceleration := 800.0
 ## How long you have to collide with a wall to stop the glide in seconds
 @export_range(0, 10) var glide_stop_wall_duration := 0.8
 
