@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=77 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -22,6 +22,8 @@
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
 [ext_resource type="AudioStream" uid="uid://cfurrgaaxxsao" path="res://sounds/Character/Player_Jump_004.wav" id="15_crs1j"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="16_ywi16"]
+[ext_resource type="Texture2D" uid="uid://c2d7d02vhqbk0" path="res://sprites/ui/energy_bar_empty.png" id="17_xb8ed"]
+[ext_resource type="Texture2D" uid="uid://mm27w3jbd3eh" path="res://sprites/ui/energy_bar_fill.png" id="18_smowq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
@@ -549,16 +551,28 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="HealthContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HealthContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/separation = 4
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/HealthContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/MarginContainer/VBoxContainer/HealthContainer"]
 layout_mode = 2
 texture = ExtResource("10_5rr2n")
+
+[node name="EnergyProgress" type="TextureProgressBar" parent="CanvasLayer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+texture_under = ExtResource("17_xb8ed")
+texture_progress = ExtResource("18_smowq")
+texture_progress_offset = Vector2(10, 0)
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("15_1q7el")]
 visible = false
@@ -843,6 +857,7 @@ delay_seconds = 5.0
 [connection signal="state_physics_processing" from="StateChart/Root/Parallel/Movement/Airborne/Jump" to="." method="_on_jump_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Bounce" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
+[connection signal="state_physics_processing" from="StateChart/Root/Parallel/Movement/Airborne/Glide" to="." method="_on_glide_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/GlideStart" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_exited"]

@@ -203,8 +203,8 @@ fill_from = Vector2(0.5, 0.5)
 texture_filter = 1
 script = ExtResource("1_jq20o")
 starting_map = "forest_test.tscn"
-metadata/_edit_vertical_guides_ = [432.0]
-metadata/_edit_horizontal_guides_ = [240.0]
+metadata/_edit_vertical_guides_ = [432.0, 16.0]
+metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
 [node name="MapContainer" type="Node2D" parent="."]
 
@@ -290,10 +290,11 @@ grow_vertical = 0
 text = "Press D to toggle delta vector"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
-offset_left = 19.0
-offset_top = 51.0
-offset_right = 59.0
-offset_bottom = 77.0
+z_index = 1
+offset_left = 13.0
+offset_top = 87.0
+offset_right = 53.0
+offset_bottom = 113.0
 
 [node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer"]
 layout_mode = 2
@@ -304,6 +305,7 @@ stretch_mode = 5
 [node name="CollectibleCount" type="Label" parent="UI/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 1
 text = "0"
 vertical_alignment = 1
 

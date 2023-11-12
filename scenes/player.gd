@@ -50,6 +50,12 @@ class_name Player
 ## Duration of invulnerability after being hit in settings (also needs to be set in StateChart)
 @export var invulnerability_duration := 3.0
 
+@export_category("Abilities")
+## Amount of energy gained for each pixel travelled horizontally while gliding. 100 is a full bar
+@export var energy_per_pixel := 0.05
+## Amount of energy required for healing one heart
+@export_range(0, 100) var energy_required_heal := 20.0
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -66,13 +72,17 @@ const TILE_SIZE := 32
 @onready var raycast: RayCast2D = $RayCast2D
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
+@onready var energy_progress: TextureProgressBar = %EnergyProgress
 
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 var health := max_health
-var energy := 0.0
 var is_invulnerable := false
+var energy := 0.0:
+	set(value):
+		energy = max(min(value, 100), 0)
+		energy_progress.value = energy
 
 var max_speed := default_max_speed
 var gravity_factor := 1.0
@@ -258,6 +268,9 @@ func _on_gliding_state_entered() -> void:
 	acceleration = glide_acceleration
 	deceleration = glide_deceleration
 	max_speed = glide_max_speed
+
+func _on_glide_state_physics_processing(delta: float) -> void:
+	energy += energy_per_pixel * abs(velocity.x) * delta
 
 func _on_gliding_state_exited() -> void:
 	is_gliding = false
