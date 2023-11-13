@@ -22,7 +22,7 @@ class_name Player
 ## Variable jump accelleration (The higher, the higher the jump)
 @export_range(0, 500) var jump_acceleration := 53.0
 ## How far up a pogo jump goes in tiles (when attacking an enemy below in mid-air)
-@export_range(0, 1000) var pogo_height := 6.0
+@export_range(0, 1000) var pogo_height := 9.0
 
 @export_category("Glide")
 ## How much you drop during the rest of the glide
@@ -309,7 +309,13 @@ func _on_hurtbox_hit(body: Node2D) -> void:
 	if not is_on_floor() and floor_distance_shape_cast.is_colliding():
 		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
 		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
-	state_chart.send_event("hit")
+		state_chart.send_event("hit")
+
+func _on_hurtbox_tile_hit(tilemap: TileMap) -> void:
+	if not is_on_floor():
+		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
+		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
+		state_chart.send_event("hit")
 
 func _on_attack_started() -> void:
 	combat_animation.play(&"Attack")
