@@ -6,7 +6,7 @@ on:
 
 env:
   GODOT_VERSION: "4.2"
-  GODOT_RELEASE_NAME: beta4
+  GODOT_RELEASE_NAME: beta6
   EXPORT_NAME: GameOff23
   
 jobs:
@@ -14,7 +14,7 @@ jobs:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
-      image: milangruner/godot-ci:4.2-beta4
+      image: milangruner/godot-ci:4.2-beta6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
     name: Linux Export
     runs-on: ubuntu-20.04
     container:
-      image: milangruner/godot-ci:4.2-beta4
+      image: milangruner/godot-ci:4.2-beta6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -62,7 +62,7 @@ jobs:
     name: Web Export
     runs-on: ubuntu-20.04
     container:
-      image: milangruner/godot-ci:4.2-beta4
+      image: milangruner/godot-ci:4.2-beta6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -94,7 +94,7 @@ jobs:
     name: Mac Export
     runs-on: ubuntu-20.04
     container:
-      image: milangruner/godot-ci:4.2-beta4
+      image: milangruner/godot-ci:4.2-beta6
     steps:
       - name: Checkout
         uses: actions/checkout@v4
