@@ -11,7 +11,7 @@ env:
   
 jobs:
   export:
-    name: Windows Export
+    name: Godot Export
     runs-on: ubuntu-20.04
     container:
       image: milangruner/godot-ci:4.2-beta6
