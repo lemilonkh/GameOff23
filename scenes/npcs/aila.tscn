@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://c78max8qb1ffi"]
+[gd_scene load_steps=13 format=3 uid="uid://c78max8qb1ffi"]
 
 [ext_resource type="Texture2D" uid="uid://bridp3gfnk4x" path="res://sprites/npcs/aila_idle.png" id="1_3mey4"]
 [ext_resource type="Script" path="res://scenes/npcs/npc.gd" id="1_7p65q"]
-[ext_resource type="Resource" uid="uid://c4ji14gpouqyq" path="res://dialogue/intro.dialogue" id="2_j07a0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l3gdg"]
 atlas = ExtResource("1_3mey4")
@@ -75,7 +74,7 @@ size = Vector2(20, 40)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_7p65q")
-dialogue = ExtResource("2_j07a0")
+dialogue_file = "res://dialogue/intro.dialogue"
 initial_title = "intro"
 npc_name = "Aila"
 
