@@ -1,7 +1,7 @@
 extends Area2D
 class_name GrapplingVine
 
-@export var move_speed := 400.0 ## px/s
+@export var move_speed := 800.0 ## px/s
 @export var tip_height := 32 ## px
 @export var max_range := 12 ## tiles
 @export var initial_offset := Vector2(0, -9) ## px from character position
@@ -16,6 +16,10 @@ const TILE_SIZE := 32
 var direction_sign := 0
 
 func shoot() -> void:
+	if visible:
+		retract()
+		return
+	
 	show()
 	direction_sign = -1
 	monitoring = true
@@ -30,7 +34,12 @@ func _get_origin() -> Vector2:
 	return get_parent().to_global(initial_offset)
 
 func _physics_process(delta: float) -> void:
+	if !visible:
+		return
+	
 	var direction := global_position.direction_to(get_parent().global_position)
+	if direction_sign == -1:
+		direction = Vector2.DOWN
 	position += direction_sign * direction * move_speed * delta
 	_update_sprites()
 	

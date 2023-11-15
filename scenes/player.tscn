@@ -540,11 +540,14 @@ shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
 [node name="GrapplingVine" type="Area2D" parent="."]
+visible = false
 top_level = true
 z_index = -1
 texture_filter = 1
 position = Vector2(0, -9)
 collision_layer = 0
+monitoring = false
+monitorable = false
 script = ExtResource("2_qoie8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrapplingVine"]
@@ -1005,6 +1008,11 @@ script = ExtResource("3_q6skx")
 script = ExtResource("12_1ugos")
 to = NodePath("../../Retracted")
 event = &"grapple_retracted"
+
+[node name="OnGrappleShoot" type="Node" parent="StateChart/Root/Parallel/Grapple/Retracting"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Shooting")
+event = &"grapple_shoot"
 
 [node name="Death" type="Node" parent="StateChart/Root"]
 script = ExtResource("3_q6skx")

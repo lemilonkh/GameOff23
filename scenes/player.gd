@@ -58,7 +58,7 @@ class_name Player
 ## Duration required for healing one heart
 @export_range(0, 100) var heal_duration := 5.0
 ## How fast the grappling vine pulls you upwards (px/s^2)
-@export_range(0, 1000) var grapple_pull_acceleration := 300.0
+@export_range(0, 2000) var grapple_pull_acceleration := 1800.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -131,6 +131,7 @@ func on_enter():
 	reset_position = position
 
 func teleport(target_position: Vector2) -> void:
+	grappling_vine.global_position = target_position
 	camera.position_smoothing_enabled = false
 	global_position = target_position
 	await get_tree().create_timer(0.1).timeout
@@ -371,18 +372,17 @@ func _on_heal_state_exited() -> void:
 	heal_timer = 0
 	acceleration = default_acceleration
 
-func _on_grappling_vine_hit() -> void:
-	state_chart.send_event("grapple_hit")
-
-func _on_grappling_vine_retracted() -> void:
-	state_chart.send_event("grapple_retracted")
-
 func _on_pulling_state_entered() -> void:
-	vertical_acceleration = grapple_pull_acceleration
+	pass
 
 func _on_pulling_state_physics_processing(delta: float) -> void:
+	var grapple_distance := global_position.distance_to(grappling_vine.global_position)
+	if grapple_distance < 32:
+		grappling_vine.retract()
+		return
+
 	var grapple_direction := global_position.direction_to(grappling_vine.global_position)
 	velocity += grapple_pull_acceleration * delta * grapple_direction
 
 func _on_pulling_state_exited() -> void:
-	vertical_acceleration = 0
+	pass
