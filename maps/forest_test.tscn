@@ -93,7 +93,6 @@ position = Vector2(464, 637)
 direction = 2
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.325484, 0.28866, 0.205512, 1)
 
 [node name="FireflyParticles" type="GPUParticles2D" parent="."]
