@@ -84,10 +84,14 @@ enum Ability {
 @onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
-@onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
 @onready var heal_particles: GPUParticles2D = $HealParticles
 @onready var grappling_vine: GrapplingVine = $GrapplingVine
+
+# SFX
+@onready var jump_player: AudioStreamPlayer = $JumpPlayer
+@onready var run_player: AudioStreamPlayer = $RunPlayer
+@onready var run_timer: Timer = $RunTimer
 
 var health := max_health
 var is_invulnerable := false
@@ -386,3 +390,7 @@ func _on_pulling_state_physics_processing(delta: float) -> void:
 
 func _on_pulling_state_exited() -> void:
 	pass
+
+func _on_run_timer_timeout() -> void:
+	if is_on_floor() and signf(velocity.x) != 0:
+		run_player.play()

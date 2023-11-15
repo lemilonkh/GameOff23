@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=94 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -19,14 +19,17 @@
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
-[ext_resource type="AudioStream" uid="uid://mt6sl3eiedba" path="res://sounds/Character/Player_Jump_001.wav" id="12_g553q"]
-[ext_resource type="AudioStream" uid="uid://bfd1pn5yx4d1f" path="res://sounds/Character/Player_Jump_002.wav" id="13_gjbf3"]
-[ext_resource type="AudioStream" uid="uid://b06ok1qu7e61x" path="res://sounds/Character/Player_Jump_003.wav" id="14_j44v6"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
-[ext_resource type="AudioStream" uid="uid://cfurrgaaxxsao" path="res://sounds/Character/Player_Jump_004.wav" id="15_crs1j"]
+[ext_resource type="AudioStream" uid="uid://j77ng7hsus8t" path="res://sounds/Character/PlayerRun/Player_Run_001.wav" id="15_pye1c"]
+[ext_resource type="AudioStream" uid="uid://b3qdgjjfy2ce6" path="res://sounds/Character/PlayerRun/Player_Run_002.wav" id="16_8lmcw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="16_ywi16"]
+[ext_resource type="AudioStream" uid="uid://csr6s0x8q000f" path="res://sounds/Character/PlayerRun/Player_Run_003.wav" id="17_alb4l"]
 [ext_resource type="Texture2D" uid="uid://c2d7d02vhqbk0" path="res://sprites/ui/energy_bar_empty.png" id="17_xb8ed"]
 [ext_resource type="Texture2D" uid="uid://mm27w3jbd3eh" path="res://sprites/ui/energy_bar_fill.png" id="18_smowq"]
+[ext_resource type="AudioStream" uid="uid://5lx3vwppipq4" path="res://sounds/Character/PlayerRun/Player_Run_004.wav" id="18_uvgmh"]
+[ext_resource type="AudioStream" uid="uid://vcvq2wbtq4mu" path="res://sounds/Character/PlayerRun/Player_Run_005.wav" id="19_g488n"]
+[ext_resource type="AudioStream" uid="uid://bhdniglnqbq7s" path="res://sounds/Character/PlayerRun/Player_Run_006.wav" id="20_306pu"]
+[ext_resource type="AudioStream" uid="uid://dd3lom5fhk3tm" path="res://sounds/Character/PlayerRun/Player_Run_007.wav" id="21_yckjg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
@@ -358,7 +361,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"Run",
-"speed": 8.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -517,17 +520,23 @@ _data = {
 }
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7q1d0"]
-random_pitch = 1.1
-random_volume_offset_db = 0.1
-streams_count = 4
-stream_0/stream = ExtResource("12_g553q")
+random_pitch = 1.3
+random_volume_offset_db = 0.2
+streams_count = 7
+stream_0/stream = ExtResource("15_pye1c")
 stream_0/weight = 1.0
-stream_1/stream = ExtResource("13_gjbf3")
+stream_1/stream = ExtResource("16_8lmcw")
 stream_1/weight = 1.0
-stream_2/stream = ExtResource("14_j44v6")
+stream_2/stream = ExtResource("17_alb4l")
 stream_2/weight = 1.0
-stream_3/stream = ExtResource("15_crs1j")
+stream_3/stream = ExtResource("18_uvgmh")
 stream_3/weight = 1.0
+stream_4/stream = ExtResource("19_g488n")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("20_306pu")
+stream_5/weight = 1.0
+stream_6/stream = ExtResource("21_yckjg")
+stream_6/weight = 1.0
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
@@ -574,7 +583,7 @@ region_rect = Rect2(0, 0, 8, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Grapple"
+animation = &"Run"
 autoplay = "Idle"
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -649,6 +658,15 @@ current = true
 stream = SubResource("AudioStreamRandomizer_7q1d0")
 volume_db = -2.0
 bus = &"Sounds"
+
+[node name="RunPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_7q1d0")
+volume_db = -2.0
+bus = &"Sounds"
+
+[node name="RunTimer" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -1028,6 +1046,7 @@ delay_seconds = 5.0
 [connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
 [connection signal="tile_hit" from="Hurtbox" to="." method="_on_hurtbox_tile_hit"]
 [connection signal="body_shape_entered" from="Hitbox" to="." method="_on_hitbox_body_shape_entered"]
+[connection signal="timeout" from="RunTimer" to="." method="_on_run_timer_timeout"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Grounded/Heal" to="." method="_on_heal_state_entered"]
