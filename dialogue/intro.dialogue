@@ -11,3 +11,17 @@
 {{npc_name}}: For more information see the online documentation.
 
 => END
+
+~ sword_conversation
+
+Aila: What a lovely day! What do you want to do today?
+- Slay some dragons
+- Take a nap
+Aila: That sounds nice. Let's do it.
+Shopkeep: Here's a sword I found in storage you can use.
+- Thanks!
+	Shopkeep: You're welcome.
+- Nah, don't need it.
+	Shopkeep: Alright, let me know if you change your mind.
+
+=> END
