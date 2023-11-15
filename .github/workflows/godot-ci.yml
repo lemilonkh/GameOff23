@@ -10,7 +10,7 @@ env:
   EXPORT_NAME: GameOff23
   
 jobs:
-  export-windows:
+  export:
     name: Windows Export
     runs-on: ubuntu-20.04
     container:
@@ -24,59 +24,42 @@ jobs:
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
+
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
           godot -v --headless --export-release "Windows Desktop" build/windows/$EXPORT_NAME.exe
-      - name: Upload Artifact
+      - name: Upload Artifact (Windows)
         uses: actions/upload-artifact@v1
         with:
           name: windows
           path: build/windows
 
-  export-linux:
-    name: Linux Export
-    runs-on: ubuntu-20.04
-    container:
-      image: milangruner/godot-ci:4.2-beta6
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
       - name: Linux Build
         run: |
           mkdir -v -p build/linux
           godot -v --headless --export-release "Linux/X11" build/linux/$EXPORT_NAME.x86_64
-      - name: Upload Artifact
+      - name: Upload Artifact (Linux)
         uses: actions/upload-artifact@v1
         with:
           name: linux
           path: build/linux
 
-  export-web:
-    name: Web Export
-    runs-on: ubuntu-20.04
-    container:
-      image: milangruner/godot-ci:4.2-beta6
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup
+      - name: Mac Build
         run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
+          mkdir -v -p build/mac
+          godot -v --headless --export-release "macOS" build/mac/$EXPORT_NAME.zip
+      - name: Upload Artifact (Mac)
+        uses: actions/upload-artifact@v1
+        with:
+          name: mac
+          path: build/mac
+
       - name: Web Build
         run: |
           mkdir -v -p build/web
           godot -v --headless --export-release "Web" build/web/index.html
-      - name: Upload Artifact
+      - name: Upload Artifact (Web)
         uses: actions/upload-artifact@v1
         with:
           name: web
@@ -90,26 +73,3 @@ jobs:
           branch: gh-pages # The branch the action should deploy to.
           folder: build/web # The folder the action should deploy.
 
-  export-mac:
-    name: Mac Export
-    runs-on: ubuntu-20.04
-    container:
-      image: milangruner/godot-ci:4.2-beta6
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME} ~/.local/share/godot/export_templates/${GODOT_VERSION}.${GODOT_RELEASE_NAME}
-      - name: Mac Build
-        run: |
-          mkdir -v -p build/mac
-          godot -v --headless --export-release "macOS" build/mac/$EXPORT_NAME.zip
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: mac
-          path: build/mac
