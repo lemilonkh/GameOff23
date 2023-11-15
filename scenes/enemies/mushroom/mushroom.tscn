@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://c1nbit1ro6q05"]
+[gd_scene load_steps=66 format=3 uid="uid://c1nbit1ro6q05"]
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom/mushroom.gd" id="1_p8dk3"]
 [ext_resource type="Texture2D" uid="uid://d2mr6vaq3ru6l" path="res://sprites/mushroom/Big Mushroom_Single.png" id="2_2fnx4"]
@@ -19,7 +19,6 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="13_4covx"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/all_of_guard.gd" id="16_klwr4"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/any_of_guard.gd" id="18_osge8"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="19_snte8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eh2x1"]
 size = Vector2(17, 22)
@@ -596,14 +595,6 @@ script = ExtResource("11_hwrpv")
 to = NodePath("../Hit")
 event = &"hit"
 guard = SubResource("Resource_4jwh7")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("19_snte8")]
-offset_left = 568.0
-offset_top = 3.0
-initial_node_to_watch = NodePath("../../StateChart")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
