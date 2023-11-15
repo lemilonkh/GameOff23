@@ -1,0 +1,90 @@
+[gd_scene load_steps=14 format=3 uid="uid://c78max8qb1ffi"]
+
+[ext_resource type="Texture2D" uid="uid://bridp3gfnk4x" path="res://sprites/npcs/aila_idle.png" id="1_3mey4"]
+[ext_resource type="Script" path="res://scenes/npcs/npc.gd" id="1_7p65q"]
+[ext_resource type="Resource" uid="uid://c4ji14gpouqyq" path="res://dialogue/intro.dialogue" id="2_j07a0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3gdg"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(0, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7rlg"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(20, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bbe4"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(40, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l5st"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(60, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_225e5"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(80, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu4ny"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(100, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccfo"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(120, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8o5c7"]
+atlas = ExtResource("1_3mey4")
+region = Rect2(140, 0, 20, 39)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r05ey"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3gdg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7rlg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bbe4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l5st")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_225e5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu4ny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qccfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8o5c7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mngmt"]
+size = Vector2(20, 40)
+
+[node name="Aila" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_7p65q")
+dialogue = ExtResource("2_j07a0")
+initial_title = "intro"
+npc_name = "Aila"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_r05ey")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mngmt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

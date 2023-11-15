@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b00ssjyt4csae"]
+
+[ext_resource type="Script" path="res://scenes/dialogue_balloon/test_dialogue.gd" id="1_pabwm"]
+[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="2_sc6nv"]
+
+[node name="TestDialogue" type="Node2D"]
+script = ExtResource("1_pabwm")
+
+[node name="ExampleBalloon" parent="." instance=ExtResource("2_sc6nv")]

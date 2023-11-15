@@ -5,11 +5,18 @@ class_name Game
 # The game starts in this map. Note that it's scene name only, just like MetSys refers to rooms.
 @export var starting_map: String
 
-@onready var player: CharacterBody2D = $Player
+@onready var player: Player = $Player
 @onready var map_container: Node2D = $MapContainer
+@onready var load_overlay: ColorRect = %LoadOverlay
+@onready var load_progress: ProgressBar = %LoadProgress
+@onready var dialogue_balloon: CanvasLayer = $UI/DialogueBalloon
 
 # The current map scene instance.
 var map: Node2D
+# List of all map paths currently loaded.
+var loaded_map_paths: Array[String]
+# Map cache
+var loaded_maps: Dictionary#[String, PackedScene]
 
 # Number of collected collectibles. Setting it also updates the counter.
 var collectibles: int:
@@ -21,6 +28,8 @@ var collectibles: int:
 var generated_rooms: Array[Vector3i]
 # The typical array of game events. It's supplementary to the storable objects.
 var events: Array[String]
+# Is currently loading maps/ showing load screen?
+var is_loading := false
 
 func _ready() -> void:
 	if FileAccess.file_exists("user://save_data.sav"):
@@ -38,19 +47,73 @@ func _ready() -> void:
 		# If no data exists, reset MetSys.
 		MetSys.set_save_data()
 	
+	# A trick for static object reference (before static vars were a thing).
+	get_script().set_meta(&"singleton", self)
+	
+	# Freeze player until the game is done loading
+	player.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	load_maps()
+
+func _on_finish_loading() -> void:
+	load_overlay.hide()
+	
 	# Go to the starting point.
 	goto_map(MetSys.get_full_room_path(starting_map))
 	# Find the save point and teleport the player to it, to start at the save point.
 	var start := map.get_node_or_null(^"SavePoint")
+	if not start:
+		await get_tree().process_frame
+		start = map.get_node_or_null(^"TileMap/SavePoint")
 	if start:
-		player.position = start.position
+		player.teleport(start.global_position)
 	
 	# Connect the room_changed signal to handle room transitions.
 	MetSys.room_changed.connect(on_room_changed, CONNECT_DEFERRED)
 	# Reset position tracking (feature specific to this project).
 	reset_map_starting_coords.call_deferred()
-	# A trick for static object reference (before static vars were a thing).
-	get_script().set_meta(&"singleton", self)
+	# Unfreeze player
+	player.process_mode = Node.PROCESS_MODE_INHERIT
+
+func _process(delta: float) -> void:
+	if is_loading:
+		var progress := get_load_progress()
+		load_progress.value = progress * 100
+		if progress >= 1.0:
+			is_loading = false
+			_on_finish_loading()
+
+func load_maps() -> void:
+	var maps := MetSys.map_data.assigned_scenes.keys()
+	for map_path in maps:
+		var full_path := get_full_map_path(map_path)
+		ResourceLoader.load_threaded_request(full_path, "PackedScene")
+		loaded_map_paths.push_back(full_path)
+	is_loading = true
+
+func get_full_map_path(map_path: String) -> String:
+	if map_path.begins_with("/"):
+		map_path = MetSys.settings.map_root_folder + map_path
+	return map_path
+
+func get_load_progress() -> float:
+	var progress := 0.0
+	for map_path in loaded_map_paths:
+		var map_progress := []
+		var status := ResourceLoader.load_threaded_get_status(map_path, map_progress)
+		match status:
+			ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+				progress += map_progress[0]
+			ResourceLoader.THREAD_LOAD_LOADED:
+				progress += 1.0
+			ResourceLoader.THREAD_LOAD_FAILED:
+				push_error("Failed to load map ", map_path)
+			ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
+				push_error("Invalid resource at ", map_path)
+	
+	if loaded_map_paths.size() == 0:
+		return 0.0
+	return progress / loaded_map_paths.size()
 
 # Loads a room scene and removes the current one if exists.
 func goto_map(map_path: String):
@@ -61,11 +124,26 @@ func goto_map(map_path: String):
 		map.queue_free()
 		map = null
 	
-	if map_path.begins_with("/"):
-		map_path = MetSys.settings.map_root_folder + map_path
+	var full_path := get_full_map_path(map_path)
+	print("Entering map ", full_path)
 	
-	# Load the new map scene.
-	map = load(map_path).instantiate()
+	var map_scene: PackedScene
+	if not loaded_maps.has(full_path):
+		var status := ResourceLoader.load_threaded_get_status(full_path)
+		if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			push_warning("Map wasn't loaded yet when entering it: ", full_path, ". Blocking to load.")
+		elif status == ResourceLoader.THREAD_LOAD_INVALID_RESOURCE:
+			push_warning("Map wasn't queued for loading: ", full_path, ". Blocking to load.")
+			ResourceLoader.load_threaded_request(full_path, "PackedScene")
+		elif status == ResourceLoader.THREAD_LOAD_FAILED:
+			push_warning("Map load failed!: ", full_path)
+		
+		map_scene = ResourceLoader.load_threaded_get(full_path)
+		loaded_maps[full_path] = map_scene
+	else:
+		map_scene = loaded_maps[full_path]
+	
+	map = map_scene.instantiate()
 	map_container.add_child(map)
 	# Adjust the camera.
 	MetSys.get_current_room_instance().adjust_camera_limits($Player/Camera2D)
@@ -80,8 +158,9 @@ func goto_map(map_path: String):
 		player.on_enter()
 
 func _physics_process(delta: float) -> void:
-	# Notify MetSys about the player's current position.
-	MetSys.set_player_position(player.position)
+	if not is_loading:
+		# Notify MetSys about the player's current position.
+		MetSys.set_player_position(player.position)
 
 func on_room_changed(target_map: String):
 	# Randomly generated rooms use absolute paths, so this needs to be checked.
@@ -107,3 +186,10 @@ func get_save_data() -> Dictionary:
 
 func reset_map_starting_coords():
 	$UI/MapWindow.reset_starting_coords()
+
+func start_dialogue(dialogue: DialogueResource, title: String, extra_game_states: Array = []) -> void:
+	dialogue_balloon.show()
+	dialogue_balloon.start(dialogue, title, extra_game_states)
+
+func exit_dialogue() -> void:
+	dialogue_balloon.hide()

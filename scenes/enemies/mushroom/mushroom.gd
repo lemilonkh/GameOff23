@@ -9,18 +9,18 @@ extends CharacterBody2D
 @export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
 @export var attack_wait_time : int = 80
-@export var stealth_chanse : int = 1
-@export var stop_stealth_chanse : int = 1
+@export var stealth_chance : int = 1
+@export var stop_stealth_chance : int = 1
 
 
-@onready var _sprite := $AnimatedSprite2D
-@onready var _state := $StateChart
-@onready var _move_states := $StateChart/Root/Movement
-@onready var _animations := $AnimationPlayer
-@onready var _left_side := $Raycasts/RayCastLeft
-@onready var _right_side := $Raycasts/RayCastRight
-@onready var _attack_spawner := $AttackSpawner
-@onready var _collider := $CollisionShape2D
+@onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var _state: StateChart = $StateChart
+@onready var _move_states: CompoundState = $StateChart/Root/Movement
+@onready var _animations: AnimationPlayer = $AnimationPlayer
+@onready var _left_side: RayCast2D = $Raycasts/RayCastLeft
+@onready var _right_side: RayCast2D = $Raycasts/RayCastRight
+@onready var _attack_spawner: Node2D = $AttackSpawner
+@onready var _collider: CollisionShape2D = $CollisionShape2D
 
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
@@ -74,7 +74,7 @@ func _on_idle_state_processing(delta):
 	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
 		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
 		return
-	if not _player_in_range and not _player_visible and (!(randi() % stealth_chanse)):
+	if not _player_in_range and not _player_visible and (!(randi() % stealth_chance)):
 		pass
 		#_state.send_event("search")
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
@@ -102,7 +102,7 @@ func _on_search_state_physics_processing(delta: float) -> void:
 		_sprite.stop()
 		_state.send_event("idle")
 		return
-	if (!(randi() % stop_stealth_chanse)):
+	if (!(randi() % stop_stealth_chance)):
 		_sprite.stop()
 		_state.send_event("idle_wait")
 		return
@@ -114,6 +114,8 @@ func _on_walk_state_exited():
 
 
 func _on_dead_state_entered():
+	# prevent further collisions with this enemy
+	collision_layer = 0
 	_sprite.play("Die")
 	await _sprite.animation_finished
 	await get_tree().create_timer(3.0).timeout
@@ -179,11 +181,6 @@ func _physics_process(delta):
 	if result:
 		_player_visible = (result["collider"] == _player)
 	
-	
-	# TODO: Debug - remove
-	if Input.is_action_just_pressed("ui_cancel"):
-		$CanvasLayer.visible = !$CanvasLayer.visible
-
-
-
-
+	# Debug enemy state machine
+	#if Input.is_action_just_pressed("ui_cancel"):
+		#$CanvasLayer.visible = !$CanvasLayer.visible

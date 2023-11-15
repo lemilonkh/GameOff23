@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=14 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
+[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
+[ext_resource type="AudioStream" uid="uid://d4n3y63tn6ie5" path="res://sounds/Ambience/Ambience_Jungle.ogg" id="4_nkm84"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -53,18 +55,19 @@ func _input(event: InputEvent) -> void:
 
 [sub_resource type="Animation" id="Animation_lgykt"]
 resource_name = "Flash"
+length = 1.6
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
+"times": PackedFloat32Array(0, 0.8),
 "transitions": PackedFloat32Array(0.5, 2),
 "update": 0,
-"values": [Color(1, 1, 1, 0.752941), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0.372549), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_0p0d4"]
@@ -200,8 +203,8 @@ fill_from = Vector2(0.5, 0.5)
 texture_filter = 1
 script = ExtResource("1_jq20o")
 starting_map = "forest_test.tscn"
-metadata/_edit_vertical_guides_ = [432.0]
-metadata/_edit_horizontal_guides_ = [240.0]
+metadata/_edit_vertical_guides_ = [432.0, 16.0]
+metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
 [node name="MapContainer" type="Node2D" parent="."]
 
@@ -212,6 +215,11 @@ position = Vector2(168, 634)
 stream = ExtResource("3_x4xuy")
 autoplay = true
 bus = &"Music"
+
+[node name="AmbiencePlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_nkm84")
+autoplay = true
+bus = &"Sounds"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -282,10 +290,11 @@ grow_vertical = 0
 text = "Press D to toggle delta vector"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
-offset_left = 19.0
-offset_top = 51.0
-offset_right = 59.0
-offset_bottom = 77.0
+z_index = 1
+offset_left = 13.0
+offset_top = 87.0
+offset_right = 53.0
+offset_bottom = 113.0
 
 [node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer"]
 layout_mode = 2
@@ -296,5 +305,37 @@ stretch_mode = 5
 [node name="CollectibleCount" type="Label" parent="UI/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 1
 text = "0"
 vertical_alignment = 1
+
+[node name="LoadOverlay" type="ColorRect" parent="UI"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.231373, 0.109804, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="UI/LoadOverlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/LoadOverlay/CenterContainer"]
+layout_mode = 2
+
+[node name="LoadProgress" type="ProgressBar" parent="UI/LoadOverlay/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/LoadOverlay/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Loading game world..."
+
+[node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
+visible = false
