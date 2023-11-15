@@ -2,9 +2,10 @@ extends Area2D
 
 @export var hit_amount := 1.0
 @export var knockback_force := -1.0
-@export var life_time := 1.0
+@export var hit_wait := 0.3
 
 @onready var _animation := $AnimatedSprite2D
+@onready var _collision := $CollisionShape2D
 
 var _start_time : float
 var enemy :Node2D
@@ -12,6 +13,8 @@ var enemy :Node2D
 
 func _ready():
 	_animation.play("attack")
+	await get_tree().create_timer(hit_wait).timeout
+	_collision.disabled = false
 
 
 func _on_body_entered(body):

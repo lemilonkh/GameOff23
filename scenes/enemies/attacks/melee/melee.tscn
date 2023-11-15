@@ -114,6 +114,7 @@ script = ExtResource("1_7u2jh")
 position = Vector2(23, 0)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_7gkxk")
+disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(20, 0)
