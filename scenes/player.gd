@@ -376,9 +376,6 @@ func _on_heal_state_exited() -> void:
 	heal_timer = 0
 	acceleration = default_acceleration
 
-func _on_pulling_state_entered() -> void:
-	pass
-
 func _on_pulling_state_physics_processing(delta: float) -> void:
 	var grapple_distance := global_position.distance_to(grappling_vine.global_position)
 	if grapple_distance < 32:
@@ -387,9 +384,6 @@ func _on_pulling_state_physics_processing(delta: float) -> void:
 
 	var grapple_direction := global_position.direction_to(grappling_vine.global_position)
 	velocity += grapple_pull_acceleration * delta * grapple_direction
-
-func _on_pulling_state_exited() -> void:
-	pass
 
 func _on_run_timer_timeout() -> void:
 	if is_on_floor() and signf(velocity.x) != 0:
