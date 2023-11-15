@@ -1,29 +1,205 @@
-[gd_scene load_steps=8 format=3 uid="uid://b2kdoahbbya4q"]
+[gd_scene load_steps=28 format=3 uid="uid://b2kdoahbbya4q"]
 
 [ext_resource type="Script" path="res://scenes/enemies/flying/flying_enemy.gd" id="1_nu5gh"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="2_0eof0"]
-[ext_resource type="Texture2D" uid="uid://dbf5ogymlonu4" path="res://addons/godot_state_charts/any_of_guard.svg" id="2_kt7tk"]
+[ext_resource type="Texture2D" uid="uid://btyqg8m0ncph4" path="res://sprites/bat/32x32-bat-sprite.png" id="2_fngro"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="3_m3n26"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_nrcvn"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="5_o3qks"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_7ue1f"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="7_ydwej"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_aevuo"]
-size = Vector2(65, 67)
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a0jsn"]
+atlas = ExtResource("2_fngro")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_441hf"]
+atlas = ExtResource("2_fngro")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ld4ym"]
+atlas = ExtResource("2_fngro")
+region = Rect2(0, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc70x"]
+atlas = ExtResource("2_fngro")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg3kf"]
+atlas = ExtResource("2_fngro")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_23luv"]
+atlas = ExtResource("2_fngro")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2dkp"]
+atlas = ExtResource("2_fngro")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ic308"]
+atlas = ExtResource("2_fngro")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhwgh"]
+atlas = ExtResource("2_fngro")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dof7m"]
+atlas = ExtResource("2_fngro")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yladk"]
+atlas = ExtResource("2_fngro")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5jkd"]
+atlas = ExtResource("2_fngro")
+region = Rect2(32, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqupk"]
+atlas = ExtResource("2_fngro")
+region = Rect2(64, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g8km"]
+atlas = ExtResource("2_fngro")
+region = Rect2(96, 96, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72wcv"]
+atlas = ExtResource("2_fngro")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mtxn"]
+atlas = ExtResource("2_fngro")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cu32a"]
+atlas = ExtResource("2_fngro")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3seo7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a0jsn")
+}],
+"loop": false,
+"name": &"die-90",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_441hf")
+}],
+"loop": false,
+"name": &"die0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ld4ym")
+}],
+"loop": false,
+"name": &"die180",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc70x")
+}],
+"loop": false,
+"name": &"die90",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mg3kf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23luv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2dkp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_23luv")
+}],
+"loop": false,
+"name": &"move-90",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ic308")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhwgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dof7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yladk")
+}],
+"loop": false,
+"name": &"move0",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g5jkd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqupk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g8km")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqupk")
+}],
+"loop": false,
+"name": &"move180",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72wcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mtxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cu32a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mtxn")
+}],
+"loop": false,
+"name": &"move90",
+"speed": 8.0
+}]
 
 [node name="FlyingEnemy" type="Path2D"]
 script = ExtResource("1_nu5gh")
 
-[node name="FlyingEnemy" type="CharacterBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FlyingEnemy"]
-shape = SubResource("RectangleShape2D_aevuo")
-
-[node name="Sprite2D" type="Sprite2D" parent="FlyingEnemy"]
-texture = ExtResource("2_kt7tk")
-
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(2, -161)
 rotation = 0.289602
+
+[node name="FlyingEnemy" type="CharacterBody2D" parent="PathFollow2D"]
+position = Vector2(44.0602, 154.867)
+rotation = -0.289602
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/FlyingEnemy"]
+shape = SubResource("RectangleShape2D_aevuo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/FlyingEnemy"]
+sprite_frames = SubResource("SpriteFrames_3seo7")
+animation = &"move-90"
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("2_0eof0")
@@ -37,6 +213,11 @@ initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("5_o3qks")
+
+[node name="Transition" type="Node" parent="StateChart/Root/Movement/Idle"]
+script = ExtResource("7_7ue1f")
+to = NodePath("../../Flying")
+event = &"fly"
 
 [node name="Flying" type="Node" parent="StateChart/Root/Movement"]
 script = ExtResource("5_o3qks")
@@ -60,5 +241,16 @@ script = ExtResource("5_o3qks")
 [node name="Hit" type="Node" parent="StateChart/Root/CompoundState"]
 script = ExtResource("5_o3qks")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("7_ydwej")]
+offset_left = 638.0
+offset_top = 4.0
+offset_right = -1.0
+offset_bottom = -2.0
+initial_node_to_watch = NodePath("../../StateChart")
+
 [connection signal="state_processing" from="StateChart/Root/Movement/Idle" to="." method="_on_idle_state_processing"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_physics_processing"]
