@@ -12,6 +12,7 @@ var _start_time : float
 var _hit := false
 var enemy :Node2D
 
+
 func _ready():
 	_start_time = Time.get_ticks_msec()
 	_trail.emitting = true
