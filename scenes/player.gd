@@ -57,6 +57,8 @@ class_name Player
 @export_range(0, 100) var energy_required_heal := 20.0
 ## Duration required for healing one heart
 @export_range(0, 100) var heal_duration := 5.0
+## How fast the grappling vine pulls you upwards (px/s^2)
+@export_range(0, 1000) var grapple_pull_acceleration := 300.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -85,6 +87,7 @@ enum Ability {
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
 @onready var heal_particles: GPUParticles2D = $HealParticles
+@onready var grappling_vine: GrapplingVine = $GrapplingVine
 
 var health := max_health
 var is_invulnerable := false
@@ -249,6 +252,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		state_chart.send_event("heal")
 	elif event.is_action_released(&"heal"):
 		state_chart.send_event("heal_released")
+	elif event.is_action_pressed("grapple"):
+		grappling_vine.shoot()
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
@@ -365,3 +370,19 @@ func _on_heal_state_exited() -> void:
 	energy_drain = 0
 	heal_timer = 0
 	acceleration = default_acceleration
+
+func _on_grappling_vine_hit() -> void:
+	state_chart.send_event("grapple_hit")
+
+func _on_grappling_vine_retracted() -> void:
+	state_chart.send_event("grapple_retracted")
+
+func _on_pulling_state_entered() -> void:
+	vertical_acceleration = grapple_pull_acceleration
+
+func _on_pulling_state_physics_processing(delta: float) -> void:
+	var grapple_direction := global_position.direction_to(grappling_vine.global_position)
+	velocity += grapple_pull_acceleration * delta * grapple_direction
+
+func _on_pulling_state_exited() -> void:
+	vertical_acceleration = 0

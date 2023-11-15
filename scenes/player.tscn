@@ -1,9 +1,12 @@
-[gd_scene load_steps=85 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=91 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
+[ext_resource type="Texture2D" uid="uid://dkjrjerrjp882" path="res://sprites/abilities/vine_tip.png" id="2_j3fxd"]
 [ext_resource type="Texture2D" uid="uid://cdjda0qifhybl" path="res://sprites/player/Attack2.png" id="2_j472s"]
+[ext_resource type="Script" path="res://scripts/grappling_vine.gd" id="2_qoie8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="2_qoktu"]
+[ext_resource type="Texture2D" uid="uid://bgb6hjh4t1ve6" path="res://sprites/abilities/vine_tile.png" id="3_gff4a"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
 [ext_resource type="Texture2D" uid="uid://coh6rer503pps" path="res://sprites/player/Attack1.png" id="4_bs8br"]
 [ext_resource type="Texture2D" uid="uid://wlkryat3bic7" path="res://sprites/player/Glide.png" id="5_ot3rd"]
@@ -28,6 +31,9 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
 height = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6psc8"]
+size = Vector2(10, 10)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c25gt"]
 atlas = ExtResource("2_j472s")
@@ -99,6 +105,14 @@ region = Rect2(0, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_46qul"]
 atlas = ExtResource("5_ot3rd")
+region = Rect2(150, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jiyjl"]
+atlas = ExtResource("8_jcn07")
+region = Rect2(0, 0, 150, 150)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vosk1"]
+atlas = ExtResource("8_jcn07")
 region = Rect2(150, 0, 150, 150)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wax7d"]
@@ -264,6 +278,17 @@ animations = [{
 }],
 "loop": true,
 "name": &"Glide",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jiyjl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vosk1")
+}],
+"loop": true,
+"name": &"Grapple",
 "speed": 5.0
 }, {
 "frames": [{
@@ -514,12 +539,40 @@ position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
+[node name="GrapplingVine" type="Area2D" parent="."]
+top_level = true
+z_index = -1
+texture_filter = 1
+position = Vector2(0, -9)
+collision_layer = 0
+script = ExtResource("2_qoie8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrapplingVine"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_6psc8")
+
+[node name="VineTip" type="Sprite2D" parent="GrapplingVine"]
+texture_filter = 1
+texture = ExtResource("2_j3fxd")
+centered = false
+offset = Vector2(-5, 0)
+region_enabled = true
+region_rect = Rect2(0, 0, 10, 0)
+
+[node name="VineTile" type="Sprite2D" parent="GrapplingVine"]
+texture_filter = 1
+texture_repeat = 2
+position = Vector2(0, 32)
+texture = ExtResource("3_gff4a")
+centered = false
+offset = Vector2(-4, 0)
+region_enabled = true
+region_rect = Rect2(0, 0, 8, 0)
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"TakeHit"
+animation = &"Grapple"
 autoplay = "Idle"
-frame = 2
-frame_progress = 1.0
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
@@ -912,6 +965,47 @@ script = ExtResource("12_1ugos")
 to = NodePath("../Invulnerable")
 event = &"take_hit"
 
+[node name="Grapple" type="Node" parent="StateChart/Root/Parallel"]
+script = ExtResource("2_qoktu")
+initial_state = NodePath("Retracted")
+
+[node name="Retracted" type="Node" parent="StateChart/Root/Parallel/Grapple"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGrappleShoot" type="Node" parent="StateChart/Root/Parallel/Grapple/Retracted"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Shooting")
+event = &"grapple_shoot"
+
+[node name="Shooting" type="Node" parent="StateChart/Root/Parallel/Grapple"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGrappleHit" type="Node" parent="StateChart/Root/Parallel/Grapple/Shooting"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Pulling")
+event = &"grapple_hit"
+
+[node name="OnGrappleMiss" type="Node" parent="StateChart/Root/Parallel/Grapple/Shooting"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Retracting")
+event = &"grapple_miss"
+
+[node name="Pulling" type="Node" parent="StateChart/Root/Parallel/Grapple"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGrappleRetracted" type="Node" parent="StateChart/Root/Parallel/Grapple/Pulling"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Retracted")
+event = &"grapple_retracted"
+
+[node name="Retracting" type="Node" parent="StateChart/Root/Parallel/Grapple"]
+script = ExtResource("3_q6skx")
+
+[node name="OnGrappleRetracted" type="Node" parent="StateChart/Root/Parallel/Grapple/Retracting"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Retracted")
+event = &"grapple_retracted"
+
 [node name="Death" type="Node" parent="StateChart/Root"]
 script = ExtResource("3_q6skx")
 
@@ -920,6 +1014,7 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Parallel/Movement/Grounded/Idle")
 delay_seconds = 5.0
 
+[connection signal="body_entered" from="GrapplingVine" to="GrapplingVine" method="_on_body_entered"]
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]
 [connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
@@ -946,6 +1041,9 @@ delay_seconds = 5.0
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_exited"]
+[connection signal="state_physics_processing" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_play_animation" binds= ["Death"]]
 [connection signal="state_exited" from="StateChart/Root/Death" to="." method="_on_death_state_exited"]
