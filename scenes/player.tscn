@@ -622,13 +622,8 @@ limit_top = 0
 limit_right = 1344
 limit_bottom = 1008
 position_smoothing_enabled = true
-position_smoothing_speed = 64.0
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
-drag_left_margin = 0.1
-drag_top_margin = 0.1
-drag_right_margin = 0.1
-drag_bottom_margin = 0.1
 editor_draw_limits = true
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
