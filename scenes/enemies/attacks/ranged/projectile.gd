@@ -10,7 +10,7 @@ extends Area2D
 
 var _start_time : float
 var _hit := false
-var enemy :Node2D
+var enemy : Node2D
 
 
 func _ready():

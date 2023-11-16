@@ -1,11 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://b2pyv11tjgsre"]
+[gd_scene load_steps=18 format=3 uid="uid://b2pyv11tjgsre"]
 
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="1_wiw6u"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="2_nhqel"]
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="3_b5ka3"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="4_7dsyq"]
+[ext_resource type="PackedScene" uid="uid://b2kdoahbbya4q" path="res://scenes/enemies/flying/flying_enemy.tscn" id="4_yp3qs"]
 [ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/aila.tscn" id="5_tdsf0"]
 [ext_resource type="PackedScene" uid="uid://ftvatyfyxf5c" path="res://scenes/objects/wind_gust.tscn" id="6_rl8ak"]
+
+[sub_resource type="Curve2D" id="Curve2D_tvxd6"]
+_data = {
+"points": PackedVector2Array(-7.07107, -27.5772, 7.07107, 27.5772, 29, 38, -24.7487, -18.3848, 24.7487, 18.3848, 80, 85, -39.598, -9.19239, 39.598, 9.19239, 199, 169, -26.163, 0, 26.163, 0, 263, 179, -29.6985, 49.4975, 29.6985, -49.4975, 338, 142, 4.24264, 36.0624, -4.24264, -36.0624, 353, 12, 26.163, 28.9914, -26.163, -28.9914, 302, -124, 31.8198, -7.07107, -31.8198, 7.07107, 165, -153, 14.1421, -40.3051, -14.1421, 40.3051, 29, -97, 0, 0, 0, 0, 29, 38)
+}
+point_count = 10
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_vkv67"]
 blend_mode = 1
@@ -84,6 +91,10 @@ layer_1/tile_data = PackedInt32Array(-65524, 393216, 2, -131060, 393216, 1, -131
 
 [node name="Mushroom" parent="." instance=ExtResource("2_nhqel")]
 position = Vector2(280, 739)
+
+[node name="FlyingEnemy" parent="." instance=ExtResource("4_yp3qs")]
+position = Vector2(247, 532)
+curve = SubResource("Curve2D_tvxd6")
 
 [node name="VeryBouncyShroom" parent="." instance=ExtResource("3_b5ka3")]
 position = Vector2(528, 544)

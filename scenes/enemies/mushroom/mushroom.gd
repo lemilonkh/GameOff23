@@ -140,7 +140,7 @@ func _on_passive_state_processing(delta):
 
 func _on_attack_state_entered():
 	var attack : Node2D 
-	if (_player.global_position - self.global_position).length() < \
+	if abs((_player.global_position - self.global_position).length()) < \
 		attack_switch_distance and use_melee:
 		attack = melee.instantiate()
 	elif use_ranged:

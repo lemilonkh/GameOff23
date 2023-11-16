@@ -6,15 +6,24 @@ extends Area2D
 
 @onready var _animation := $AnimatedSprite2D
 @onready var _collision := $CollisionShape2D
+@onready var _transform := self.get_global_transform()
 
 var _start_time : float
-var enemy :Node2D
-
+var enemy : Node2D
 
 func _ready():
 	_animation.play("attack")
 	await get_tree().create_timer(hit_wait).timeout
 	_collision.disabled = false
+	
+	# Initialize static transform
+	var _player = get_tree().get_first_node_in_group("Player")
+	look_at(_player.global_position)
+	_transform = self.global_transform
+
+
+func _physics_process(delta: float) -> void:
+	self.global_transform = _transform
 
 
 func _on_body_entered(body):
