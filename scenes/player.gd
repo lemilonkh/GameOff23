@@ -183,7 +183,7 @@ func _ready() -> void:
 
 func _update_health() -> void:
 	for i in range(0, max_health, 2):
-		var current_heart: TextureRect = health_container.get_child(floor(i/2))
+		var current_heart: TextureRect = health_container.get_child(i/2)
 		if health > i + 1:
 			current_heart.texture = HEART_FULL
 		elif health > i:
