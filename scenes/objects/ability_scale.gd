@@ -9,6 +9,7 @@ extends Area2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var collect_duration := 0.5
+var was_collected := false
 
 func _ready() -> void:
 	sprite.modulate = ability_sprite_colors[ability]
@@ -16,7 +17,11 @@ func _ready() -> void:
 	collect_duration = animation_player.get_animation(&"collect").length
 
 func _on_body_entered(body: Node2D) -> void:
+	if was_collected:
+		return
+	
 	if body.has_method(&"gain_ability"):
+		was_collected = true
 		body.gain_ability(ability)
 		animation_player.play(&"collect")
 		var tween := create_tween().set_trans(Tween.TRANS_CUBIC)
