@@ -61,6 +61,8 @@ class_name Player
 @export_range(0, 2000) var grapple_pull_velocity := 600.0
 ## Distance to the grapple point at which the grapple stops
 @export_range(0, 128) var grapple_stop_distance := 32
+## Amount of energy required for grappling
+@export_range(0, 100) var energy_required_grapple := 40.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -260,9 +262,21 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_released(&"heal"):
 		state_chart.send_event("heal_released")
 	elif event.is_action_pressed("grapple"):
-		grappling_vine.shoot()
+		_start_grapple()
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
+
+func _start_grapple() -> void:
+	if not Ability.GRAPPLE in abilities:
+		return
+	if grappling_vine.visible:
+		# TODO play error/ ability not available sound
+		return
+	if energy < energy_required_grapple:
+		# TODO play error/ ability not available sound
+		return
+	energy -= energy_required_grapple
+	grappling_vine.shoot()
 
 func _get_floor_distance() -> float:
 	if floor_distance_shape_cast.is_colliding():

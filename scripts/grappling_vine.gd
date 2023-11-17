@@ -17,7 +17,6 @@ var direction_sign := 0
 
 func shoot() -> void:
 	if visible:
-		retract()
 		return
 	
 	show()
