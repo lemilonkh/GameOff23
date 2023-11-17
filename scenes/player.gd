@@ -69,6 +69,7 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 const TILE_SIZE := 32
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
+const HEART_HALF = preload("res://sprites/ui/heart_half.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 enum Ability {
@@ -174,17 +175,19 @@ func gain_ability(ability: Ability) -> void:
 
 func _ready() -> void:
 	health_container.remove_child(heart)
-	for i in range(max_health):
+	for i in range(0, max_health, 2):
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
 	on_enter()
 
 func _update_health() -> void:
-	for i in range(max_health):
-		var current_heart: TextureRect = health_container.get_child(i)
-		if health > i:
+	for i in range(0, max_health, 2):
+		var current_heart: TextureRect = health_container.get_child(floor(i/2))
+		if health > i + 1:
 			current_heart.texture = HEART_FULL
+		elif health > i:
+			current_heart.texture = HEART_HALF
 		else:
 			current_heart.texture = HEART_EMPTY
 
