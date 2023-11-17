@@ -56,13 +56,13 @@ class_name Player
 ## Amount of energy required for healing one heart
 @export_range(0, 100) var energy_required_heal := 20.0
 ## Duration required for healing one heart
-@export_range(0, 100) var heal_duration := 5.0
+@export_range(0, 100) var heal_duration := 3.0
 ## How fast the grappling vine pulls you upwards (px/s)
 @export_range(0, 2000) var grapple_pull_velocity := 600.0
 ## Distance to the grapple point at which the grapple stops
 @export_range(0, 128) var grapple_stop_distance := 32
 ## Amount of energy required for grappling
-@export_range(0, 100) var energy_required_grapple := 40.0
+@export_range(0, 100) var energy_required_grapple := 20.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
