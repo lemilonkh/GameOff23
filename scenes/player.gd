@@ -117,7 +117,7 @@ var on_wall_timer := 0.0
 var heal_timer := 0.0
 var energy_drain := 0.0
 
-var abilities: Array[Ability] = [Ability.ATTACK, Ability.HEAL, Ability.GRAPPLE, Ability.DASH]
+var abilities: Array[Ability] = []
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	if is_invulnerable:
@@ -167,6 +167,10 @@ func apply_wind() -> void:
 
 func stop_wind() -> void:
 	vertical_acceleration = 0.0
+
+func gain_ability(ability: Ability) -> void:
+	if not ability in abilities:
+		abilities.push_back(ability)
 
 func _ready() -> void:
 	health_container.remove_child(heart)
