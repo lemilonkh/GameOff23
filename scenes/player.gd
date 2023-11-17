@@ -57,8 +57,10 @@ class_name Player
 @export_range(0, 100) var energy_required_heal := 20.0
 ## Duration required for healing one heart
 @export_range(0, 100) var heal_duration := 5.0
-## How fast the grappling vine pulls you upwards (px/s^2)
-@export_range(0, 2000) var grapple_pull_acceleration := 1800.0
+## How fast the grappling vine pulls you upwards (px/s)
+@export_range(0, 2000) var grapple_pull_velocity := 600.0
+## Distance to the grapple point at which the grapple stops
+@export_range(0, 128) var grapple_stop_distance := 32
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -378,12 +380,12 @@ func _on_heal_state_exited() -> void:
 
 func _on_pulling_state_physics_processing(delta: float) -> void:
 	var grapple_distance := global_position.distance_to(grappling_vine.global_position)
-	if grapple_distance < 32:
+	if grapple_distance < grapple_stop_distance:
 		grappling_vine.retract()
 		return
 
 	var grapple_direction := global_position.direction_to(grappling_vine.global_position)
-	velocity += grapple_pull_acceleration * delta * grapple_direction
+	velocity = grapple_pull_velocity * grapple_direction
 
 func _on_run_timer_timeout() -> void:
 	if is_on_floor() and signf(velocity.x) != 0:
