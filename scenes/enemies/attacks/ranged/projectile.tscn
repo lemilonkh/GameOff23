@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://ceslib8nxu3hm"]
 
-[ext_resource type="Script" path="res://scenes/enemies/mushroom/projectile.gd" id="1_jillh"]
+[ext_resource type="Script" path="res://scenes/enemies/attacks/ranged/projectile.gd" id="1_jillh"]
 [ext_resource type="Texture2D" uid="uid://bkf1e240ouleb" path="res://addons/godot_state_charts/history_state.svg" id="2_r6wox"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bsmtm"]

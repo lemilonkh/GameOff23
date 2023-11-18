@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom/mushroom.gd" id="1_p8dk3"]
 [ext_resource type="Texture2D" uid="uid://d2mr6vaq3ru6l" path="res://sprites/mushroom/Big Mushroom_Single.png" id="2_2fnx4"]
-[ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/mushroom/projectile.tscn" id="2_5wliy"]
+[ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/attacks/ranged/projectile.tscn" id="2_5wliy"]
 [ext_resource type="Texture2D" uid="uid://bf4io3pglr2m5" path="res://sprites/mushroom/Big Mushroom_Spawnpng.png" id="2_6gxll"]
 [ext_resource type="Texture2D" uid="uid://dt1o852rst362" path="res://sprites/mushroom/Big Mushroom_Walk.png" id="3_jtvxb"]
 [ext_resource type="Texture2D" uid="uid://byfj0v8kch7xa" path="res://sprites/mushroom/Big Mushroom_De Spawn.png" id="3_op74h"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_qe3s4"]
+[ext_resource type="PackedScene" uid="uid://b20sq7tl813nl" path="res://scenes/enemies/attacks/melee/melee.tscn" id="3_qgakp"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="4_2u0j0"]
-[ext_resource type="Texture2D" uid="uid://1uwrdkjxheqq" path="res://sprites/mushroom/Big Mushroom_Die.png" id="4_jhkf6"]
+[ext_resource type="Texture2D" uid="uid://cpl0fhbla5k0m" path="res://sprites/mushroom/Big Mushroom_Die.png" id="4_jhkf6"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="5_u4fdu"]
 [ext_resource type="Texture2D" uid="uid://qtd8j3h5q0xw" path="res://sprites/mushroom/Big Mushroom_Hurt.png" id="7_f24u4"]
 [ext_resource type="Shader" path="res://scenes/enemies/mushroom/mushroom_disolve.gdshader" id="8_i1vo8"]
@@ -18,7 +19,6 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="13_4covx"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/all_of_guard.gd" id="16_klwr4"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/any_of_guard.gd" id="18_osge8"]
-[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="19_snte8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eh2x1"]
 size = Vector2(17, 22)
@@ -428,10 +428,13 @@ guard = SubResource("Resource_5ytb1")
 collision_layer = 4
 script = ExtResource("1_p8dk3")
 projectile = ExtResource("2_5wliy")
+melee = ExtResource("3_qgakp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2.5, 3)
 shape = SubResource("RectangleShape2D_eh2x1")
+
+[node name="AttackSpawner" type="Node2D" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tsogc")
@@ -444,8 +447,6 @@ emitting = false
 amount = 100
 process_material = SubResource("ShaderMaterial_yy4he")
 lifetime = 0.5
-
-[node name="AttackSpawner" type="Node2D" parent="."]
 
 [node name="Raycasts" type="Node2D" parent="."]
 
@@ -570,7 +571,7 @@ script = ExtResource("11_hwrpv")
 to = NodePath("../../Attack")
 event = &"attack"
 guard = SubResource("Resource_3pcb2")
-delay_seconds = 1.0
+delay_seconds = 0.2
 
 [node name="Attack" type="Node" parent="StateChart/Root/Action"]
 script = ExtResource("5_u4fdu")
@@ -579,7 +580,7 @@ script = ExtResource("5_u4fdu")
 script = ExtResource("11_hwrpv")
 to = NodePath("../../Passive")
 event = &"passive"
-delay_seconds = 3.0
+delay_seconds = 3.7
 
 [node name="Hit" type="Node" parent="StateChart/Root/Action"]
 script = ExtResource("5_u4fdu")
@@ -594,14 +595,6 @@ script = ExtResource("11_hwrpv")
 to = NodePath("../Hit")
 event = &"hit"
 guard = SubResource("Resource_4jwh7")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("19_snte8")]
-offset_left = 568.0
-offset_top = 3.0
-initial_node_to_watch = NodePath("../../StateChart")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

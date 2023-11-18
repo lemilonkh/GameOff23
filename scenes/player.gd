@@ -56,13 +56,20 @@ class_name Player
 ## Amount of energy required for healing one heart
 @export_range(0, 100) var energy_required_heal := 20.0
 ## Duration required for healing one heart
-@export_range(0, 100) var heal_duration := 5.0
+@export_range(0, 100) var heal_duration := 3.0
+## How fast the grappling vine pulls you upwards (px/s)
+@export_range(0, 2000) var grapple_pull_velocity := 600.0
+## Distance to the grapple point at which the grapple stops
+@export_range(0, 128) var grapple_stop_distance := 32
+## Amount of energy required for grappling
+@export_range(0, 100) var energy_required_grapple := 20.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 const TILE_SIZE := 32
 const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
+const HEART_HALF = preload("res://sprites/ui/heart_half.png")
 const HEART_FULL = preload("res://sprites/ui/heart_full.png")
 
 enum Ability {
@@ -82,9 +89,14 @@ enum Ability {
 @onready var status_animation: AnimationPlayer = $StatusAnimation
 @onready var raycast: RayCast2D = $RayCast2D
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
-@onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
 @onready var heal_particles: GPUParticles2D = $HealParticles
+@onready var grappling_vine: GrapplingVine = $GrapplingVine
+
+# SFX
+@onready var jump_player: AudioStreamPlayer = $JumpPlayer
+@onready var run_player: AudioStreamPlayer = $RunPlayer
+@onready var run_timer: Timer = $RunTimer
 
 var health := max_health
 var is_invulnerable := false
@@ -106,7 +118,7 @@ var on_wall_timer := 0.0
 var heal_timer := 0.0
 var energy_drain := 0.0
 
-var abilities: Array[Ability] = [Ability.ATTACK, Ability.HEAL, Ability.GRAPPLE, Ability.DASH]
+var abilities: Array[Ability] = []
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	if is_invulnerable:
@@ -128,6 +140,7 @@ func on_enter():
 	reset_position = position
 
 func teleport(target_position: Vector2) -> void:
+	grappling_vine.global_position = target_position
 	camera.position_smoothing_enabled = false
 	global_position = target_position
 	await get_tree().create_timer(0.1).timeout
@@ -156,19 +169,25 @@ func apply_wind() -> void:
 func stop_wind() -> void:
 	vertical_acceleration = 0.0
 
+func gain_ability(ability: Ability) -> void:
+	if not ability in abilities:
+		abilities.push_back(ability)
+
 func _ready() -> void:
 	health_container.remove_child(heart)
-	for i in range(max_health):
+	for i in range(0, max_health, 2):
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
 	state_chart_debugger.enabled = false
 	on_enter()
 
 func _update_health() -> void:
-	for i in range(max_health):
-		var current_heart: TextureRect = health_container.get_child(i)
-		if health > i:
+	for i in range(0, max_health, 2):
+		var current_heart: TextureRect = health_container.get_child(i/2)
+		if health > i + 1:
 			current_heart.texture = HEART_FULL
+		elif health > i:
+			current_heart.texture = HEART_HALF
 		else:
 			current_heart.texture = HEART_EMPTY
 
@@ -249,8 +268,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		state_chart.send_event("heal")
 	elif event.is_action_released(&"heal"):
 		state_chart.send_event("heal_released")
+	elif event.is_action_pressed("grapple"):
+		_start_grapple()
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
+
+func _start_grapple() -> void:
+	if not Ability.GRAPPLE in abilities:
+		return
+	if grappling_vine.visible:
+		# TODO play error/ ability not available sound
+		return
+	if energy < energy_required_grapple:
+		# TODO play error/ ability not available sound
+		return
+	energy -= energy_required_grapple
+	grappling_vine.shoot()
 
 func _get_floor_distance() -> float:
 	if floor_distance_shape_cast.is_colliding():
@@ -365,3 +398,16 @@ func _on_heal_state_exited() -> void:
 	energy_drain = 0
 	heal_timer = 0
 	acceleration = default_acceleration
+
+func _on_pulling_state_physics_processing(delta: float) -> void:
+	var grapple_distance := global_position.distance_to(grappling_vine.global_position)
+	if grapple_distance < grapple_stop_distance:
+		grappling_vine.retract()
+		return
+
+	var grapple_direction := global_position.direction_to(grappling_vine.global_position)
+	velocity = grapple_pull_velocity * grapple_direction
+
+func _on_run_timer_timeout() -> void:
+	if is_on_floor() and signf(velocity.x) != 0:
+		run_player.play()

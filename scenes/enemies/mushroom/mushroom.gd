@@ -5,13 +5,16 @@ extends CharacterBody2D
 @export var gravity := 200.0
 @export var idle_distance_to_player := 100.0
 @export var projectile: PackedScene
+@export var melee: PackedScene
+@export var use_melee := true
+@export var use_ranged := true
+@export var attack_switch_distance := 55.0 
 @export var wait_before_deactivate := 10.0
 @export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
 @export var attack_wait_time : int = 80
 @export var stealth_chance : int = 1
 @export var stop_stealth_chance : int = 1
-
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _state: StateChart = $StateChart
@@ -136,7 +139,14 @@ func _on_passive_state_processing(delta):
 
 
 func _on_attack_state_entered():
-	var attack := projectile.instantiate()
+	var attack : Node2D 
+	if abs((_player.global_position - self.global_position).length()) < \
+		attack_switch_distance and use_melee:
+		attack = melee.instantiate()
+	elif use_ranged:
+		attack = projectile.instantiate()
+	else:
+		return
 	_attack_spawner.add_child(attack)
 	attack.look_at(_player.global_transform.origin)
 	attack.enemy = self
@@ -183,4 +193,5 @@ func _physics_process(delta):
 	
 	# Debug enemy state machine
 	#if Input.is_action_just_pressed("ui_cancel"):
-		#$CanvasLayer.visible = !$CanvasLayer.visible
+	#	$CanvasLayer.visible = !$CanvasLayer.visible
+
