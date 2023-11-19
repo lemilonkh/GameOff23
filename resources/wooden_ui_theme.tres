@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://bllropgu0cde8"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://bllropgu0cde8"]
 
 [ext_resource type="Texture2D" uid="uid://gllcnmausqtn" path="res://sprites/ui/wooden_ui.png" id="1_s46ap"]
 
@@ -76,6 +76,66 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 modulate_color = Color(0.439216, 0.439216, 0.439216, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_70hht"]
+atlas = ExtResource("1_s46ap")
+region = Rect2(194, 610, 28, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3h7bo"]
+atlas = ExtResource("1_s46ap")
+region = Rect2(194, 577, 28, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sgc5"]
+atlas = ExtResource("1_s46ap")
+region = Rect2(1, 1056, 94, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qfise"]
+texture = SubResource("AtlasTexture_4sgc5")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 2
+modulate_color = Color(0.717647, 0.458824, 0.411765, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hf6sk"]
+texture = SubResource("AtlasTexture_4sgc5")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 2
+modulate_color = Color(0.890196, 0.721569, 0.690196, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kbcuf"]
+texture = SubResource("AtlasTexture_4sgc5")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sq25c"]
+atlas = ExtResource("1_s46ap")
+region = Rect2(163, 642, 90, 94)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ho4dg"]
+texture = SubResource("AtlasTexture_sq25c")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
 [resource]
 default_font_size = 14
 Button/font_sizes/font_size = 32
@@ -84,3 +144,11 @@ Button/styles/focus = SubResource("StyleBoxFlat_gjhp5")
 Button/styles/hover = SubResource("StyleBoxTexture_4iaa2")
 Button/styles/normal = SubResource("StyleBoxTexture_y1oe8")
 Button/styles/pressed = SubResource("StyleBoxTexture_mpycn")
+HSlider/constants/grabber_offset = -2
+HSlider/icons/grabber = SubResource("AtlasTexture_70hht")
+HSlider/icons/grabber_highlight = SubResource("AtlasTexture_3h7bo")
+HSlider/styles/grabber_area = SubResource("StyleBoxTexture_qfise")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxTexture_hf6sk")
+HSlider/styles/slider = SubResource("StyleBoxTexture_kbcuf")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_ho4dg")
+VBoxContainer/constants/separation = 8

@@ -5,6 +5,7 @@ signal game_started(should_load: bool)
 const SAVE_FILE := "user://save_data.sav"
 
 @onready var continue_button: Button = $MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton
+@onready var settings_menu: PanelContainer = $SettingsContainer/SettingsMenu
 
 func _ready() -> void:
 	if FileAccess.file_exists(SAVE_FILE):
@@ -20,7 +21,7 @@ func _on_new_game_button_pressed() -> void:
 	game_started.emit(false)
 
 func _on_settings_pressed() -> void:
-	pass # Replace with function body.
+	settings_menu.show()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
