@@ -32,6 +32,14 @@ var events: Array[String]
 var is_loading := false
 
 func _ready() -> void:
+	# A trick for static object reference (before static vars were a thing).
+	get_script().set_meta(&"singleton", self)
+	
+	# Freeze player until the game is done loading
+	player.process_mode = Node.PROCESS_MODE_DISABLED
+	load_maps()
+
+func start() -> void:
 	if FileAccess.file_exists("user://save_data.sav"):
 		# If save data exists, load it.
 		var save_data: Dictionary = FileAccess.open("user://save_data.sav", FileAccess.READ).get_var()
@@ -46,14 +54,6 @@ func _ready() -> void:
 	else:
 		# If no data exists, reset MetSys.
 		MetSys.set_save_data()
-	
-	# A trick for static object reference (before static vars were a thing).
-	get_script().set_meta(&"singleton", self)
-	
-	# Freeze player until the game is done loading
-	player.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	load_maps()
 
 func _on_finish_loading() -> void:
 	load_overlay.hide()

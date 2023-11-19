@@ -1,6 +1,8 @@
 extends Control
 
 @onready var svc: SubViewportContainer = $SubViewportContainer
+@onready var main_menu: CanvasLayer = $SubViewportContainer/SubViewport/MainMenu
+@onready var game: Game = $SubViewportContainer/SubViewport/Game
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(on_screen_resized)
@@ -13,3 +15,8 @@ func on_screen_resized() -> void:
 	var final_scale: Vector2i = max(1, min(possible_scale.x, possible_scale.y)) * Vector2i.ONE
 	svc.scale = final_scale
 	svc.position = Vector2(window_size) / 2 - svc.size * svc.scale / 2
+
+func _on_main_menu_game_started(should_load: bool) -> void:
+	main_menu.hide()
+	game.process_mode = Node.PROCESS_MODE_INHERIT
+	game.start()

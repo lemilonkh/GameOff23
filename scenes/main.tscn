@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cxjmit51yylvl"]
+[gd_scene load_steps=4 format=3 uid="uid://cxjmit51yylvl"]
 
 [ext_resource type="Script" path="res://scripts/pixel_perfect_scaling.gd" id="1_eh8h1"]
 [ext_resource type="PackedScene" uid="uid://da6y27vlqx8cx" path="res://scenes/game.tscn" id="2_ygrce"]
+[ext_resource type="PackedScene" uid="uid://b3lpfx8qk37ud" path="res://scenes/ui/main_menu.tscn" id="3_l7ei5"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -30,4 +31,9 @@ handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 4
 
-[node name="game" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_ygrce")]
+[node name="Game" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_ygrce")]
+process_mode = 4
+
+[node name="MainMenu" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_l7ei5")]
+
+[connection signal="game_started" from="SubViewportContainer/SubViewport/MainMenu" to="." method="_on_main_menu_game_started"]
