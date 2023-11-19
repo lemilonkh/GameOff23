@@ -1,7 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://bagbnemmeixs2"]
+[gd_scene load_steps=17 format=3 uid="uid://bagbnemmeixs2"]
 
 [ext_resource type="Script" path="res://scenes/objects/ability_scale.gd" id="1_65oqn"]
 [ext_resource type="Texture2D" uid="uid://b3y4mqjf4jcg4" path="res://sprites/objects/scale.png" id="1_dd3i7"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_feh66"]
+light_mode = 1
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_e8dmg"]
 blend_mode = 1
@@ -198,7 +201,7 @@ ability_particle_colors = Array[Color]([Color(0.976471, 0.380392, 0.254902, 1), 
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.905098, 0.905098, 0.905098, 1)
-position = Vector2(0, 4.58644)
+material = SubResource("CanvasItemMaterial_feh66")
 texture = ExtResource("1_dd3i7")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
