@@ -1,0 +1,158 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3lpfx8qk37ud"]
+
+[ext_resource type="Texture2D" uid="uid://gllcnmausqtn" path="res://sprites/ui/wooden_ui.png" id="1_xc7wx"]
+[ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cko44"]
+atlas = ExtResource("1_xc7wx")
+region = Rect2(130, 1056, 92, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eleok"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_cko44")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.576471, 0.576471, 0.576471, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gjhp5"]
+bg_color = Color(1, 1, 1, 0)
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_size = 1
+shadow_offset = Vector2(1, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4iaa2"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_cko44")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y1oe8"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_cko44")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.72549, 0.72549, 0.72549, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mpycn"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+texture = SubResource("AtlasTexture_cko44")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+modulate_color = Color(0.439216, 0.439216, 0.439216, 1)
+
+[sub_resource type="Theme" id="Theme_01v2x"]
+default_font_size = 14
+Button/font_sizes/font_size = 32
+Button/styles/disabled = SubResource("StyleBoxTexture_eleok")
+Button/styles/focus = SubResource("StyleBoxFlat_gjhp5")
+Button/styles/hover = SubResource("StyleBoxTexture_4iaa2")
+Button/styles/normal = SubResource("StyleBoxTexture_y1oe8")
+Button/styles/pressed = SubResource("StyleBoxTexture_mpycn")
+
+[node name="MainMenu" type="CanvasLayer"]
+layer = 2
+script = ExtResource("2_fo1fd")
+
+[node name="MainMenu" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_01v2x")
+
+[node name="ColorRect" type="ColorRect" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0.278431, 0.247059, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="Label" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.819608, 0.219608, 1)
+theme_override_colors/font_shadow_color = Color(0.21719, 0.166705, 9.62615e-08, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 4
+theme_override_font_sizes/font_size = 38
+text = "Scales of the Golden Dragon"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 8
+
+[node name="ContinueButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="Settings" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
