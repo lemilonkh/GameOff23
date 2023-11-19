@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b2pyv11tjgsre"]
+[gd_scene load_steps=19 format=3 uid="uid://b2pyv11tjgsre"]
 
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="1_wiw6u"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="2_nhqel"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b2kdoahbbya4q" path="res://scenes/enemies/flying/flying_enemy.tscn" id="4_yp3qs"]
 [ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/aila.tscn" id="5_tdsf0"]
 [ext_resource type="PackedScene" uid="uid://ftvatyfyxf5c" path="res://scenes/objects/wind_gust.tscn" id="6_rl8ak"]
+[ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="8_wbmbt"]
 
 [sub_resource type="Curve2D" id="Curve2D_tvxd6"]
 _data = {
@@ -136,3 +137,18 @@ one_way_collision = true
 
 [node name="WindGust" parent="." instance=ExtResource("6_rl8ak")]
 position = Vector2(272, 368)
+
+[node name="AbilityScale" parent="." instance=ExtResource("8_wbmbt")]
+position = Vector2(240, 912)
+ability = 0
+
+[node name="AbilityScale2" parent="." instance=ExtResource("8_wbmbt")]
+position = Vector2(304, 912)
+ability = 1
+
+[node name="AbilityScale3" parent="." instance=ExtResource("8_wbmbt")]
+position = Vector2(368, 912)
+ability = 2
+
+[node name="AbilityScale4" parent="." instance=ExtResource("8_wbmbt")]
+position = Vector2(432, 912)
