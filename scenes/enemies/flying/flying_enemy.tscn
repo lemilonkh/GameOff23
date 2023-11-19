@@ -453,6 +453,7 @@ event = &"hit"
 delay_seconds = 0.3
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
 
 [node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("7_ydwej")]
 offset_left = 638.0
