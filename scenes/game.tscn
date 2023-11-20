@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=15 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
+[ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_khvma"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
@@ -206,6 +207,8 @@ starting_map = "forest_test.tscn"
 metadata/_edit_vertical_guides_ = [432.0, 16.0]
 metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
+[node name="JungleBackground" parent="." instance=ExtResource("2_khvma")]
+
 [node name="MapContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
@@ -311,7 +314,6 @@ vertical_alignment = 1
 
 [node name="LoadOverlay" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

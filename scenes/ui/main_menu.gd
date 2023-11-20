@@ -2,7 +2,7 @@ extends CanvasLayer
 
 signal game_started(should_load: bool)
 
-@export var background_scroll_speed := 5.0 ## px/s
+@export var background_scroll_speed := 60.0 ## px/s
 
 const SAVE_FILE := "user://save_data.sav"
 
