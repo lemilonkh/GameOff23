@@ -1,8 +1,10 @@
 extends Control
 
 @onready var svc: SubViewportContainer = $SubViewportContainer
+@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 @onready var main_menu: CanvasLayer = $SubViewportContainer/SubViewport/MainMenu
-@onready var game: Game = $SubViewportContainer/SubViewport/Game
+
+const game_scene: PackedScene = preload("res://scenes/game.tscn")
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(on_screen_resized)
@@ -17,6 +19,8 @@ func on_screen_resized() -> void:
 	svc.position = Vector2(window_size) / 2 - svc.size * svc.scale / 2
 
 func _on_main_menu_game_started(should_load: bool) -> void:
-	main_menu.hide()
-	game.process_mode = Node.PROCESS_MODE_INHERIT
+	main_menu.queue_free()
+	var game := game_scene.instantiate()
+	sub_viewport.add_child(game)
+	#game.process_mode = Node.PROCESS_MODE_INHERIT
 	game.start()

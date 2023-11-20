@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3lpfx8qk37ud"]
+[gd_scene load_steps=12 format=3 uid="uid://b3lpfx8qk37ud"]
 
 [ext_resource type="Texture2D" uid="uid://gllcnmausqtn" path="res://sprites/ui/wooden_ui.png" id="1_xc7wx"]
 [ext_resource type="Theme" uid="uid://bllropgu0cde8" path="res://resources/wooden_ui_theme.tres" id="2_bj20m"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
+[ext_resource type="Texture2D" uid="uid://d0stvyecnknkp" path="res://sprites/backgrounds/Jungle_Parallax_Jungle_Distance_x3.png" id="2_umdf3"]
 [ext_resource type="Script" path="res://scenes/ui/settings_menu.gd" id="3_cb5gw"]
+[ext_resource type="Texture2D" uid="uid://2ud461wlhm8a" path="res://sprites/backgrounds/Jungle_Parallax_Jungle_Distance_x2.png" id="3_tcq8y"]
+[ext_resource type="Texture2D" uid="uid://shma1mseele" path="res://sprites/backgrounds/Jungle_Parallax_Jungle_Distance_x1.png" id="4_5fycv"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6yjlf"]
 atlas = ExtResource("1_xc7wx")
@@ -22,8 +25,46 @@ atlas = ExtResource("1_xc7wx")
 region = Rect2(0, 32, 32, 32)
 
 [node name="MainMenu" type="CanvasLayer"]
-layer = 2
+layer = 4
 script = ExtResource("2_fo1fd")
+
+[node name="JungleBackground" type="ParallaxBackground" parent="."]
+scroll_base_offset = Vector2(0, -200)
+scroll_base_scale = Vector2(10, 10)
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="JungleBackground"]
+motion_scale = Vector2(0.8, 0)
+motion_mirroring = Vector2(866, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="JungleBackground/ParallaxLayer3"]
+position = Vector2(0, -665)
+texture = ExtResource("2_umdf3")
+centered = false
+region_rect = Rect2(296, 7296, 8, 0)
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="JungleBackground"]
+motion_scale = Vector2(1.1, 0)
+motion_mirroring = Vector2(866, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="JungleBackground/ParallaxLayer2"]
+position = Vector2(0, -665)
+texture = ExtResource("3_tcq8y")
+centered = false
+region_rect = Rect2(296, 7296, 8, 0)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="JungleBackground"]
+motion_scale = Vector2(1.5, 0)
+motion_mirroring = Vector2(866, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="JungleBackground/ParallaxLayer"]
+position = Vector2(0, -665)
+texture = ExtResource("4_5fycv")
+centered = false
+region_rect = Rect2(296, 7296, 8, 0)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(432, 242)
 
 [node name="MainMenu" type="Control" parent="."]
 layout_mode = 3
@@ -33,15 +74,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_bj20m")
-
-[node name="ColorRect" type="ColorRect" parent="MainMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0.278431, 0.247059, 1)
 
 [node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
 layout_mode = 1
