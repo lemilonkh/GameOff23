@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=15 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_khvma"]
@@ -6,9 +6,6 @@
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
 [ext_resource type="AudioStream" uid="uid://d4n3y63tn6ie5" path="res://sounds/Ambience/Ambience_Jungle.ogg" id="4_nkm84"]
-[ext_resource type="Theme" uid="uid://dpl8qqvcrbi1k" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
-[ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="7_tioe5"]
-[ext_resource type="Script" path="res://scenes/ui/teleport_options.gd" id="8_qkn28"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -204,10 +201,9 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="Game" type="Node2D"]
-process_mode = 1
 texture_filter = 1
 script = ExtResource("1_jq20o")
-starting_map = "forest_test.tscn"
+starting_map = "starter_room.tscn"
 metadata/_edit_vertical_guides_ = [432.0, 16.0]
 metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
@@ -216,10 +212,9 @@ metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 [node name="MapContainer" type="Node2D" parent="."]
 
 [node name="Player" parent="." instance=ExtResource("2_vpfdv")]
-position = Vector2(168, 634)
+position = Vector2(392, 864)
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-process_mode = 3
 stream = ExtResource("3_x4xuy")
 autoplay = true
 bus = &"Music"
@@ -230,7 +225,6 @@ autoplay = true
 bus = &"Sounds"
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 2
 
 [node name="Minimap" type="Panel" parent="UI"]
 clip_contents = true
@@ -299,6 +293,7 @@ grow_vertical = 0
 text = "Press D to toggle delta vector"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+z_index = 1
 offset_left = 13.0
 offset_top = 87.0
 offset_right = 53.0
@@ -319,7 +314,6 @@ vertical_alignment = 1
 
 [node name="LoadOverlay" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -346,56 +340,5 @@ layout_mode = 2
 layout_mode = 2
 text = "Loading game world..."
 
-[node name="PauseMenu" type="ColorRect" parent="UI"]
-unique_name_in_owner = true
-process_mode = 3
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("6_rxu72")
-color = Color(0.109804, 0.109804, 0.109804, 0.792157)
-script = ExtResource("7_tioe5")
-
-[node name="CenterContainer" type="CenterContainer" parent="UI/PauseMenu"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/PauseMenu/CenterContainer"]
-layout_mode = 2
-
-[node name="ResumeButton" type="Button" parent="UI/PauseMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Resume"
-
-[node name="SettingsButton" type="Button" parent="UI/PauseMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Settings"
-
-[node name="QuitButton" type="Button" parent="UI/PauseMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-text = "Quit"
-
-[node name="TeleportOptions" type="OptionButton" parent="UI/PauseMenu"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -48.0
-offset_bottom = 36.0
-grow_horizontal = 0
-script = ExtResource("8_qkn28")
-
 [node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
 visible = false
-
-[connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
-[connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/SettingsButton" to="UI/PauseMenu" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/QuitButton" to="UI/PauseMenu" method="_on_quit_button_pressed"]
-[connection signal="item_selected" from="UI/PauseMenu/TeleportOptions" to="UI/PauseMenu/TeleportOptions" method="_on_item_selected"]
