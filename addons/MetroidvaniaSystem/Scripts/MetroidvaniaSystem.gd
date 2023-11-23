@@ -213,7 +213,13 @@ func get_object_id(object: Object) -> String:
 		object.set_meta(&"object_id", id)
 		return id
 	elif object is Node:
-		var id := str(object.owner.scene_file_path.get_file().get_basename(), "/", object.get_parent().name if object.get_parent() != object.owner else ".", "/", object.name)
+		var id: String
+		if object.owner:
+			id = str(object.owner.scene_file_path.get_file().get_basename(), "/", object.get_parent().name if object.get_parent() != object.owner else ".", "/", object.name)
+		else:
+			# for objects spawned by a tilemap
+			var root = object.get_parent().get_parent()
+			id = str(root.scene_file_path.get_file().get_basename(), "/", object.get_parent().name if object.get_parent() != root else ".", "/", object.name)
 		object.set_meta(&"object_id", id)
 		return id
 	return ""
