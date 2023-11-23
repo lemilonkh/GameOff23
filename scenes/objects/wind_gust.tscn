@@ -11,7 +11,7 @@ size = Vector2(32, 64)
 _data = [Vector2(0.00608519, 0), 0.0, 0.0, 0, 0, Vector2(0.30303, 1), 0.0, 0.0, 0, 0, Vector2(0.632576, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
-[sub_resource type="CurveTexture" id="CurveTexture_1em86"]
+[sub_resource type="CurveTexture" id="CurveTexture_5qf6x"]
 curve = SubResource("Curve_om7dd")
 
 [sub_resource type="Curve" id="Curve_c0dnj"]
@@ -26,7 +26,7 @@ point_count = 4
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_whhvm"]
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_y85fv"]
 curve_x = SubResource("Curve_c0dnj")
 curve_y = SubResource("Curve_0dpcs")
 curve_z = SubResource("Curve_1h3tv")
@@ -46,7 +46,7 @@ max_value = 3.0
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_otsq3"]
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_11v5j"]
 curve_x = SubResource("Curve_kwitm")
 curve_y = SubResource("Curve_w4arp")
 curve_z = SubResource("Curve_jg5ok")
@@ -64,11 +64,11 @@ gravity = Vector3(0, 0, 0)
 linear_accel_min = 20.0
 linear_accel_max = 60.0
 attractor_interaction_enabled = false
-scale_curve = SubResource("CurveXYZTexture_whhvm")
+scale_curve = SubResource("CurveXYZTexture_y85fv")
 scale_over_velocity_max = 80.0
-scale_over_velocity_curve = SubResource("CurveXYZTexture_otsq3")
+scale_over_velocity_curve = SubResource("CurveXYZTexture_11v5j")
 color = Color(1, 1, 1, 0.533333)
-alpha_curve = SubResource("CurveTexture_1em86")
+alpha_curve = SubResource("CurveTexture_5qf6x")
 
 [sub_resource type="Curve" id="Curve_7atmy"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.253788, 1), 0.0, 0.0, 0, 0, Vector2(0.734849, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
