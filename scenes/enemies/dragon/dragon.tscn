@@ -1,0 +1,266 @@
+[gd_scene load_steps=13 format=3 uid="uid://c3tru5icecrvc"]
+
+[ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
+
+[sub_resource type="Animation" id="Animation_xto88"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-8, -340)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftWing:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeftWing:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-288, -216)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightWing:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(288, -216)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightWing:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("LeftClaw:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-164, -39)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("RightClaw:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(156, -39)]
+}
+
+[sub_resource type="Animation" id="Animation_41osx"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.2, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1.27456),
+"update": 0,
+"values": [Vector2(-8, -340), Vector2(-8, -355), Vector2(-8, -345.65)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LeftWing:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.14355, 1.3),
+"update": 0,
+"values": [0.0, 0.373629]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeftWing:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.14, 1.3),
+"update": 0,
+"values": [Vector2(-288, -216), Vector2(-251, -278)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightWing:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.14, 1.3),
+"update": 0,
+"values": [0.0, -0.3735]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("RightWing:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.14, 1.3),
+"update": 0,
+"values": [Vector2(288, -216), Vector2(251, -278)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("LeftClaw:position")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0.5, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-164, -39), Vector2(-164, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("RightClaw:position")
+tracks/6/interp = 2
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.3, 0.9),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(156, -39), Vector2(156, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5v4p6"]
+_data = {
+"RESET": SubResource("Animation_xto88"),
+"idle": SubResource("Animation_41osx")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pm7q"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(448, 488, 480, 272)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fc2pj"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(40, 496, 344, 504)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alah8"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(400, 288, 168, 184)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vto7i"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(208, 280, 152, 176)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qr65y"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(40, 296, 144, 160)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ee60r"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(768, 32, 128, 176)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70og6"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(496, 24, 208, 224)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2xa4l"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(248, 56, 208, 136)
+
+[node name="Dragon" type="Node2D"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5v4p6")
+}
+autoplay = "idle"
+
+[node name="LeftWing" type="Sprite2D" parent="."]
+position = Vector2(-288, -216)
+texture = SubResource("AtlasTexture_0pm7q")
+flip_h = true
+
+[node name="RightWing" type="Sprite2D" parent="."]
+position = Vector2(288, -216)
+texture = SubResource("AtlasTexture_0pm7q")
+
+[node name="Body" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_fc2pj")
+
+[node name="Neck1" type="Sprite2D" parent="."]
+position = Vector2(1, -170)
+texture = SubResource("AtlasTexture_alah8")
+
+[node name="Neck2" type="Sprite2D" parent="."]
+position = Vector2(1, -202)
+texture = SubResource("AtlasTexture_vto7i")
+
+[node name="Neck3" type="Sprite2D" parent="."]
+position = Vector2(1, -211)
+texture = SubResource("AtlasTexture_qr65y")
+
+[node name="Neck4" type="Sprite2D" parent="."]
+position = Vector2(1, -267)
+texture = SubResource("AtlasTexture_ee60r")
+
+[node name="Head" type="Sprite2D" parent="."]
+position = Vector2(-8, -340)
+texture = SubResource("AtlasTexture_70og6")
+
+[node name="LeftClaw" type="Sprite2D" parent="."]
+position = Vector2(-164, -39)
+texture = SubResource("AtlasTexture_2xa4l")
+flip_h = true
+
+[node name="RightClaw" type="Sprite2D" parent="."]
+position = Vector2(156, -39)
+texture = SubResource("AtlasTexture_2xa4l")
