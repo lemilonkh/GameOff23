@@ -1,4 +1,4 @@
-[gd_scene load_steps=94 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=99 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -30,6 +30,8 @@
 [ext_resource type="AudioStream" uid="uid://vcvq2wbtq4mu" path="res://sounds/Character/PlayerRun/Player_Run_005.wav" id="19_g488n"]
 [ext_resource type="AudioStream" uid="uid://bhdniglnqbq7s" path="res://sounds/Character/PlayerRun/Player_Run_006.wav" id="20_306pu"]
 [ext_resource type="AudioStream" uid="uid://dd3lom5fhk3tm" path="res://sounds/Character/PlayerRun/Player_Run_007.wav" id="21_yckjg"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="31_u6jow"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="32_a4a7s"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
@@ -538,6 +540,18 @@ stream_5/weight = 1.0
 stream_6/stream = ExtResource("21_yckjg")
 stream_6/weight = 1.0
 
+[sub_resource type="Resource" id="Resource_pjqn3"]
+script = ExtResource("31_u6jow")
+state = NodePath("../../../../Grapple/Pulling")
+
+[sub_resource type="Resource" id="Resource_pe6oy"]
+script = ExtResource("32_a4a7s")
+guard = SubResource("Resource_pjqn3")
+
+[sub_resource type="Resource" id="Resource_a8fhe"]
+script = ExtResource("32_a4a7s")
+guard = SubResource("Resource_pjqn3")
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 2
 collision_mask = 17
@@ -825,6 +839,7 @@ event = &"falling"
 script = ExtResource("12_1ugos")
 to = NodePath("../../Glide")
 event = &"glide"
+guard = SubResource("Resource_pe6oy")
 
 [node name="Bounce" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne"]
 script = ExtResource("3_q6skx")
@@ -847,6 +862,7 @@ initial_state = NodePath("CanJump")
 script = ExtResource("12_1ugos")
 to = NodePath("../../Glide")
 event = &"glide"
+guard = SubResource("Resource_a8fhe")
 
 [node name="CanJump" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
@@ -918,6 +934,11 @@ event = &"jump_released"
 script = ExtResource("12_1ugos")
 to = NodePath("../../Fall/NoGlide")
 event = &"hit_wall"
+
+[node name="OnGrappleHit" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall/NoGlide")
+event = &"grapple_hit"
 
 [node name="GlideStart" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
 script = ExtResource("3_q6skx")
