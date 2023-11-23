@@ -8,7 +8,7 @@ signal tile_hit(tilemap: TileMap)
 @export var is_enabled := false: set = set_enabled
 
 func set_enabled(value: bool) -> void:
-	if is_enabled != value:
+	if is_enabled != value and is_enabled:
 		for body in get_overlapping_bodies():
 			deal_damage(body)
 
