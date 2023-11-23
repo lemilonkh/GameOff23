@@ -88,5 +88,3 @@ process_material = SubResource("ParticleProcessMaterial_3f14b")
 texture = SubResource("GradientTexture2D_2dq2h")
 lifetime = 10.0
 visibility_rect = Rect2(-672, -504, 1344, 1008)
-
-[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]
