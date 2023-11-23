@@ -279,7 +279,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("grapple"):
 		_start_grapple()
 	elif event.is_action_pressed(&"dash"):
-		state_chart.send_event("dash")
+		_start_dash()
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
@@ -294,6 +294,15 @@ func _start_grapple() -> void:
 		return
 	
 	grappling_vine.shoot(velocity)
+
+func _start_dash() -> void:
+	if not Ability.DASH in abilities:
+		return
+	if energy < energy_required_dash:
+		# TODO play error/ ability not available sound
+		return
+	
+	state_chart.send_event("dash")
 
 func _get_floor_distance() -> float:
 	if floor_distance_shape_cast.is_colliding():
@@ -439,6 +448,7 @@ func _on_dash_state_entered() -> void:
 	is_invulnerable = true
 	max_speed = dash_max_speed
 	is_move_disabled = true
+	energy -= energy_required_dash
 	
 	var dash_angle := dash_direction.angle_to(Vector2.UP)
 	wind_particles.rotation = -dash_angle
