@@ -1,10 +1,11 @@
-[gd_resource type="TileSet" load_steps=12 format=3 uid="uid://5qspssasjso2"]
+[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://5qspssasjso2"]
 
 [ext_resource type="Texture2D" uid="uid://db74opw0ct1ed" path="res://sprites/tiles/forest.png" id="1_dkbtn"]
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="2_d2ycd"]
 [ext_resource type="PackedScene" uid="uid://cd5i8i6a7elkb" path="res://scenes/objects/save_point.tscn" id="3_vdip5"]
 [ext_resource type="PackedScene" uid="uid://bawm63h3o8g1m" path="res://scenes/objects/bouncy_shroom_strong.tscn" id="4_lm30a"]
 [ext_resource type="PackedScene" uid="uid://ftvatyfyxf5c" path="res://scenes/objects/wind_gust.tscn" id="5_etw7e"]
+[ext_resource type="PackedScene" uid="uid://ciyiki8r60vx4" path="res://scenes/objects/breakable_wall.tscn" id="6_ijik5"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_k83ty"]
 tile_data = PackedInt32Array(0, 65536, 4, 65536, 65536, 4, 131072, 65536, 1, 196608, 65536, 4, 262144, 65536, 4, 327680, 65536, 1, 393216, 65536, 4, 458752, 65536, 4, 524288, 65536, 5, 1, 196608, 4, 65537, 196608, 4, 131073, 196608, 4, 196609, 196608, 4, 262145, 196608, 4, 327681, 196608, 1, 393217, 196608, 4, 458753, 196608, 4, 524289, 196608, 5)
@@ -780,6 +781,7 @@ scenes/1/scene = ExtResource("2_d2ycd")
 scenes/2/scene = ExtResource("3_vdip5")
 scenes/3/scene = ExtResource("4_lm30a")
 scenes/4/scene = ExtResource("5_etw7e")
+scenes/5/scene = ExtResource("6_ijik5")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_zib1d"]
 resource_name = "Forest no collision"
