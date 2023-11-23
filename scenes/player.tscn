@@ -882,6 +882,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../JumpBuffer")
 event = &"glide"
 
+[node name="OnExpiration" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall/NoGlide"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../NoJump")
+delay_seconds = 0.3
+
 [node name="JumpBuffer" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Fall"]
 script = ExtResource("3_q6skx")
 
@@ -1057,6 +1062,7 @@ delay_seconds = 5.0
 [connection signal="state_physics_processing" from="StateChart/Root/Parallel/Movement/Airborne/Jump" to="." method="_on_jump_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Bounce" to="." method="_play_animation" binds= ["Jump"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Fall" to="." method="_play_animation" binds= ["Fall"]]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Fall/NoJump" to="." method="_on_no_jump_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Parallel/Movement/Airborne/Glide" to="." method="_on_glide_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/GlideStart" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_entered"]

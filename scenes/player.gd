@@ -415,3 +415,7 @@ func _on_pulling_state_physics_processing(delta: float) -> void:
 func _on_run_timer_timeout() -> void:
 	if is_on_floor() and signf(velocity.x) != 0:
 		run_player.play()
+
+func _on_no_jump_state_entered() -> void:
+	if Input.is_action_pressed(&"jump"):
+		state_chart.send_event("glide")
