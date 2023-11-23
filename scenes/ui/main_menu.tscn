@@ -71,7 +71,6 @@ layout_mode = 2
 text = "Quit"
 
 [node name="SettingsContainer" type="MarginContainer" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -84,6 +83,7 @@ theme_override_constants/margin_right = 64
 theme_override_constants/margin_bottom = 64
 
 [node name="SettingsMenu" type="PanelContainer" parent="SettingsContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("3_jud66")
 script = ExtResource("3_cb5gw")
