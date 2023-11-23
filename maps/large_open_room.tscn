@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bdj37iwn437e1"]
+[gd_scene load_steps=8 format=3 uid="uid://bdj37iwn437e1"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_g7w2n"]
+[ext_resource type="PackedScene" uid="uid://c3tru5icecrvc" path="res://scenes/enemies/dragon/dragon.tscn" id="1_mptj0"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_baqmv"]
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="3_1fify"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="4_pgrui"]
@@ -8,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="6_rta0f"]
 
 [node name="Map" type="Node2D"]
+
+[node name="Dragon" parent="." instance=ExtResource("1_mptj0")]
+position = Vector2(2096, 1376)
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_baqmv")
