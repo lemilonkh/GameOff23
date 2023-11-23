@@ -19,5 +19,3 @@ position = Vector2(768, 144)
 
 [node name="BreakableWall" parent="." instance=ExtResource("3_hj47t")]
 position = Vector2(560, 448)
-
-[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]
