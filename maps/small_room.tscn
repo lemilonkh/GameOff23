@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c078ulwycpc0i"]
+[gd_scene load_steps=4 format=3 uid="uid://c078ulwycpc0i"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_7r3ot"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_fedc6"]
+[ext_resource type="PackedScene" uid="uid://ciyiki8r60vx4" path="res://scenes/objects/breakable_wall.tscn" id="3_hj47t"]
 
 [node name="Map" type="Node2D"]
 
@@ -15,3 +16,6 @@ layer_0/tile_data = PackedInt32Array(-1048576, 65536, 3, -1048575, 131072, 3, -1
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(768, 144)
+
+[node name="BreakableWall" parent="." instance=ExtResource("3_hj47t")]
+position = Vector2(560, 448)

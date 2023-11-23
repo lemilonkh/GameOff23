@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://ciyiki8r60vx4"]
+
+[ext_resource type="Script" path="res://scenes/objects/breakable_wall.gd" id="1_y1ol3"]
+[ext_resource type="Texture2D" uid="uid://erty8b5puib2" path="res://sprites/particles/leaf.png" id="2_fjlhm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rynge"]
+size = Vector2(32, 64)
+
+[sub_resource type="Gradient" id="Gradient_77q5x"]
+offsets = PackedFloat32Array(0, 0.727979)
+colors = PackedColorArray(1.8771e-06, 0.55299, 0.239611, 1, 0.0100865, 0.207865, 0.102746, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s4bno"]
+gradient = SubResource("Gradient_77q5x")
+width = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u2mtp"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -16, 0)
+emission_shape = 3
+emission_box_extents = Vector3(16, 32, 1)
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 60.0
+initial_velocity_max = 100.0
+gravity = Vector3(0, 98, 0)
+
+[node name="BreakableWall" type="StaticBody2D"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("1_y1ol3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_rynge")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = SubResource("GradientTexture2D_s4bno")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 80
+process_material = SubResource("ParticleProcessMaterial_u2mtp")
+texture = ExtResource("2_fjlhm")
+one_shot = true
+explosiveness = 0.44
