@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
 [ext_resource type="AudioStream" uid="uid://d4n3y63tn6ie5" path="res://sounds/Ambience/Ambience_Jungle.ogg" id="4_nkm84"]
-[ext_resource type="Theme" uid="uid://dpl8qqvcrbi1k" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
+[ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="7_tioe5"]
 [ext_resource type="Script" path="res://scenes/ui/teleport_options.gd" id="8_qkn28"]
 

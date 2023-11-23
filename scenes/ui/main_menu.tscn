@@ -3,11 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_djik8"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
 [ext_resource type="Script" path="res://scenes/ui/settings_menu.gd" id="3_cb5gw"]
-[ext_resource type="Theme" uid="uid://dpl8qqvcrbi1k" path="res://resources/pixel_ui_theme.tres" id="3_jud66"]
+[ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="3_jud66"]
 [ext_resource type="Texture2D" uid="uid://c5oida4tfxvfu" path="res://sprites/ui/music_grabber_dark.png" id="5_y312u"]
 [ext_resource type="Texture2D" uid="uid://binxg824pq1ok" path="res://sprites/ui/music_grabber.png" id="6_pv1au"]
 [ext_resource type="Texture2D" uid="uid://bity1fn5070qr" path="res://sprites/ui/close_icon.png" id="7_nbcc2"]
-[ext_resource type="Theme" uid="uid://cubu7827ecj6u" path="res://resources/unpadded_button_theme.tres" id="7_on1mu"]
+[ext_resource type="Theme" uid="uid://oao67r2cbttf" path="res://resources/unpadded_button_theme.tres" id="7_on1mu"]
 
 [node name="MainMenu" type="CanvasLayer"]
 layer = 4
