@@ -282,7 +282,7 @@ func _start_grapple() -> void:
 	if energy < energy_required_grapple:
 		# TODO play error/ ability not available sound
 		return
-	energy -= energy_required_grapple
+	
 	grappling_vine.shoot()
 
 func _get_floor_distance() -> float:
@@ -398,6 +398,10 @@ func _on_heal_state_exited() -> void:
 	energy_drain = 0
 	heal_timer = 0
 	acceleration = default_acceleration
+
+func _on_pulling_state_entered() -> void:
+	# consume energy when grapple hits
+	energy -= energy_required_grapple
 
 func _on_pulling_state_physics_processing(delta: float) -> void:
 	var grapple_distance := global_position.distance_to(grappling_vine.global_position)

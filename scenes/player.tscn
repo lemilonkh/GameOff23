@@ -1068,6 +1068,7 @@ delay_seconds = 5.0
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_entered"]
 [connection signal="state_physics_processing" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_physics_processing"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_on_death_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Death" to="." method="_play_animation" binds= ["Death"]]
