@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3lpfx8qk37ud"]
+[gd_scene load_steps=9 format=3 uid="uid://b3lpfx8qk37ud"]
 
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_djik8"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://c5oida4tfxvfu" path="res://sprites/ui/music_grabber_dark.png" id="5_y312u"]
 [ext_resource type="Texture2D" uid="uid://binxg824pq1ok" path="res://sprites/ui/music_grabber.png" id="6_pv1au"]
 [ext_resource type="Texture2D" uid="uid://bity1fn5070qr" path="res://sprites/ui/close_icon.png" id="7_nbcc2"]
+[ext_resource type="Theme" uid="uid://cubu7827ecj6u" path="res://resources/unpadded_button_theme.tres" id="7_on1mu"]
 
 [node name="MainMenu" type="CanvasLayer"]
 layer = 4
@@ -140,6 +141,7 @@ value = 0.8
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme = ExtResource("7_on1mu")
 icon = ExtResource("7_nbcc2")
 
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
