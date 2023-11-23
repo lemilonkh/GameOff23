@@ -14,7 +14,18 @@ func _ready() -> void:
 
 func take_hit(amount: float, attacker: Node2D = null, hit_direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	health -= amount
+	# make sure particles are emitted again
+	if particles.emitting:
+		particles.interp_to_end = 0
+		var tween := create_tween()
+		tween.tween_property(particles, "interp_to_end", 1.0, 0.1)
+		tween.tween_callback(func():
+			particles.interp_to_end = 0
+			particles.restart()
+			particles.emitting = true
+		)
 	particles.emitting = true
+
 	if health <= 0:
 		# "Store" the wall, i.e. remember its persistent state.
 		MetSys.store_object(self)

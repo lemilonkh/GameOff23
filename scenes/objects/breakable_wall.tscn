@@ -21,8 +21,8 @@ emission_shape = 3
 emission_box_extents = Vector3(16, 32, 1)
 angle_max = 360.0
 direction = Vector3(0, -1, 0)
-initial_velocity_min = 60.0
-initial_velocity_max = 100.0
+initial_velocity_min = 70.0
+initial_velocity_max = 120.0
 angular_velocity_max = 60.0
 gravity = Vector3(0, 98, 0)
 scale_curve = SubResource("CurveTexture_kyjqd")
@@ -41,8 +41,10 @@ position = Vector2(0, -16)
 texture = ExtResource("2_c67xy")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
 amount = 20
 process_material = SubResource("ParticleProcessMaterial_u2mtp")
 texture = ExtResource("3_wt5mf")
-lifetime = 1.5
+lifetime = 0.8
+one_shot = true
 explosiveness = 0.8
