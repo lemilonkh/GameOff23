@@ -6,6 +6,7 @@ class_name GrapplingVine
 @export var max_range := 12 ## tiles
 @export var initial_offset := Vector2(0, -9) ## px from character position
 @export var retracted_distance := 8 ## px from player to hide
+@export var leading_amount := 0.8 ## how much in front of the player it shoots when moving
 
 const TILE_SIZE := 32
 
@@ -14,20 +15,23 @@ const TILE_SIZE := 32
 @onready var state_chart: StateChart = $"../StateChart"
 
 var direction_sign := 0
+var fly_direction := Vector2.UP
 
-func shoot() -> void:
+func shoot(player_velocity: Vector2) -> void:
 	if visible:
 		return
 	
 	show()
-	direction_sign = -1
+	direction_sign = 1
 	monitoring = true
 	monitorable = true
 	position = get_parent().global_position + initial_offset
 	state_chart.send_event("grapple_shoot")
+	var velocity_adjustment := Vector2(signf(player_velocity.x) * leading_amount, 0)
+	fly_direction = (Vector2.UP + velocity_adjustment).normalized()
 
 func retract() -> void:
-	direction_sign = 1
+	direction_sign = -1
 
 func _get_origin() -> Vector2:
 	return get_parent().to_global(initial_offset)
@@ -36,14 +40,16 @@ func _physics_process(delta: float) -> void:
 	if !visible:
 		return
 	
-	var direction := global_position.direction_to(get_parent().global_position)
-	if direction_sign == -1:
-		direction = Vector2.DOWN
+	var direction := Vector2.ZERO
+	if direction_sign == 1:
+		direction = fly_direction
+	elif direction_sign == -1:
+		direction = get_parent().global_position.direction_to(global_position)
 	position += direction_sign * direction * move_speed * delta
 	_update_sprites()
 	
 	var length := _get_origin().distance_to(global_position)
-	if direction_sign == 1 and length <= retracted_distance:
+	if direction_sign == -1 and length <= retracted_distance:
 		direction_sign = 0
 		hide()
 		monitoring = false

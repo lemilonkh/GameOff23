@@ -283,7 +283,7 @@ func _start_grapple() -> void:
 		# TODO play error/ ability not available sound
 		return
 	
-	grappling_vine.shoot()
+	grappling_vine.shoot(velocity)
 
 func _get_floor_distance() -> float:
 	if floor_distance_shape_cast.is_colliding():
