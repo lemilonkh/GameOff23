@@ -42,9 +42,9 @@ class_name Player
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var default_knockback := 200.0
+@export_range(0, 1000) var default_knockback := 600.0
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var spike_knockback := 500.0
+@export_range(0, 1000) var spike_knockback := 600.0
 
 @export_category("Status")
 ## Duration of invulnerability after being hit in settings (also needs to be set in StateChart)
