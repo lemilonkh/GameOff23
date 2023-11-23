@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=114 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
 [ext_resource type="AudioStream" uid="uid://j77ng7hsus8t" path="res://sounds/Character/PlayerRun/Player_Run_001.wav" id="15_pye1c"]
+[ext_resource type="Texture2D" uid="uid://c2b1cyqwxpmoo" path="res://sprites/particles/wind_line.png" id="15_ybesw"]
 [ext_resource type="AudioStream" uid="uid://b3qdgjjfy2ce6" path="res://sounds/Character/PlayerRun/Player_Run_002.wav" id="16_8lmcw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="16_ywi16"]
 [ext_resource type="AudioStream" uid="uid://csr6s0x8q000f" path="res://sounds/Character/PlayerRun/Player_Run_003.wav" id="17_alb4l"]
@@ -445,6 +446,69 @@ height = 16
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="Curve" id="Curve_c28n7"]
+_data = [Vector2(0.00608519, 0), 0.0, 0.0, 0, 0, Vector2(0.30303, 1), 0.0, 0.0, 0, 0, Vector2(0.632576, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_1em86"]
+curve = SubResource("Curve_c28n7")
+
+[sub_resource type="Curve" id="Curve_5t640"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_6rdca"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.184584, 1), 0.0, 0.0, 0, 0, Vector2(0.813388, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_k8l6u"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_whhvm"]
+curve_x = SubResource("Curve_5t640")
+curve_y = SubResource("Curve_6rdca")
+curve_z = SubResource("Curve_k8l6u")
+
+[sub_resource type="Curve" id="Curve_n5ybd"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_alyt6"]
+max_value = 3.0
+_data = [Vector2(0, 0.395094), 0.0, 0.0, 0, 0, Vector2(1, 1.83736), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_2pd6a"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_otsq3"]
+curve_x = SubResource("Curve_n5ybd")
+curve_y = SubResource("Curve_alyt6")
+curve_z = SubResource("Curve_2pd6a")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iemhs"]
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 0, 0)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 40.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 20.0
+linear_accel_max = 60.0
+attractor_interaction_enabled = false
+scale_curve = SubResource("CurveXYZTexture_whhvm")
+scale_over_velocity_max = 80.0
+scale_over_velocity_curve = SubResource("CurveXYZTexture_otsq3")
+color = Color(1, 1, 1, 0.533333)
+alpha_curve = SubResource("CurveTexture_1em86")
+
 [sub_resource type="Animation" id="Animation_0y7gx"]
 resource_name = "attack"
 length = 0.3
@@ -476,10 +540,40 @@ tracks/0/keys = {
 "update": 0,
 "values": [false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_chpgr"]
+resource_name = "Dash"
+length = 0.4
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:self_modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.423529, 0.423529, 0.423529, 0.34902), Color(0.423529, 0.423529, 0.423529, 0.34902), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yqfs6"]
 _data = {
 "Attack": SubResource("Animation_0y7gx"),
+"Dash": SubResource("Animation_chpgr"),
 "RESET": SubResource("Animation_1sy3r")
 }
 
@@ -539,6 +633,14 @@ stream_5/stream = ExtResource("20_306pu")
 stream_5/weight = 1.0
 stream_6/stream = ExtResource("21_yckjg")
 stream_6/weight = 1.0
+
+[sub_resource type="Resource" id="Resource_hpvir"]
+script = ExtResource("31_u6jow")
+state = NodePath("../Airborne/Dash")
+
+[sub_resource type="Resource" id="Resource_de21b"]
+script = ExtResource("32_a4a7s")
+guard = SubResource("Resource_hpvir")
 
 [sub_resource type="Resource" id="Resource_pjqn3"]
 script = ExtResource("31_u6jow")
@@ -654,6 +756,16 @@ process_material = SubResource("ParticleProcessMaterial_0uvfj")
 texture = SubResource("GradientTexture2D_0gyyf")
 lifetime = 0.7
 
+[node name="WindParticles" type="GPUParticles2D" parent="."]
+show_behind_parent = true
+position = Vector2(0, 18)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_iemhs")
+texture = ExtResource("15_ybesw")
+lifetime = 0.6
+visibility_rect = Rect2(-32, -96, 64, 112)
+
 [node name="CombatAnimation" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_yqfs6")
@@ -759,6 +871,12 @@ event = &"bounce"
 script = ExtResource("12_1ugos")
 to = NodePath("../TakeHit")
 event = &"take_hit"
+
+[node name="OnDash" type="Node" parent="StateChart/Root/Parallel/Movement"]
+script = ExtResource("12_1ugos")
+to = NodePath("../Airborne/Dash")
+event = &"dash"
+guard = SubResource("Resource_de21b")
 
 [node name="Grounded" type="Node" parent="StateChart/Root/Parallel/Movement"]
 script = ExtResource("2_qoktu")
@@ -951,6 +1069,14 @@ event = &"falling"
 [node name="Gliding" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Glide"]
 script = ExtResource("3_q6skx")
 
+[node name="Dash" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne"]
+script = ExtResource("3_q6skx")
+
+[node name="OnCombatFinished" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Dash"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall")
+event = &"combat_finished"
+
 [node name="Attack" type="Node" parent="StateChart/Root/Parallel/Movement"]
 script = ExtResource("3_q6skx")
 
@@ -1072,6 +1198,7 @@ delay_seconds = 5.0
 [connection signal="hit" from="Hurtbox" to="." method="_on_hurtbox_hit"]
 [connection signal="tile_hit" from="Hurtbox" to="." method="_on_hurtbox_tile_hit"]
 [connection signal="body_shape_entered" from="Hitbox" to="." method="_on_hitbox_body_shape_entered"]
+[connection signal="animation_finished" from="CombatAnimation" to="." method="_on_combat_animation_finished"]
 [connection signal="timeout" from="RunTimer" to="." method="_on_run_timer_timeout"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Grounded/Idle" to="." method="_play_animation" binds= ["Idle"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Grounded/Run" to="." method="_play_animation" binds= ["Run"]]
@@ -1088,6 +1215,8 @@ delay_seconds = 5.0
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/GlideStart" to="." method="_play_animation" binds= ["Glide"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Movement/Airborne/Glide/Gliding" to="." method="_on_gliding_state_exited"]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Airborne/Dash" to="." method="_on_dash_state_entered"]
+[connection signal="state_exited" from="StateChart/Root/Parallel/Movement/Airborne/Dash" to="." method="_on_dash_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Attack" to="." method="_on_attack_started"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/Attack" to="." method="_play_animation" binds= ["Attack"]]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/AirAttack" to="." method="_on_attack_started"]

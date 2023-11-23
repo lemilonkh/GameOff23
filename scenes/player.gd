@@ -63,6 +63,12 @@ class_name Player
 @export_range(0, 128) var grapple_stop_distance := 32
 ## Amount of energy required for grappling
 @export_range(0, 100) var energy_required_grapple := 20.0
+## Amount of energy required for dashing
+@export_range(0, 100) var energy_required_dash := 30.0
+## How fast the dash moves the player (px/s)
+@export_range(0, 2000) var dash_velocity := 1000.0
+## Glide movement speed (maximum)
+@export_range(0, 2000) var dash_max_speed := 1000.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -91,6 +97,7 @@ enum Ability {
 @onready var floor_distance_shape_cast: ShapeCast2D = $FloorDistanceShapeCast
 @onready var energy_progress: TextureProgressBar = %EnergyProgress
 @onready var heal_particles: GPUParticles2D = $HealParticles
+@onready var wind_particles: GPUParticles2D = $WindParticles
 @onready var grappling_vine: GrapplingVine = $GrapplingVine
 
 # SFX
@@ -114,6 +121,7 @@ var last_direction := 1.0
 var reset_position: Vector2
 var long_jump_time := jump_increase_time
 var is_gliding := false
+var is_move_disabled := false
 var on_wall_timer := 0.0
 var heal_timer := 0.0
 var energy_drain := 0.0
@@ -194,7 +202,7 @@ func _update_health() -> void:
 func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("move_left", "move_right")
-	if direction:
+	if direction and not is_move_disabled:
 		velocity.x += direction * acceleration * delta
 		if abs(velocity.x) > max_speed:
 			# TODO gradually decrease for bounce/ knockback?
@@ -270,6 +278,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		state_chart.send_event("heal_released")
 	elif event.is_action_pressed("grapple"):
 		_start_grapple()
+	elif event.is_action_pressed(&"dash"):
+		state_chart.send_event("dash")
 	elif event.is_action_pressed("debug"):
 		state_chart_debugger.enabled = not state_chart_debugger.enabled
 
@@ -294,6 +304,9 @@ func _get_floor_distance() -> float:
 
 func _on_animation_finished() -> void:
 	state_chart.send_event("finished")
+
+func _on_combat_animation_finished(_anim_name: StringName) -> void:
+	state_chart.send_event("combat_finished")
 
 func _play_animation(animation: StringName) -> void:
 	if sprite.is_playing() and sprite.animation in [&"Attack", &"AirAttack"]:
@@ -419,3 +432,21 @@ func _on_run_timer_timeout() -> void:
 func _on_no_jump_state_entered() -> void:
 	if Input.is_action_pressed(&"jump"):
 		state_chart.send_event("glide")
+
+func _on_dash_state_entered() -> void:
+	var dash_direction := Vector2(last_direction, -1).normalized()
+	velocity = dash_direction * dash_velocity
+	is_invulnerable = true
+	max_speed = dash_max_speed
+	is_move_disabled = true
+	
+	var dash_angle := dash_direction.angle_to(Vector2.UP)
+	wind_particles.rotation = -dash_angle
+	wind_particles.emitting = true
+	combat_animation.play(&"Dash")
+
+func _on_dash_state_exited() -> void:
+	is_invulnerable = false
+	wind_particles.emitting = false
+	max_speed = default_max_speed
+	is_move_disabled = false
