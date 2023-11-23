@@ -32,6 +32,8 @@ func shoot(player_velocity: Vector2) -> void:
 
 func retract() -> void:
 	direction_sign = -1
+	monitoring = false
+	monitorable = false
 
 func _get_origin() -> Vector2:
 	return get_parent().to_global(initial_offset)
