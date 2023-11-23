@@ -228,6 +228,9 @@ func _physics_process(delta: float) -> void:
 		state_chart.send_event("grounded")
 		# allow buffered jumps but don't build up gravity
 		velocity.y = min(velocity.y, 0)
+		# fall through one way platforms
+		if Input.is_action_just_pressed(&"move_down"):
+			position += 2 * Vector2.DOWN
 	else:
 		velocity.y += gravity_factor * gravity * delta
 		state_chart.send_event("airborne")
