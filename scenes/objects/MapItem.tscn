@@ -1,6 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0hyimq1tkfa2"]
-
-[ext_resource type="Texture2D" uid="uid://l42te86waali" path="res://SampleProject/Sprites/MapItem.png" id="1_gov3o"]
+[gd_scene load_steps=3 format=3 uid="uid://d0hyimq1tkfa2"]
 
 [sub_resource type="GDScript" id="GDScript_5wqrn"]
 script/source = "# Almost the same code as Collectible.tscn.
@@ -28,6 +26,5 @@ script = SubResource("GDScript_5wqrn")
 shape = SubResource("RectangleShape2D_v5e3t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_gov3o")
 
 [connection signal="body_entered" from="." to="." method="collect"]
