@@ -22,10 +22,12 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+process_mode = 3
 layout_mode = 1
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+process_mode = 3
 handle_input_locally = false
 size = Vector2i(2, 2)
 render_target_update_mode = 4
