@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxha37d1i0pnt"]
+
+[ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="1_ykjlv"]
+
+[node name="DebugPlayer" instance=ExtResource("1_ykjlv")]
+
+[node name="Camera2D" parent="." index="7"]
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
