@@ -207,7 +207,7 @@ fill_from = Vector2(0.5, 0.5)
 process_mode = 1
 texture_filter = 1
 script = ExtResource("1_jq20o")
-starting_map = "starter_room.tscn"
+starting_map = "forest_test.tscn"
 metadata/_edit_vertical_guides_ = [432.0, 16.0]
 metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
