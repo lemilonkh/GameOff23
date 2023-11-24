@@ -74,9 +74,9 @@ class_name Player
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 const TILE_SIZE := 32
-const HEART_EMPTY = preload("res://sprites/ui/heart_empty.png")
-const HEART_HALF = preload("res://sprites/ui/heart_half.png")
-const HEART_FULL = preload("res://sprites/ui/heart_full.png")
+const HEART_EMPTY := preload("res://sprites/ui/heart_empty.png")
+const HEART_HALF := preload("res://sprites/ui/heart_half.png")
+const HEART_FULL := preload("res://sprites/ui/heart_full.png")
 
 enum Ability {
 	ATTACK,
