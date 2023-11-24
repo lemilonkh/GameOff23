@@ -125,6 +125,7 @@ var is_move_disabled := false
 var on_wall_timer := 0.0
 var heal_timer := 0.0
 var energy_drain := 0.0
+var can_air_jump := false
 
 var abilities: Array[Ability] = []
 
@@ -277,7 +278,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):
 		state_chart.send_event("attack")
 	elif event.is_action_pressed(&"jump"):
-		if is_on_floor() or raycast.is_colliding():
+		if is_on_floor() or raycast.is_colliding() or can_air_jump:
 			long_jump_time = 0
 			state_chart.send_event("jump")
 		else:
@@ -473,3 +474,9 @@ func _on_dash_state_exited() -> void:
 	wind_particles.emitting = false
 	max_speed = default_max_speed
 	is_move_disabled = false
+
+func _on_can_jump_state_entered() -> void:
+	can_air_jump = true
+
+func _on_can_jump_state_exited() -> void:
+	can_air_jump = false
