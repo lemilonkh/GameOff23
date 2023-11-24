@@ -18,6 +18,8 @@ func _ready() -> void:
 	particles.process_material = particles.process_material.duplicate()
 	particles.process_material.color = ability_particle_colors[ability]
 	collect_duration = animation_player.get_animation(&"collect").length
+	
+	MetSys.register_storable_object(self, queue_free)
 
 func _process(delta: float) -> void:
 	if target_node:
@@ -28,6 +30,7 @@ func _on_body_entered(body: Node2D) -> void:
 		collision_shape.set_deferred("disabled", true)
 		target_node = body
 		body.gain_ability(ability)
+		MetSys.store_object(self)
 		animation_player.play(&"collect")
 		create_tween().tween_property(sprite, "position", Vector2.ZERO, 0.5)
 		await animation_player.animation_finished
