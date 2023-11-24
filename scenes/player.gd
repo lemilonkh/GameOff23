@@ -181,13 +181,23 @@ func gain_ability(ability: Ability) -> void:
 	if not ability in abilities:
 		abilities.push_back(ability)
 
+func increase_health(amount: int) -> void:
+	max_health += amount
+	health += amount
+	_update_max_health()
+	_update_health()
+
 func _ready() -> void:
-	health_container.remove_child(heart)
+	_update_max_health()
+	state_chart_debugger.enabled = false
+	on_enter()
+
+func _update_max_health() -> void:
+	for child in health_container.get_children():
+		health_container.remove_child(child)
 	for i in range(0, max_health, 2):
 		var new_heart := heart.duplicate()
 		health_container.add_child(new_heart)
-	state_chart_debugger.enabled = false
-	on_enter()
 
 func _update_health() -> void:
 	for i in range(0, max_health, 2):

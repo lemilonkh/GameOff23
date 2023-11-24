@@ -51,6 +51,11 @@ func start() -> void:
 		events.assign(save_data.events)
 		starting_map = save_data.current_room
 		player.abilities.assign(save_data.abilities)
+		if save_data.has(&"max_health"):
+			player.max_health = save_data.max_health
+			player.health = save_data.max_health
+			player._update_max_health()
+			player._update_health()
 	else:
 		# If no data exists, reset MetSys.
 		MetSys.set_save_data()
@@ -182,6 +187,7 @@ func get_save_data() -> Dictionary:
 		"events": events,
 		"current_room": MetSys.get_current_room_name(),
 		"abilities": player.abilities,
+		"max_health": player.max_health,
 	}
 
 func reset_map_starting_coords():
