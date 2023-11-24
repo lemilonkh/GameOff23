@@ -152,3 +152,7 @@ ability = 2
 
 [node name="AbilityScale4" parent="." instance=ExtResource("8_wbmbt")]
 position = Vector2(432, 912)
+
+[node name="AbilityScale5" parent="." instance=ExtResource("8_wbmbt")]
+position = Vector2(176, 912)
+ability = 4
