@@ -83,6 +83,7 @@ enum Ability {
 	HEAL,
 	GRAPPLE,
 	DASH,
+	GLIDE,
 }
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -276,20 +277,23 @@ func _physics_process(delta: float) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"attack"):
-		state_chart.send_event("attack")
+		if Ability.ATTACK in abilities:
+			state_chart.send_event("attack")
 	elif event.is_action_pressed(&"jump"):
 		if is_on_floor() or raycast.is_colliding() or can_air_jump:
 			long_jump_time = 0
 			state_chart.send_event("jump")
-		else:
+		elif Ability.GLIDE in abilities:
 			state_chart.send_event("glide")
 	elif event.is_action_released(&"jump"):
 		long_jump_time = jump_increase_time
 		state_chart.send_event("jump_released")
 	elif event.is_action_pressed(&"heal"):
-		state_chart.send_event("heal")
+		if Ability.HEAL in abilities:
+			state_chart.send_event("heal")
 	elif event.is_action_released(&"heal"):
-		state_chart.send_event("heal_released")
+		if Ability.HEAL in abilities:
+			state_chart.send_event("heal_released")
 	elif event.is_action_pressed("grapple"):
 		_start_grapple()
 	elif event.is_action_pressed(&"dash"):
@@ -453,7 +457,7 @@ func _on_run_timer_timeout() -> void:
 		run_player.play()
 
 func _on_no_jump_state_entered() -> void:
-	if Input.is_action_pressed(&"jump"):
+	if Ability.GLIDE in abilities and Input.is_action_pressed(&"jump"):
 		state_chart.send_event("glide")
 
 func _on_dash_state_entered() -> void:
