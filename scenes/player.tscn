@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dp8wwidw5agbi" path="res://sprites/player/Idle.png" id="7_p10be"]
 [ext_resource type="Texture2D" uid="uid://cktp44aic1c8h" path="res://sprites/player/Jump.png" id="8_jcn07"]
 [ext_resource type="Texture2D" uid="uid://dpolx4r53603w" path="res://sprites/player/Run.png" id="9_238af"]
-[ext_resource type="Texture2D" uid="uid://d3rwhmahkhffh" path="res://sprites/ui/heart_full.png" id="10_5rr2n"]
+[ext_resource type="Texture2D" uid="uid://br0uxql4jr7dn" path="res://sprites/ui/heart_full.png" id="10_5rr2n"]
 [ext_resource type="Texture2D" uid="uid://cjdcn7po4rjeu" path="res://sprites/player/Take hit.png" id="10_43f6i"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]

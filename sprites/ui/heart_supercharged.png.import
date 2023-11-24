@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bya8tsoxwplvr"
-path="res://.godot/imported/heart_half.png-207bb09bc13aaac011f746d441a2b595.ctex"
+uid="uid://qrxg6my07d06"
+path="res://.godot/imported/heart_supercharged.png-f832bc516713bfacd7e1eeea7bd6406a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/ui/heart_half.png"
-dest_files=["res://.godot/imported/heart_half.png-207bb09bc13aaac011f746d441a2b595.ctex"]
+source_file="res://sprites/ui/heart_supercharged.png"
+dest_files=["res://.godot/imported/heart_supercharged.png-f832bc516713bfacd7e1eeea7bd6406a.ctex"]
 
 [params]
 

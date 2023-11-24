@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bya8tsoxwplvr"
-path="res://.godot/imported/heart_half.png-207bb09bc13aaac011f746d441a2b595.ctex"
+uid="uid://d3rwhmahkhffh"
+path="res://.godot/imported/heart_full_vines.png-77bc6c5ce8b238f98465db48f2bed10e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/ui/heart_half.png"
-dest_files=["res://.godot/imported/heart_half.png-207bb09bc13aaac011f746d441a2b595.ctex"]
+source_file="res://sprites/ui/heart_full_vines.png"
+dest_files=["res://.godot/imported/heart_full_vines.png-77bc6c5ce8b238f98465db48f2bed10e.ctex"]
 
 [params]
 
