@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3kk2hxrcp0sg"]
+
+[ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_c1wtw"]
+[ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_5ssdo"]
+
+[node name="Map" type="Node2D"]
+
+[node name="RoomInstance" parent="." instance=ExtResource("1_c1wtw")]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource("2_5ssdo")
+format = 2
+layer_0/name = "Ground"
+layer_1/name = "Vines"
+layer_1/enabled = true
+layer_1/modulate = Color(1, 1, 1, 1)
+layer_1/y_sort_enabled = false
+layer_1/y_sort_origin = 0
+layer_1/z_index = -1
+layer_1/navigation_enabled = true
+layer_1/tile_data = PackedInt32Array()
+
+[node name="SpawnMarker" type="Marker2D" parent="."]
+position = Vector2(64, 64)
