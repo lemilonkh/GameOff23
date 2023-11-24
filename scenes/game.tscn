@@ -298,28 +298,29 @@ offset_right = 40.0
 grow_vertical = 0
 text = "Press D to toggle delta vector"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+[node name="CollectibleContainer" type="HBoxContainer" parent="UI"]
+unique_name_in_owner = true
+visible = false
 offset_left = 13.0
 offset_top = 87.0
 offset_right = 53.0
 offset_bottom = 113.0
 
-[node name="TextureRect" type="TextureRect" parent="UI/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="UI/CollectibleContainer"]
 layout_mode = 2
 texture = SubResource("GradientTexture2D_m122b")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="CollectibleCount" type="Label" parent="UI/HBoxContainer"]
+[node name="CollectibleCount" type="Label" parent="UI/CollectibleContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 1
-text = "0"
+text = "0/3"
 vertical_alignment = 1
 
 [node name="LoadOverlay" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -337,6 +338,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/LoadOverlay/CenterContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="LoadProgress" type="ProgressBar" parent="UI/LoadOverlay/CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
