@@ -79,7 +79,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"open",
-"speed": 8.0
+"speed": 6.0
 }]
 
 [node name="LockedDoor" type="StaticBody2D"]
@@ -94,3 +94,4 @@ shape = SubResource("RectangleShape2D_rynge")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_hdu5s")
+animation = &"open"
