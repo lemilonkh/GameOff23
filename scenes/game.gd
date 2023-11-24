@@ -22,7 +22,8 @@ var loaded_maps: Dictionary#[String, PackedScene]
 var collectibles: int:
 	set(count):
 		collectibles = count
-		%CollectibleCount.text = "%d/6" % count
+		%CollectibleContainer.visible = count > 0
+		%CollectibleCount.text = "%d/3" % count
 
 # The coordinates of generated rooms. MetSys does not keep this list, so it needs to be done manually.
 var generated_rooms: Array[Vector3i]
