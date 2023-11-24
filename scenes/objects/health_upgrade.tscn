@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4gf2jbfeuvi8"]
+
+[ext_resource type="Script" path="res://scenes/objects/health_upgrade.gd" id="1_re37j"]
+[ext_resource type="Texture2D" uid="uid://d3rwhmahkhffh" path="res://sprites/ui/heart_full_vines.png" id="2_in68c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gj67y"]
+size = Vector2(32, 32)
+
+[node name="HealthUpgrade" type="Area2D"]
+collision_layer = 0
+collision_mask = 18
+script = ExtResource("1_re37j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gj67y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_in68c")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
