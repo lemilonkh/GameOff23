@@ -67,12 +67,14 @@ func _on_finish_loading() -> void:
 	# Go to the starting point.
 	goto_map(MetSys.get_full_room_path(starting_map))
 	# Find the save point and teleport the player to it, to start at the save point.
-	var start := map.get_node_or_null(^"SavePoint")
-	if not start:
+	var start_point := map.get_node_or_null(^"SavePoint")
+	if not start_point:
 		await get_tree().process_frame
-		start = map.get_node_or_null(^"TileMap/SavePoint")
-	if start:
-		player.teleport(start.global_position)
+		start_point = map.get_node_or_null(^"TileMap/SavePoint")
+	elif not start_point:
+		start_point = map.get_node_or_null(^"SpawnMarker")
+	if start_point:
+		player.teleport(start_point.global_position)
 	
 	# Connect the room_changed signal to handle room transitions.
 	MetSys.room_changed.connect(on_room_changed, CONNECT_DEFERRED)
