@@ -19,8 +19,24 @@ signal death
 @onready var right_claw: Area2D = $BodyWrapper/RightClaw
 @onready var left_smash_claw: Hurtbox = $LeftSmashClaw
 @onready var right_smash_claw: Hurtbox = $RightSmashClaw
+@onready var mouth_marker: Marker2D = %MouthMarker
+
+const FIREBALL = preload("res://scenes/enemies/dragon/fireball.tscn")
 
 var health := max_health
+var current_attacks := []
+
+var left_attacks: Array[Array] = [
+	["SmashLeft", "SmashRight", "SmashBoth"],
+	["SmashLeft", "Fireball"],
+	["Fireball", "SmashBoth"],
+]
+
+var right_attacks: Array[Array] = [
+	["SmashRight", "SmashLeft", "SmashBoth"],
+	["SmashRight", "Fireball"],
+	["Fireball", "SmashBoth"],
+]
 
 func _ready() -> void:
 	if !target:
@@ -32,6 +48,12 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 	health_progress.value = (health / max_health) * 100
 	if health <= 0:
 		state_chart.send_event("death")
+
+func shoot_fireball() -> void:
+	var fireball := FIREBALL.instantiate()
+	get_parent().add_child(fireball)
+	fireball.global_position = mouth_marker.global_position
+	fireball.direction = mouth_marker.global_position.direction_to(target.global_position)
 
 func smash_down_claw(claw_side: StringName) -> void:
 	var claw := left_claw if claw_side == &"left" else right_claw
@@ -70,5 +92,21 @@ func _on_smash_left_state_entered() -> void:
 func _on_smash_right_state_entered() -> void:
 	smash_down_claw(&"right")
 
+func _on_smash_both_state_entered() -> void:
+	smash_down_claw(&"left")
+	smash_down_claw(&"right")
+
 func _on_death_state_entered() -> void:
 	death.emit()
+
+func _on_choose_attack_state_entered() -> void:
+	if current_attacks.size() == 0:
+		var is_left := target.global_position.x < global_position.x
+		var attacks := left_attacks if is_left else right_attacks
+		current_attacks = attacks.pick_random().duplicate()
+	
+	var next_attack: String = current_attacks.pop_front()
+	state_chart.send_event(next_attack)
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	state_chart.send_event("animation_finished")

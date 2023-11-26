@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=32 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
 [ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
@@ -147,6 +147,18 @@ tracks/10/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/11/type = "value"
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:rotation")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_41osx"]
@@ -350,10 +362,59 @@ tracks/6/keys = {
 "values": [Vector2(-8, -20), Vector2(-8, 49)]
 }
 
+[sub_resource type="Animation" id="Animation_optyw"]
+resource_name = "fireball"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.8, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-8, -14.8431), Vector2(-8, -84), Vector2(-8, -84), Vector2(-8, -84), Vector2(-8, -14.8431)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 1, 1.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"shoot_fireball"
+}, {
+"args": [],
+"method": &"shoot_fireball"
+}, {
+"args": [],
+"method": &"shoot_fireball"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 1, 1.6, 1.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.517537, -0.00538504, -0.518363, 0.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5v4p6"]
 _data = {
 "RESET": SubResource("Animation_xto88"),
 "death": SubResource("Animation_ga151"),
+"fireball": SubResource("Animation_optyw"),
 "idle": SubResource("Animation_41osx")
 }
 
@@ -463,6 +524,10 @@ texture = SubResource("AtlasTexture_ee60r")
 position = Vector2(-8, -20)
 texture = SubResource("AtlasTexture_70og6")
 
+[node name="MouthMarker" type="Marker2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head"]
+unique_name_in_owner = true
+position = Vector2(8, 79.3694)
+
 [node name="LeftClaw" type="Area2D" parent="BodyWrapper"]
 position = Vector2(-164, -39)
 collision_layer = 4
@@ -558,8 +623,31 @@ animation_name = &"idle"
 
 [node name="OnExpiration" type="Node" parent="StateChart/ParallelState/Action/Idle"]
 script = ExtResource("7_7x5fb")
-to = NodePath("../../SmashLeft")
+to = NodePath("../../ChooseAttack")
 delay_seconds = 5.0
+
+[node name="ChooseAttack" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("9_dkpms")
+
+[node name="OnSmashLeft" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../SmashLeft")
+event = &"SmashLeft"
+
+[node name="OnSmashRight" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../SmashRight")
+event = &"SmashRight"
+
+[node name="OnSmashBoth" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../SmashBoth")
+event = &"SmashBoth"
+
+[node name="OnFireball" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Fireball")
+event = &"Fireball"
 
 [node name="SmashLeft" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("9_dkpms")
@@ -576,6 +664,24 @@ script = ExtResource("9_dkpms")
 script = ExtResource("7_7x5fb")
 to = NodePath("../../Idle")
 event = &"finished"
+
+[node name="SmashBoth" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("9_dkpms")
+
+[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashBoth"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"finished"
+
+[node name="Fireball" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_lxvgv")
+animation_player = NodePath("../../../../AnimationPlayer")
+animation_name = &"fireball"
+
+[node name="OnAnimationFinished" type="Node" parent="StateChart/ParallelState/Action/Fireball"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"animation_finished"
 
 [node name="Death" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_lxvgv")
@@ -607,6 +713,9 @@ texture_progress = ExtResource("11_mnjds")
 texture_progress_offset = Vector2(10, 0)
 tint_progress = Color(0.803922, 0.156863, 0, 1)
 
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="state_entered" from="StateChart/ParallelState/Action/ChooseAttack" to="." method="_on_choose_attack_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Action/SmashLeft" to="." method="_on_smash_left_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Action/SmashRight" to="." method="_on_smash_right_state_entered"]
+[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashBoth" to="." method="_on_smash_both_state_entered"]
 [connection signal="state_entered" from="StateChart/ParallelState/Action/Death" to="." method="_on_death_state_entered"]
