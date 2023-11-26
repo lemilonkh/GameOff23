@@ -71,7 +71,7 @@ func _on_finish_loading() -> void:
 	if not start_point:
 		await get_tree().process_frame
 		start_point = map.get_node_or_null(^"TileMap/SavePoint")
-	elif not start_point:
+	if not start_point:
 		start_point = map.get_node_or_null(^"SpawnMarker")
 	if start_point:
 		player.teleport(start_point.global_position)
