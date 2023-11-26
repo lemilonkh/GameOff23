@@ -102,6 +102,8 @@ func _on_smash_both_state_entered() -> void:
 	smash_down_claw(&"right")
 
 func _on_death_state_entered() -> void:
+	set_physics_process(false)
+	create_tween().tween_property(head, "rotation", 0, 0.2)
 	death.emit()
 
 func _on_choose_attack_state_entered() -> void:
