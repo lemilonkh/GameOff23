@@ -26,6 +26,7 @@ const FIREBALL = preload("res://scenes/enemies/dragon/fireball.tscn")
 
 var health := max_health
 var current_attacks := []
+var is_dead := false
 
 var left_attacks: Array[Array] = [
 	["SmashLeft", "SmashRight", "SmashBoth"],
@@ -42,6 +43,7 @@ var right_attacks: Array[Array] = [
 func _ready() -> void:
 	if !target:
 		target = Game.get_singleton().player
+	MetSys.register_storable_object(self, queue_free)
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	# TODO play scream sound
@@ -102,7 +104,11 @@ func _on_smash_both_state_entered() -> void:
 	smash_down_claw(&"right")
 
 func _on_death_state_entered() -> void:
+	if is_dead:
+		return
+	is_dead = true
 	set_physics_process(false)
+	MetSys.store_object(self) # save dragon state so it doesn't respawn
 	create_tween().tween_property(head, "rotation", 0, 0.2)
 	death.emit()
 
