@@ -1,4 +1,4 @@
-[gd_scene load_steps=114 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=116 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
 [ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="15_1q7el"]
+[ext_resource type="Script" path="res://scenes/player/shakeable_camera.gd" id="15_2gydf"]
 [ext_resource type="AudioStream" uid="uid://j77ng7hsus8t" path="res://sounds/Character/PlayerRun/Player_Run_001.wav" id="15_pye1c"]
 [ext_resource type="Texture2D" uid="uid://c2b1cyqwxpmoo" path="res://sprites/particles/wind_line.png" id="15_ybesw"]
 [ext_resource type="AudioStream" uid="uid://b3qdgjjfy2ce6" path="res://sounds/Character/PlayerRun/Player_Run_002.wav" id="16_8lmcw"]
@@ -387,6 +388,12 @@ size = Vector2(102, 114)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5voeg"]
 size = Vector2(64, 20)
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rlvqa"]
+seed = 1
+frequency = 0.1
+fractal_octaves = 4
+fractal_weighted_strength = 0.31
+
 [sub_resource type="Gradient" id="Gradient_b4r1s"]
 offsets = PackedFloat32Array(0, 0.72)
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -738,10 +745,11 @@ limit_left = 0
 limit_top = 0
 limit_right = 1344
 limit_bottom = 1008
-position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 editor_draw_limits = true
+script = ExtResource("15_2gydf")
+noise = SubResource("FastNoiseLite_rlvqa")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 color = Color(0.996078, 0.847059, 0.509804, 1)
