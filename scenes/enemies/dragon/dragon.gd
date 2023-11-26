@@ -20,6 +20,7 @@ signal death
 @onready var left_smash_claw: Hurtbox = $LeftSmashClaw
 @onready var right_smash_claw: Hurtbox = $RightSmashClaw
 @onready var mouth_marker: Marker2D = %MouthMarker
+@onready var head: Sprite2D = %Head
 
 const FIREBALL = preload("res://scenes/enemies/dragon/fireball.tscn")
 
@@ -85,6 +86,10 @@ func smash_down_claw(claw_side: StringName) -> void:
 	claw.monitorable = true
 	smash_claw.hide()
 	state_chart.send_event("finished")
+
+func _physics_process(delta: float) -> void:
+	head.look_at(target.global_position)
+	head.rotation -= PI/2
 
 func _on_smash_left_state_entered() -> void:
 	smash_down_claw(&"left")
