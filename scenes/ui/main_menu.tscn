@@ -14,6 +14,8 @@ layer = 4
 script = ExtResource("2_fo1fd")
 
 [node name="JungleBackground" parent="." instance=ExtResource("2_djik8")]
+offset = Vector2(0, -120)
+transform = Transform2D(1, 0, 0, 1, 0, -120)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
