@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://shma1mseele"
-path="res://.godot/imported/Jungle_Parallax_Jungle_Distance_x1.png-80b5c008ed6f3ab3fdac617134ca9230.ctex"
+uid="uid://b4xcxnc3lyd1q"
+path="res://.godot/imported/Jungle_Parallax_866x600pix_Distx3.png-f014595563553b85613c3a2d99353fcc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/backgrounds/Jungle_Parallax_Jungle_Distance_x1.png"
-dest_files=["res://.godot/imported/Jungle_Parallax_Jungle_Distance_x1.png-80b5c008ed6f3ab3fdac617134ca9230.ctex"]
+source_file="res://sprites/backgrounds/Jungle_Parallax_866x600pix_Distx3.png"
+dest_files=["res://.godot/imported/Jungle_Parallax_866x600pix_Distx3.png-f014595563553b85613c3a2d99353fcc.ctex"]
 
 [params]
 
