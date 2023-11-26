@@ -745,6 +745,7 @@ limit_left = 0
 limit_top = 0
 limit_right = 1344
 limit_bottom = 1008
+position_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
 editor_draw_limits = true
