@@ -1,21 +1,25 @@
-[gd_scene load_steps=24 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=31 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
 [ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="2_abowh"]
+[ext_resource type="Texture2D" uid="uid://bw7yh877rtdmo" path="res://sprites/particles/explosion.png" id="2_qd3gh"]
+[ext_resource type="Script" path="res://scenes/enemies/dragon/hitbox.gd" id="3_olnts"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_qplve"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_pmpei"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_qgct8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_7x5fb"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/animation_player_state.gd" id="7_lxvgv"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="9_dkpms"]
+[ext_resource type="Texture2D" uid="uid://cyw1b3alrkdjw" path="res://sprites/ui/health_bar_empty.png" id="10_c3rq8"]
+[ext_resource type="Texture2D" uid="uid://bc2fyc5ypy8p2" path="res://sprites/ui/health_bar_fill.png" id="11_mnjds"]
 
 [sub_resource type="Animation" id="Animation_xto88"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -27,7 +31,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Body/LeftWing:rotation")
+tracks/1/path = NodePath("BodyWrapper/Body/LeftWing:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -39,7 +43,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Body/LeftWing:position")
+tracks/2/path = NodePath("BodyWrapper/Body/LeftWing:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -51,7 +55,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Body/RightWing:position")
+tracks/3/path = NodePath("BodyWrapper/Body/RightWing:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -63,7 +67,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Body/RightWing:rotation")
+tracks/4/path = NodePath("BodyWrapper/Body/RightWing:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -75,7 +79,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("LeftClaw:position")
+tracks/5/path = NodePath("BodyWrapper/LeftClaw:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -87,7 +91,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("RightClaw:position")
+tracks/6/path = NodePath("BodyWrapper/RightClaw:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -99,7 +103,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Body:position")
+tracks/7/path = NodePath("BodyWrapper/Body:position")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -111,7 +115,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Body/Neck1:position")
+tracks/8/path = NodePath("BodyWrapper/Body/Neck1:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -119,6 +123,30 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -170)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("BodyWrapper/ExplosionParticles:emitting")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("BodyWrapper:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_41osx"]
@@ -128,7 +156,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -140,7 +168,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Body/LeftWing:rotation")
+tracks/1/path = NodePath("BodyWrapper/Body/LeftWing:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -152,7 +180,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Body/LeftWing:position")
+tracks/2/path = NodePath("BodyWrapper/Body/LeftWing:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -164,7 +192,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Body/RightWing:rotation")
+tracks/3/path = NodePath("BodyWrapper/Body/RightWing:rotation")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -176,7 +204,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Body/RightWing:position")
+tracks/4/path = NodePath("BodyWrapper/Body/RightWing:position")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -188,7 +216,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("LeftClaw:position")
+tracks/5/path = NodePath("BodyWrapper/LeftClaw:position")
 tracks/5/interp = 2
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -200,7 +228,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("RightClaw:position")
+tracks/6/path = NodePath("BodyWrapper/RightClaw:position")
 tracks/6/interp = 2
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -212,7 +240,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Body:position")
+tracks/7/path = NodePath("BodyWrapper/Body:position")
 tracks/7/interp = 2
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -224,7 +252,7 @@ tracks/7/keys = {
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Body/Neck1:position")
+tracks/8/path = NodePath("BodyWrapper/Body/Neck1:position")
 tracks/8/interp = 2
 tracks/8/loop_wrap = true
 tracks/8/keys = {
@@ -234,9 +262,98 @@ tracks/8/keys = {
 "values": [Vector2(0, -170), Vector2(0, -190)]
 }
 
+[sub_resource type="Animation" id="Animation_ga151"]
+resource_name = "death"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyWrapper/ExplosionParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyWrapper:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(2.73208, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 700)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyWrapper/Body/LeftWing:position")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-288, -216), Vector2(-234, -32)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BodyWrapper/Body/LeftWing:rotation")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.932615]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BodyWrapper/Body/RightWing:position")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(288, -216), Vector2(234, -32)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BodyWrapper/Body/RightWing:rotation")
+tracks/5/interp = 2
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.932006]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-8, -20), Vector2(-8, 49)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5v4p6"]
 _data = {
 "RESET": SubResource("Animation_xto88"),
+"death": SubResource("Animation_ga151"),
 "idle": SubResource("Animation_41osx")
 }
 
@@ -273,8 +390,25 @@ atlas = ExtResource("1_fp7t4")
 region = Rect2(248, 56, 208, 136)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gw38e"]
-radius = 53.7946
-height = 194.0
+radius = 62.1198
+height = 210.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lo480"]
+particles_animation = true
+particles_anim_h_frames = 7
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dsniv"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -180, 0)
+emission_shape = 3
+emission_box_extents = Vector3(100, 180, 1)
+gravity = Vector3(0, 0, 0)
+hue_variation_min = -0.02
+hue_variation_max = 0.08
+anim_speed_min = 2.0
+anim_speed_max = 3.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vrbi7"]
 atlas = ExtResource("1_fp7t4")
@@ -284,6 +418,7 @@ region = Rect2(22, 18, 206, 230)
 size = Vector2(194, 59)
 
 [node name="Dragon" type="Node2D"]
+position = Vector2(0, 500)
 script = ExtResource("1_kjnd8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -292,64 +427,77 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="Body" type="Sprite2D" parent="."]
+[node name="BodyWrapper" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="BodyWrapper"]
 texture = SubResource("AtlasTexture_fc2pj")
 
-[node name="LeftWing" type="Sprite2D" parent="Body"]
+[node name="LeftWing" type="Sprite2D" parent="BodyWrapper/Body"]
 show_behind_parent = true
 position = Vector2(-288, -216)
 texture = SubResource("AtlasTexture_0pm7q")
 flip_h = true
 
-[node name="RightWing" type="Sprite2D" parent="Body"]
+[node name="RightWing" type="Sprite2D" parent="BodyWrapper/Body"]
 show_behind_parent = true
 position = Vector2(288, -216)
 texture = SubResource("AtlasTexture_0pm7q")
 
-[node name="Neck1" type="Sprite2D" parent="Body"]
+[node name="Neck1" type="Sprite2D" parent="BodyWrapper/Body"]
 position = Vector2(0, -170)
 texture = SubResource("AtlasTexture_alah8")
 
-[node name="Neck2" type="Sprite2D" parent="Body/Neck1"]
+[node name="Neck2" type="Sprite2D" parent="BodyWrapper/Body/Neck1"]
 position = Vector2(0, -32)
 texture = SubResource("AtlasTexture_vto7i")
 
-[node name="Neck3" type="Sprite2D" parent="Body/Neck1/Neck2"]
+[node name="Neck3" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2"]
 position = Vector2(0, -9)
 texture = SubResource("AtlasTexture_qr65y")
 
-[node name="Neck4" type="Sprite2D" parent="Body/Neck1/Neck2/Neck3"]
+[node name="Neck4" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3"]
 position = Vector2(0, -56)
 texture = SubResource("AtlasTexture_ee60r")
 
-[node name="Head" type="Sprite2D" parent="Body/Neck1/Neck2/Neck3/Neck4"]
+[node name="Head" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4"]
 position = Vector2(-8, -20)
 texture = SubResource("AtlasTexture_70og6")
 
-[node name="LeftClaw" type="Area2D" parent="."]
+[node name="LeftClaw" type="Area2D" parent="BodyWrapper"]
 position = Vector2(-164, -39)
 collision_layer = 4
 collision_mask = 0
+script = ExtResource("3_olnts")
 
-[node name="LeftClaw" type="Sprite2D" parent="LeftClaw"]
+[node name="Sprite2D" type="Sprite2D" parent="BodyWrapper/LeftClaw"]
 texture = SubResource("AtlasTexture_2xa4l")
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftClaw"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyWrapper/LeftClaw"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_gw38e")
 
-[node name="RightClaw" type="Area2D" parent="."]
+[node name="RightClaw" type="Area2D" parent="BodyWrapper"]
 position = Vector2(156, -39)
 collision_layer = 4
 collision_mask = 0
+script = ExtResource("3_olnts")
 
-[node name="RightClaw" type="Sprite2D" parent="RightClaw"]
+[node name="Sprite2D" type="Sprite2D" parent="BodyWrapper/RightClaw"]
 texture = SubResource("AtlasTexture_2xa4l")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightClaw"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyWrapper/RightClaw"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_gw38e")
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="BodyWrapper"]
+z_index = 2
+material = SubResource("CanvasItemMaterial_lo480")
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_dsniv")
+texture = ExtResource("2_qd3gh")
+local_coords = true
 
 [node name="LeftSmashClaw" type="Area2D" parent="."]
 visible = false
@@ -359,7 +507,8 @@ collision_mask = 2
 script = ExtResource("2_abowh")
 metadata/_edit_group_ = true
 
-[node name="SmashClaw" type="Sprite2D" parent="LeftSmashClaw"]
+[node name="Sprite2D" type="Sprite2D" parent="LeftSmashClaw"]
+z_index = 1
 position = Vector2(3, -111)
 texture = SubResource("AtlasTexture_vrbi7")
 flip_h = true
@@ -377,7 +526,8 @@ collision_mask = 2
 script = ExtResource("2_abowh")
 metadata/_edit_group_ = true
 
-[node name="SmashClaw" type="Sprite2D" parent="RightSmashClaw"]
+[node name="Sprite2D" type="Sprite2D" parent="RightSmashClaw"]
+z_index = 1
 position = Vector2(3, -111)
 texture = SubResource("AtlasTexture_vrbi7")
 
@@ -396,10 +546,10 @@ script = ExtResource("5_pmpei")
 script = ExtResource("6_qgct8")
 initial_state = NodePath("Idle")
 
-[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action"]
+[node name="OnDeath" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_7x5fb")
-to = NodePath("../Idle")
-event = &"finished"
+to = NodePath("../Death")
+event = &"death"
 
 [node name="Idle" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_lxvgv")
@@ -414,7 +564,49 @@ delay_seconds = 5.0
 [node name="SmashLeft" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("9_dkpms")
 
+[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashLeft"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"finished"
+
+[node name="SmashRight" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("9_dkpms")
+
+[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashRight"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"finished"
+
+[node name="Death" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_lxvgv")
+animation_player = NodePath("../../../../AnimationPlayer")
+animation_name = &"death"
+
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, 50)
 
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="UILayer"]
+custom_minimum_size = Vector2(0, 48)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 96.0
+offset_bottom = 16.0
+grow_horizontal = 2
+
+[node name="HealthProgress" type="TextureProgressBar" parent="UILayer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+value = 100.0
+texture_under = ExtResource("10_c3rq8")
+texture_progress = ExtResource("11_mnjds")
+texture_progress_offset = Vector2(10, 0)
+tint_progress = Color(0.803922, 0.156863, 0, 1)
+
 [connection signal="state_entered" from="StateChart/ParallelState/Action/SmashLeft" to="." method="_on_smash_left_state_entered"]
+[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashRight" to="." method="_on_smash_right_state_entered"]
+[connection signal="state_entered" from="StateChart/ParallelState/Action/Death" to="." method="_on_death_state_entered"]
