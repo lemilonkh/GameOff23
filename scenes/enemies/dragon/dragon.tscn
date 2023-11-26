@@ -1,25 +1,33 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=24 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
+[ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
+[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="2_abowh"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_qplve"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_pmpei"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_qgct8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_7x5fb"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/animation_player_state.gd" id="7_lxvgv"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="9_dkpms"]
 
 [sub_resource type="Animation" id="Animation_xto88"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Head:position")
+tracks/0/path = NodePath("Body/Neck1/Neck2/Neck3/Neck4/Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-8, -340)]
+"values": [Vector2(-8, -20)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("LeftWing:rotation")
+tracks/1/path = NodePath("Body/LeftWing:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -31,7 +39,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LeftWing:position")
+tracks/2/path = NodePath("Body/LeftWing:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -43,7 +51,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("RightWing:position")
+tracks/3/path = NodePath("Body/RightWing:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -55,7 +63,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("RightWing:rotation")
+tracks/4/path = NodePath("Body/RightWing:rotation")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -88,6 +96,30 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(156, -39)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Body:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Body/Neck1:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -170)]
+}
 
 [sub_resource type="Animation" id="Animation_41osx"]
 resource_name = "idle"
@@ -96,19 +128,19 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Head:position")
+tracks/0/path = NodePath("Body/Neck1/Neck2/Neck3/Neck4/Head:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0.2, 1, 1.5),
 "transitions": PackedFloat32Array(1, 1, 1.27456),
 "update": 0,
-"values": [Vector2(-8, -340), Vector2(-8, -355), Vector2(-8, -345.65)]
+"values": [Vector2(-8, -20), Vector2(-8, -30), Vector2(-8, -10)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("LeftWing:rotation")
+tracks/1/path = NodePath("Body/LeftWing:rotation")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -120,7 +152,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("LeftWing:position")
+tracks/2/path = NodePath("Body/LeftWing:position")
 tracks/2/interp = 2
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -132,7 +164,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("RightWing:rotation")
+tracks/3/path = NodePath("Body/RightWing:rotation")
 tracks/3/interp = 2
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -144,7 +176,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("RightWing:position")
+tracks/4/path = NodePath("Body/RightWing:position")
 tracks/4/interp = 2
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -177,6 +209,30 @@ tracks/6/keys = {
 "update": 0,
 "values": [Vector2(156, -39), Vector2(156, 0)]
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Body:position")
+tracks/7/interp = 2
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.450625, 2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 10)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Body/Neck1:position")
+tracks/8/interp = 2
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.535887, 1.51572),
+"update": 0,
+"values": [Vector2(0, -170), Vector2(0, -190)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5v4p6"]
 _data = {
@@ -184,13 +240,13 @@ _data = {
 "idle": SubResource("Animation_41osx")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0pm7q"]
-atlas = ExtResource("1_fp7t4")
-region = Rect2(448, 488, 480, 272)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_fc2pj"]
 atlas = ExtResource("1_fp7t4")
 region = Rect2(40, 496, 344, 504)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pm7q"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(448, 488, 480, 272)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_alah8"]
 atlas = ExtResource("1_fp7t4")
@@ -216,7 +272,19 @@ region = Rect2(496, 24, 208, 224)
 atlas = ExtResource("1_fp7t4")
 region = Rect2(248, 56, 208, 136)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gw38e"]
+radius = 53.7946
+height = 194.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrbi7"]
+atlas = ExtResource("1_fp7t4")
+region = Rect2(22, 18, 206, 230)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge1sf"]
+size = Vector2(194, 59)
+
 [node name="Dragon" type="Node2D"]
+script = ExtResource("1_kjnd8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -224,43 +292,129 @@ libraries = {
 }
 autoplay = "idle"
 
-[node name="LeftWing" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_fc2pj")
+
+[node name="LeftWing" type="Sprite2D" parent="Body"]
+show_behind_parent = true
 position = Vector2(-288, -216)
 texture = SubResource("AtlasTexture_0pm7q")
 flip_h = true
 
-[node name="RightWing" type="Sprite2D" parent="."]
+[node name="RightWing" type="Sprite2D" parent="Body"]
+show_behind_parent = true
 position = Vector2(288, -216)
 texture = SubResource("AtlasTexture_0pm7q")
 
-[node name="Body" type="Sprite2D" parent="."]
-texture = SubResource("AtlasTexture_fc2pj")
-
-[node name="Neck1" type="Sprite2D" parent="."]
-position = Vector2(1, -170)
+[node name="Neck1" type="Sprite2D" parent="Body"]
+position = Vector2(0, -170)
 texture = SubResource("AtlasTexture_alah8")
 
-[node name="Neck2" type="Sprite2D" parent="."]
-position = Vector2(1, -202)
+[node name="Neck2" type="Sprite2D" parent="Body/Neck1"]
+position = Vector2(0, -32)
 texture = SubResource("AtlasTexture_vto7i")
 
-[node name="Neck3" type="Sprite2D" parent="."]
-position = Vector2(1, -211)
+[node name="Neck3" type="Sprite2D" parent="Body/Neck1/Neck2"]
+position = Vector2(0, -9)
 texture = SubResource("AtlasTexture_qr65y")
 
-[node name="Neck4" type="Sprite2D" parent="."]
-position = Vector2(1, -267)
+[node name="Neck4" type="Sprite2D" parent="Body/Neck1/Neck2/Neck3"]
+position = Vector2(0, -56)
 texture = SubResource("AtlasTexture_ee60r")
 
-[node name="Head" type="Sprite2D" parent="."]
-position = Vector2(-8, -340)
+[node name="Head" type="Sprite2D" parent="Body/Neck1/Neck2/Neck3/Neck4"]
+position = Vector2(-8, -20)
 texture = SubResource("AtlasTexture_70og6")
 
-[node name="LeftClaw" type="Sprite2D" parent="."]
+[node name="LeftClaw" type="Area2D" parent="."]
 position = Vector2(-164, -39)
+collision_layer = 4
+collision_mask = 0
+
+[node name="LeftClaw" type="Sprite2D" parent="LeftClaw"]
 texture = SubResource("AtlasTexture_2xa4l")
 flip_h = true
 
-[node name="RightClaw" type="Sprite2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftClaw"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gw38e")
+
+[node name="RightClaw" type="Area2D" parent="."]
 position = Vector2(156, -39)
+collision_layer = 4
+collision_mask = 0
+
+[node name="RightClaw" type="Sprite2D" parent="RightClaw"]
 texture = SubResource("AtlasTexture_2xa4l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightClaw"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_gw38e")
+
+[node name="LeftSmashClaw" type="Area2D" parent="."]
+visible = false
+position = Vector2(-164, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_abowh")
+metadata/_edit_group_ = true
+
+[node name="SmashClaw" type="Sprite2D" parent="LeftSmashClaw"]
+position = Vector2(3, -111)
+texture = SubResource("AtlasTexture_vrbi7")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftSmashClaw"]
+position = Vector2(3, -30)
+shape = SubResource("RectangleShape2D_ge1sf")
+debug_color = Color(0.890196, 0.32549, 0, 0.419608)
+
+[node name="RightSmashClaw" type="Area2D" parent="."]
+visible = false
+position = Vector2(156, 0)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_abowh")
+metadata/_edit_group_ = true
+
+[node name="SmashClaw" type="Sprite2D" parent="RightSmashClaw"]
+position = Vector2(3, -111)
+texture = SubResource("AtlasTexture_vrbi7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightSmashClaw"]
+position = Vector2(3, -30)
+shape = SubResource("RectangleShape2D_ge1sf")
+debug_color = Color(0.890196, 0.32549, 0, 0.419608)
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("4_qplve")
+
+[node name="ParallelState" type="Node" parent="StateChart"]
+script = ExtResource("5_pmpei")
+
+[node name="Action" type="Node" parent="StateChart/ParallelState"]
+script = ExtResource("6_qgct8")
+initial_state = NodePath("Idle")
+
+[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../Idle")
+event = &"finished"
+
+[node name="Idle" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_lxvgv")
+animation_player = NodePath("../../../../AnimationPlayer")
+animation_name = &"idle"
+
+[node name="OnExpiration" type="Node" parent="StateChart/ParallelState/Action/Idle"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../SmashLeft")
+delay_seconds = 5.0
+
+[node name="SmashLeft" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("9_dkpms")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 50)
+
+[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashLeft" to="." method="_on_smash_left_state_entered"]

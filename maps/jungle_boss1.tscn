@@ -1,9 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqj30cmeetjn5"]
+[gd_scene load_steps=4 format=3 uid="uid://bqj30cmeetjn5"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_skqgx"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_71m2l"]
+[ext_resource type="PackedScene" uid="uid://c3tru5icecrvc" path="res://scenes/enemies/dragon/dragon.tscn" id="3_60wf1"]
 
 [node name="Map" type="Node2D"]
+
+[node name="Dragon" parent="." instance=ExtResource("3_60wf1")]
+position = Vector2(448, 880)
 
 [node name="RoomInstance" parent="." instance=ExtResource("1_skqgx")]
 
@@ -11,9 +15,10 @@
 tile_set = ExtResource("2_71m2l")
 format = 2
 layer_0/name = "Ground"
+layer_0/tile_data = PackedInt32Array(1900544, 262144, 5, 1900545, 327680, 5, 1900546, 327680, 5, 1900547, 393216, 4, 1900548, 393216, 4, 1900549, 327680, 5, 1900550, 327680, 5, 1900551, 327680, 5, 1900552, 327680, 5, 1900553, 393216, 4, 1900554, 393216, 4, 1900555, 393216, 4, 1900556, 393216, 4, 1900557, 393216, 4, 1900558, 393216, 4, 1900559, 393216, 4, 1900560, 393216, 4, 1900561, 393216, 4, 1900562, 327680, 5, 1900563, 393216, 4, 1900564, 393216, 4, 1900565, 327680, 5, 1900566, 393216, 4, 1900567, 393216, 4, 1900568, 393216, 4, 1900569, 327680, 5, 1900570, 196608, 5, 1835034, 262144, 3, 1769498, 262144, 3, 1703962, 0, 2, 1638426, 0, 2, 1572890, 0, 2, 1507354, 262144, 3, 1441818, 0, 1, 1441817, 589824, 1, 1441816, 589824, 3)
 layer_1/name = "Vines"
 layer_1/z_index = -1
 layer_1/tile_data = PackedInt32Array()
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
-position = Vector2(64, 64)
+position = Vector2(64, 912)
