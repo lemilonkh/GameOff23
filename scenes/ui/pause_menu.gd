@@ -1,5 +1,7 @@
 extends ColorRect
 
+@onready var settings_container: MarginContainer = $SettingsContainer
+
 func pause() -> void:
 	get_tree().paused = true
 	show()
@@ -19,7 +21,7 @@ func _on_resume_button_pressed() -> void:
 	unpause()
 
 func _on_settings_button_pressed() -> void:
-	pass # Replace with function body.
+	settings_container.show()
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()

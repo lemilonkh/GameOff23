@@ -7,8 +7,8 @@ signal game_started(should_load: bool)
 const SAVE_FILE := "user://save_data.sav"
 
 @onready var continue_button: Button = $MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton
-@onready var settings_menu: PanelContainer = $SettingsContainer/SettingsMenu
 @onready var camera_2d: Camera2D = $Camera2D
+@onready var settings_container: MarginContainer = $SettingsContainer
 
 func _ready() -> void:
 	if FileAccess.file_exists(SAVE_FILE):
@@ -27,7 +27,7 @@ func _on_new_game_button_pressed() -> void:
 	game_started.emit(false)
 
 func _on_settings_pressed() -> void:
-	settings_menu.show()
+	settings_container.show()
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()

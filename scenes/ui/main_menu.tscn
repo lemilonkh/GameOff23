@@ -1,13 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://b3lpfx8qk37ud"]
+[gd_scene load_steps=5 format=3 uid="uid://b3lpfx8qk37ud"]
 
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_djik8"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
-[ext_resource type="Script" path="res://scenes/ui/settings_menu.gd" id="3_cb5gw"]
 [ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="3_jud66"]
-[ext_resource type="Texture2D" uid="uid://c5oida4tfxvfu" path="res://sprites/ui/music_grabber_dark.png" id="5_y312u"]
-[ext_resource type="Texture2D" uid="uid://binxg824pq1ok" path="res://sprites/ui/music_grabber.png" id="6_pv1au"]
-[ext_resource type="Texture2D" uid="uid://bity1fn5070qr" path="res://sprites/ui/close_icon.png" id="7_nbcc2"]
-[ext_resource type="Theme" uid="uid://oao67r2cbttf" path="res://resources/unpadded_button_theme.tres" id="7_on1mu"]
+[ext_resource type="PackedScene" uid="uid://dsjhyw77ybmlk" path="res://scenes/ui/settings_container.tscn" id="4_ispok"]
 
 [node name="MainMenu" type="CanvasLayer"]
 layer = 4
@@ -72,84 +68,10 @@ text = "Settings"
 layout_mode = 2
 text = "Quit"
 
-[node name="SettingsContainer" type="MarginContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 64
-theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 64
-theme_override_constants/margin_bottom = 64
-
-[node name="SettingsMenu" type="PanelContainer" parent="SettingsContainer"]
+[node name="SettingsContainer" parent="." instance=ExtResource("4_ispok")]
 visible = false
-layout_mode = 2
-theme = ExtResource("3_jud66")
-script = ExtResource("3_cb5gw")
-
-[node name="CenterContainer" type="CenterContainer" parent="SettingsContainer/SettingsMenu"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsContainer/SettingsMenu/CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Label" type="Label" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0.0156863, 0.341176, 0.521569, 1)
-theme_override_constants/shadow_offset_x = 4
-theme_override_constants/shadow_offset_y = 4
-theme_override_constants/shadow_outline_size = 4
-theme_override_constants/line_spacing = 12
-theme_override_font_sizes/font_size = 38
-text = "Settings
-"
-
-[node name="Control" type="Control" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-
-[node name="MusicLabel" type="Label" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Music Volume"
-horizontal_alignment = 1
-
-[node name="MusicSlider" type="HSlider" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_icons/grabber = ExtResource("5_y312u")
-theme_override_icons/grabber_highlight = ExtResource("6_pv1au")
-max_value = 1.0
-step = 0.0
-value = 0.8
-
-[node name="SoundLabel" type="Label" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 16
-text = "Sounds Volume
-"
-horizontal_alignment = 1
-
-[node name="SoundSlider" type="HSlider" parent="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer"]
-layout_mode = 2
-max_value = 1.0
-step = 0.0
-value = 0.8
-
-[node name="CloseButton" type="Button" parent="SettingsContainer/SettingsMenu"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 0
-theme = ExtResource("7_on1mu")
-icon = ExtResource("7_nbcc2")
 
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
-[connection signal="value_changed" from="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer/MusicSlider" to="SettingsContainer/SettingsMenu" method="_on_slider_value_changed" binds= ["Music"]]
-[connection signal="value_changed" from="SettingsContainer/SettingsMenu/CenterContainer/VBoxContainer/SoundSlider" to="SettingsContainer/SettingsMenu" method="_on_slider_value_changed" binds= ["Sounds"]]
-[connection signal="pressed" from="SettingsContainer/SettingsMenu/CloseButton" to="SettingsContainer/SettingsMenu" method="_on_close_button_pressed"]

@@ -1,0 +1,87 @@
+[gd_scene load_steps=7 format=3 uid="uid://dsjhyw77ybmlk"]
+
+[ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="1_yekv3"]
+[ext_resource type="Script" path="res://scenes/ui/settings_menu.gd" id="2_1a54j"]
+[ext_resource type="Texture2D" uid="uid://c5oida4tfxvfu" path="res://sprites/ui/music_grabber_dark.png" id="3_aya2i"]
+[ext_resource type="Texture2D" uid="uid://binxg824pq1ok" path="res://sprites/ui/music_grabber.png" id="4_ab630"]
+[ext_resource type="Theme" uid="uid://oao67r2cbttf" path="res://resources/unpadded_button_theme.tres" id="5_oc32r"]
+[ext_resource type="Texture2D" uid="uid://bity1fn5070qr" path="res://sprites/ui/close_icon.png" id="6_jtk1e"]
+
+[node name="SettingsMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
+script = ExtResource("2_1a54j")
+
+[node name="SettingsPanel" type="PanelContainer" parent="."]
+layout_mode = 2
+theme = ExtResource("1_yekv3")
+
+[node name="CenterContainer" type="CenterContainer" parent="SettingsPanel"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.0156863, 0.341176, 0.521569, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/shadow_outline_size = 4
+theme_override_constants/line_spacing = 12
+theme_override_font_sizes/font_size = 38
+text = "Settings
+"
+
+[node name="Control" type="Control" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="MusicLabel" type="Label" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_icons/grabber = ExtResource("3_aya2i")
+theme_override_icons/grabber_highlight = ExtResource("4_ab630")
+max_value = 1.0
+step = 0.0
+value = 0.8
+
+[node name="SoundLabel" type="Label" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Sounds Volume
+"
+horizontal_alignment = 1
+
+[node name="SoundsSlider" type="HSlider" parent="SettingsPanel/CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.0
+value = 0.8
+
+[node name="CloseButton" type="Button" parent="SettingsPanel"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("5_oc32r")
+icon = ExtResource("6_jtk1e")
+
+[connection signal="value_changed" from="SettingsPanel/CenterContainer/VBoxContainer/MusicSlider" to="." method="_on_slider_value_changed" binds= ["Music"]]
+[connection signal="value_changed" from="SettingsPanel/CenterContainer/VBoxContainer/SoundsSlider" to="." method="_on_slider_value_changed" binds= ["Sounds"]]
+[connection signal="pressed" from="SettingsPanel/CloseButton" to="." method="_on_close"]

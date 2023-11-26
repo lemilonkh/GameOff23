@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=19 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_khvma"]
@@ -9,6 +9,7 @@
 [ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="7_tioe5"]
 [ext_resource type="Script" path="res://scenes/ui/teleport_options.gd" id="8_qkn28"]
+[ext_resource type="PackedScene" uid="uid://dsjhyw77ybmlk" path="res://scenes/ui/settings_container.tscn" id="9_5swfr"]
 
 [sub_resource type="GDScript" id="GDScript_qm63g"]
 resource_name = "Minimap"
@@ -393,6 +394,10 @@ offset_left = -48.0
 offset_bottom = 36.0
 grow_horizontal = 0
 script = ExtResource("8_qkn28")
+
+[node name="SettingsContainer" parent="UI/PauseMenu" instance=ExtResource("9_5swfr")]
+visible = false
+layout_mode = 1
 
 [node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
 visible = false
