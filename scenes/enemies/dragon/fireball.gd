@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var speed := 80.0
+@export var speed := 120.0
 @export var damage := 1.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
