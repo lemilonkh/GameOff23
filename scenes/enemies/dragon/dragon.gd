@@ -4,6 +4,7 @@ signal death
 
 @export var target: Node2D
 @export var max_health := 10.0
+@export var move_speed := 90.0
 
 @export_category("Attacks")
 @export var claw_up_height := -250
@@ -11,6 +12,8 @@ signal death
 @export var claw_up_duration := 0.8
 @export var claw_slam_duration := 0.1
 @export var claw_return_duration := 1.0
+@export var claw_min_distance := 10
+@export var claw_max_distance := 300
 
 @onready var state_chart: StateChart = $StateChart
 @onready var health_progress: TextureProgressBar = %HealthProgress
@@ -58,6 +61,9 @@ func shoot_fireball() -> void:
 	fireball.global_position = mouth_marker.global_position
 	fireball.direction = mouth_marker.global_position.direction_to(target.global_position)
 
+func _x_to_global(x_pos: int) -> int:
+	return to_global(Vector2.RIGHT * x_pos).x
+
 func smash_down_claw(claw_side: StringName) -> void:
 	var claw := left_claw if claw_side == &"left" else right_claw
 	var smash_claw := left_smash_claw if claw_side == &"left" else right_smash_claw
@@ -72,10 +78,18 @@ func smash_down_claw(claw_side: StringName) -> void:
 	smash_claw.show()
 	smash_claw.position = claw.position
 	
+	var target_x: int
+	if claw_side == &"left":
+		target_x = clampi(target.global_position.x, _x_to_global(-claw_max_distance), _x_to_global(-claw_min_distance))
+	else:
+		target_x = clampi(target.global_position.x, _x_to_global(claw_min_distance), _x_to_global(claw_max_distance))
+	var target_up_pos := Vector2(target_x, global_up_height)
+	var target_floor_pos := Vector2(target_x, global_floor_height)
+	
 	var tween := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	tween.tween_property(smash_claw, "global_position", Vector2(target.global_position.x, global_up_height), claw_up_duration)
+	tween.tween_property(smash_claw, "global_position", target_up_pos, claw_up_duration)
 	tween.tween_callback(func(): smash_claw.is_enabled = true)
-	tween.tween_property(smash_claw, "global_position", Vector2(target.global_position.x, global_floor_height), claw_slam_duration).set_ease(Tween.EASE_IN)
+	tween.tween_property(smash_claw, "global_position", target_floor_pos, claw_slam_duration).set_ease(Tween.EASE_IN)
 	tween.parallel().tween_property(smash_claw, "modulate", Color("#f33900"), claw_slam_duration)
 	tween.tween_callback(func(): camera.add_trauma(0.5))
 	tween.tween_interval(0.5)
@@ -123,3 +137,7 @@ func _on_choose_attack_state_entered() -> void:
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	state_chart.send_event("animation_finished")
+
+func _on_idle_state_physics_processing(delta: float) -> void:
+	var target_pos := Vector2(target.global_position.x, global_position.y)
+	global_position = global_position.move_toward(target_pos, move_speed * delta)
