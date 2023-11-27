@@ -702,7 +702,6 @@ event = &"animation_finished"
 script = ExtResource("7_lxvgv")
 animation_player = NodePath("../../../../AnimationPlayer")
 animation_name = &"death"
-custom_blend = 0.1
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(0, 50)
