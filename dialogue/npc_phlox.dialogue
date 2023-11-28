@@ -1,0 +1,32 @@
+~ start
+
+if npc.has_finished_intro
+	=> progress
+
+Phlox: Aila, what's happening? Why is the forest full of dangerous creatures again? What happened to Malva's protection? Who is that golden dragon?
+Aila: Malva... is dead. The golden dragon killed her.
+Phlox: What will we do?
+Aila: I'm planning to take down that golden scoundrel.
+if game.has_killed_jungle_boss
+	Aila: He managed to escape from me at the last second, but it won't happen again.
+Phlox: No, it wasn't what I meant. What will we do about the forest? Our generation grew up under Malva's protection. Without her, harsh times await us.
+Aila: If our ancestors were able to live in the forest before meeting with Malva, we can do the same. It will take some time to adapt, but we can overcome it. But for now, I must take revenge for Malva. Is there anything you can do to assist me with your skills?
+Phlox: *Sigh* You and your ardor for the battle. I'll never understand how a dryad can be like this.
+Aila: I'm not doing this solely for personal enjoyment. Will you help me or not?
+Phlox: Okay, okay. I'll help you. If you bring me three scale shards, I can make something good out of them.
+set npc.has_finished_intro = true
+=> END
+
+# Talking to him after taking the quest:
+~ progress
+
+Phlox: Hey, could you find the shards?
+- I'm working on it.
+	Phlox: Okay, I'll be waiting here for you.
+- Yes, here they are. [if game.collectibles > 2]
+	Phlox: Good, now wait a second while I figure out what I can do with them.
+	Phlox: Here, this should help you in your journey.
+
+# *The player gets the air dash scale*
+do scene.spawn_scale()
+=> END

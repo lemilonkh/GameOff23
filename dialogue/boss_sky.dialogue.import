@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_11"
+type="Resource"
+uid="uid://q2vmtmrunlc7"
+path="res://.godot/imported/boss_sky.dialogue-a1f78a2241d2627761dd0a14640c0083.tres"
+
+[deps]
+
+source_file="res://dialogue/boss_sky.dialogue"
+dest_files=["res://.godot/imported/boss_sky.dialogue-a1f78a2241d2627761dd0a14640c0083.tres"]
+
+[params]
+
+defaults=true

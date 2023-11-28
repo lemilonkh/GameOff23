@@ -1,0 +1,12 @@
+~ start
+
+Aila: This is weird. I could swear I sensed that scoundrel was here.
+
+# *Dianthus emerges from the floor*
+do scene.spawn_dragon()
+
+Dianthus: Were you following me, varmint?
+Aila: You are not leaving this forest.
+Dianthus: Hahahaha! You are awfully confident; I like it. It'll be interesting to fight a dryad.
+
+=> END

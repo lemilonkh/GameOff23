@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_11"
+type="Resource"
+uid="uid://q5n6jknwjked"
+path="res://.godot/imported/boss_jungle.dialogue-27dae01bccc5cf8701251a3e46feb6d7.tres"
+
+[deps]
+
+source_file="res://dialogue/boss_jungle.dialogue"
+dest_files=["res://.godot/imported/boss_jungle.dialogue-27dae01bccc5cf8701251a3e46feb6d7.tres"]
+
+[params]
+
+defaults=true

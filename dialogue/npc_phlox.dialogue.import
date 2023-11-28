@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_11"
+type="Resource"
+uid="uid://dutkvd77xyola"
+path="res://.godot/imported/npc_phlox.dialogue-842950921241f897901f8bf81e278cd9.tres"
+
+[deps]
+
+source_file="res://dialogue/npc_phlox.dialogue"
+dest_files=["res://.godot/imported/npc_phlox.dialogue-842950921241f897901f8bf81e278cd9.tres"]
+
+[params]
+
+defaults=true
