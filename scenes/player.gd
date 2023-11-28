@@ -391,7 +391,11 @@ func _on_hurtbox_tile_hit(tilemap: TileMap) -> void:
 		state_chart.send_event("hit")
 
 func _on_attack_started() -> void:
+	is_move_disabled = true
 	combat_animation.play(&"Attack")
+
+func _on_attack_ended() -> void:
+	is_move_disabled = false
 
 func _on_hitbox_body_shape_entered(body_rid: RID, body: Node2D, body_shape_index: int, local_shape_index: int) -> void:
 	var shape_transform := PhysicsServer2D.body_get_shape_transform(body_rid, body_shape_index)
