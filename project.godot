@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GameOff 2023"
+config/name="Scales of the Golden Dragon"
 config/tags=PackedStringArray("2d", "jam")
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
