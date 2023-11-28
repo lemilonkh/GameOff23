@@ -1,11 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://da6y27vlqx8cx"]
+[gd_scene load_steps=20 format=3 uid="uid://da6y27vlqx8cx"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_jq20o"]
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_khvma"]
 [ext_resource type="PackedScene" uid="uid://dgna7p5elvtjm" path="res://scenes/player.tscn" id="2_vpfdv"]
-[ext_resource type="AudioStream" uid="uid://brnxdxnd5u3yi" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
+[ext_resource type="AudioStream" path="res://music/jungle_theme.ogg" id="3_x4xuy"]
 [ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://scenes/dialogue_balloon/balloon.tscn" id="4_lj4cy"]
 [ext_resource type="AudioStream" uid="uid://d4n3y63tn6ie5" path="res://sounds/Ambience/Ambience_Jungle.ogg" id="4_nkm84"]
+[ext_resource type="AudioStream" uid="uid://du34h63cmcap3" path="res://music/jungle_drums.ogg" id="5_7y4qe"]
 [ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="7_tioe5"]
 [ext_resource type="Script" path="res://scenes/ui/teleport_options.gd" id="8_qkn28"]
@@ -222,6 +223,12 @@ position = Vector2(392, 864)
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 process_mode = 3
 stream = ExtResource("3_x4xuy")
+autoplay = true
+bus = &"Music"
+
+[node name="DrumsPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("5_7y4qe")
 autoplay = true
 bus = &"Music"
 

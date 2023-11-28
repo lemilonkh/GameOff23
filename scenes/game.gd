@@ -11,6 +11,10 @@ class_name Game
 @onready var load_progress: ProgressBar = %LoadProgress
 @onready var dialogue_balloon: CanvasLayer = $UI/DialogueBalloon
 
+@onready var music_player: AudioStreamPlayer = $MusicPlayer
+@onready var drums_player: AudioStreamPlayer = $DrumsPlayer
+@onready var ambience_player: AudioStreamPlayer = $AmbiencePlayer
+
 # The current map scene instance.
 var map: Node2D
 # List of all map paths currently loaded.
@@ -153,6 +157,35 @@ func goto_map(map_path: String):
 	
 	map = map_scene.instantiate()
 	map_container.add_child(map)
+	
+	# update playing music, drums and ambience based on room
+	var music_file := Room.DEFAULT_MUSIC
+	var drums_file := Room.DEFAULT_DRUMS
+	var ambience_file := Room.DEFAULT_AMBIENCE
+	if map is Room:
+		music_file = map.music_file
+		drums_file = map.drums_file
+		ambience_file = map.ambience_file
+	
+	# TODO async and fade
+	if music_file:
+		if music_file != music_player.stream.resource_path:
+			music_player.stream = load(music_file)
+	else:
+		music_player.stop()
+	
+	if drums_file:
+		if drums_file != drums_player.stream.resource_path:
+			drums_player.stream = load(drums_file)
+	else:
+		drums_player.stop()
+	
+	if ambience_file:
+		if ambience_file != ambience_player.stream.resource_path:
+			ambience_player.stream = load(ambience_file)
+	else:
+		ambience_player.stop()
+	
 	# Adjust the camera.
 	MetSys.get_current_room_instance().adjust_camera_limits($Player/Camera2D)
 	# Set the current layer to the room's layer.
