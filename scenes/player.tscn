@@ -1086,6 +1086,11 @@ script = ExtResource("12_1ugos")
 to = NodePath("../../Fall")
 event = &"combat_finished"
 
+[node name="OnHitWallDash" type="Node" parent="StateChart/Root/Parallel/Movement/Airborne/Dash"]
+script = ExtResource("12_1ugos")
+to = NodePath("../../Fall")
+event = &"hit_wall_dash"
+
 [node name="Attack" type="Node" parent="StateChart/Root/Parallel/Movement"]
 script = ExtResource("3_q6skx")
 

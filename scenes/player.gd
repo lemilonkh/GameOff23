@@ -39,6 +39,8 @@ class_name Player
 @export_range(0, 1000) var wind_acceleration := 800.0
 ## How long you have to collide with a wall to stop the glide in seconds
 @export_range(0, 10) var glide_stop_wall_duration := 0.8
+## How long you have to collide with a wall to stop the glide in seconds
+@export_range(0, 10) var dash_stop_wall_duration := 0.1
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
@@ -256,6 +258,7 @@ func _physics_process(delta: float) -> void:
 		on_wall_timer += delta
 		if on_wall_timer > glide_stop_wall_duration:
 			state_chart.send_event("hit_wall")
+		state_chart.send_event("hit_wall_dash")
 	else:
 		on_wall_timer = 0.0
 	
@@ -482,6 +485,7 @@ func _on_dash_state_exited() -> void:
 	wind_particles.emitting = false
 	max_speed = default_max_speed
 	is_move_disabled = false
+	velocity = Vector2.ZERO
 
 func _on_can_jump_state_entered() -> void:
 	can_air_jump = true
