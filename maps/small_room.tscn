@@ -43,5 +43,3 @@ position = Vector2(272, 352)
 
 [node name="Collectible" parent="." instance=ExtResource("8_60jgm")]
 position = Vector2(576, 432)
-
-[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]
