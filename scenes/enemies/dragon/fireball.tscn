@@ -1,18 +1,39 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxmlhy61o0g2f"]
+[gd_scene load_steps=16 format=3 uid="uid://bxmlhy61o0g2f"]
 
 [ext_resource type="Script" path="res://scenes/enemies/dragon/fireball.gd" id="1_6i3fv"]
+[ext_resource type="Texture2D" uid="uid://ce7elqhv6lu7j" path="res://sprites/dragon/fireball.png" id="2_1c4at"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uoqns"]
 radius = 30.0
 
-[sub_resource type="Gradient" id="Gradient_8qv55"]
-offsets = PackedFloat32Array(0, 0.273684, 0.486842, 0.728947)
-colors = PackedColorArray(0.774239, 0.135528, 0, 1, 0.8169, 0.258701, 0, 1, 1, 0.753922, 0.298533, 1, 0.956863, 0.701961, 0, 0)
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0jt5"]
+atlas = ExtResource("2_1c4at")
+region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_87pds"]
-gradient = SubResource("Gradient_8qv55")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdi55"]
+atlas = ExtResource("2_1c4at")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80qjl"]
+atlas = ExtResource("2_1c4at")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_j0nok"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0jt5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdi55")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80qjl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
 
 [sub_resource type="Curve" id="Curve_ind37"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.226064, 1), 0.0, 0.0, 0, 0, Vector2(0.744681, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -42,60 +63,59 @@ radial_accel_max = 8.0
 color_initial_ramp = SubResource("GradientTexture1D_xlma5")
 alpha_curve = SubResource("CurveTexture_dx6m1")
 
-[sub_resource type="Animation" id="Animation_mie6q"]
-resource_name = "grow"
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GPUParticles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
 [sub_resource type="Animation" id="Animation_0c664"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/path = NodePath("GPUParticles2D:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
+"update": 1,
+"values": [false]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("GPUParticles2D:emitting")
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05)]
+}
+
+[sub_resource type="Animation" id="Animation_mie6q"]
+resource_name = "grow"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t1ovq"]
@@ -112,8 +132,11 @@ script = ExtResource("1_6i3fv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_uoqns")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = SubResource("GradientTexture2D_87pds")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1e-05, 1e-05)
+sprite_frames = SubResource("SpriteFrames_j0nok")
+autoplay = "default"
+frame_progress = 0.0493286
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 emitting = false
