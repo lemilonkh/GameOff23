@@ -74,9 +74,9 @@ size = Vector2(20, 40)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_7p65q")
-dialogue_file = "res://dialogue/intro.dialogue"
-initial_title = "intro"
-npc_name = "Aila"
+dialogue_file = "res://dialogue/npc_phlox.dialogue"
+initial_title = "start"
+npc_name = "Phlox"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_r05ey")
