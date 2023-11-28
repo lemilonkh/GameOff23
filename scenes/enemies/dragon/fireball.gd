@@ -16,8 +16,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method(&"take_hit"):
-		var direction := global_position.direction_to(body.global_position)
-		body.take_hit(damage, self, direction)
+		var hit_direction := global_position.direction_to(body.global_position)
+		body.take_hit(damage, self, hit_direction)
 	set_deferred(&"monitoring", false)
 	speed = 0
 	animation_player.play_backwards(&"grow")
