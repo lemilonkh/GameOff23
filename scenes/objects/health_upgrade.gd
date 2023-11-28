@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 		target_node.increase_health(2)
 		MetSys.store_object(self)
 		var tween := create_tween().set_trans(Tween.TRANS_SPRING)
-		tween.tween_property(self, "self_modulate", Color.TRANSPARENT, 0.3)
+		tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.3)
 		tween.tween_callback(queue_free)
 
 func _on_body_entered(body: Node2D) -> void:
