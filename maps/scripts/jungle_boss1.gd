@@ -1,4 +1,4 @@
-extends Node2D
+extends Room
 
 @export var dragon_mouth_offset := 224
 @export var above_floor_height := 896
