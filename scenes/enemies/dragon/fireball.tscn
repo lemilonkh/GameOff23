@@ -1,10 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://bxmlhy61o0g2f"]
+[gd_scene load_steps=18 format=3 uid="uid://bxmlhy61o0g2f"]
 
 [ext_resource type="Script" path="res://scenes/enemies/dragon/fireball.gd" id="1_6i3fv"]
 [ext_resource type="Texture2D" uid="uid://ce7elqhv6lu7j" path="res://sprites/dragon/fireball.png" id="2_1c4at"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uoqns"]
 radius = 30.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5kdp3"]
+light_mode = 1
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e0jt5"]
 atlas = ExtResource("2_1c4at")
@@ -34,6 +37,10 @@ animations = [{
 "name": &"default",
 "speed": 8.0
 }]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gd1kt"]
+blend_mode = 1
+light_mode = 1
 
 [sub_resource type="Curve" id="Curve_ind37"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.226064, 1), 0.0, 0.0, 0, 0, Vector2(0.744681, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -136,12 +143,14 @@ script = ExtResource("1_6i3fv")
 shape = SubResource("CircleShape2D_uoqns")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_5kdp3")
 scale = Vector2(1e-05, 1e-05)
 sprite_frames = SubResource("SpriteFrames_j0nok")
 autoplay = "default"
 frame_progress = 0.547707
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_gd1kt")
 emitting = false
 amount = 100
 process_material = SubResource("ParticleProcessMaterial_1tftx")
