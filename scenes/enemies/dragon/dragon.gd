@@ -64,7 +64,7 @@ func shoot_fireball() -> void:
 func _x_to_global(x_pos: int) -> int:
 	return to_global(Vector2.RIGHT * x_pos).x
 
-func smash_down_claw(claw_side: StringName) -> void:
+func smash_down_claw(claw_side: StringName, apply_screen_shake: bool = true) -> void:
 	var claw := left_claw if claw_side == &"left" else right_claw
 	var smash_claw := left_smash_claw if claw_side == &"left" else right_smash_claw
 	
@@ -91,7 +91,8 @@ func smash_down_claw(claw_side: StringName) -> void:
 	tween.tween_callback(func(): smash_claw.is_enabled = true)
 	tween.tween_property(smash_claw, "global_position", target_floor_pos, claw_slam_duration).set_ease(Tween.EASE_IN)
 	tween.parallel().tween_property(smash_claw, "modulate", Color("#f33900"), claw_slam_duration)
-	tween.tween_callback(func(): camera.add_trauma(0.5))
+	if apply_screen_shake:
+		tween.tween_callback(func(): camera.add_trauma(0.5))
 	tween.tween_interval(0.5)
 	tween.tween_callback(func(): smash_claw.is_enabled = false)
 	tween.tween_property(smash_claw, "modulate", Color.WHITE, claw_return_duration)
@@ -115,7 +116,7 @@ func _on_smash_right_state_entered() -> void:
 
 func _on_smash_both_state_entered() -> void:
 	smash_down_claw(&"left")
-	smash_down_claw(&"right")
+	smash_down_claw(&"right", false)
 
 func _on_death_state_entered() -> void:
 	if is_dead:
