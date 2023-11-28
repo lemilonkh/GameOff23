@@ -379,7 +379,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"TakeHit",
-"speed": 8.0
+"speed": 4.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
@@ -707,7 +707,7 @@ region_rect = Rect2(0, 0, 8, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Run"
+animation = &"Idle"
 autoplay = "Idle"
 
 [node name="Hurtbox" type="Area2D" parent="."]
@@ -1238,7 +1238,9 @@ delay_seconds = 5.0
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/AirAttack" to="." method="_on_attack_started"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/AirAttack" to="." method="_play_animation" binds= ["AirAttack"]]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Movement/AirAttack" to="." method="_on_attack_ended"]
+[connection signal="state_entered" from="StateChart/Root/Parallel/Movement/TakeHit" to="." method="_on_take_hit_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Movement/TakeHit" to="." method="_play_animation" binds= ["TakeHit"]]
+[connection signal="state_exited" from="StateChart/Root/Parallel/Movement/TakeHit" to="." method="_on_take_hit_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_entered"]
 [connection signal="state_exited" from="StateChart/Root/Parallel/Status/Invulnerable" to="." method="_on_invulnerable_state_exited"]
 [connection signal="state_entered" from="StateChart/Root/Parallel/Grapple/Pulling" to="." method="_on_pulling_state_entered"]

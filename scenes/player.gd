@@ -492,3 +492,9 @@ func _on_can_jump_state_entered() -> void:
 
 func _on_can_jump_state_exited() -> void:
 	can_air_jump = false
+
+func _on_take_hit_state_entered() -> void:
+	is_move_disabled = true
+
+func _on_take_hit_state_exited() -> void:
+	is_move_disabled = false
