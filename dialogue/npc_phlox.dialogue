@@ -25,6 +25,7 @@ Phlox: Hey, could you find the shards?
 	Phlox: Okay, I'll be waiting here for you.
 - Yes, here they are. [if game.collectibles > 2]
 	Phlox: Good, now wait a second while I figure out what I can do with them.
+	do wait(3.0)
 	Phlox: Here, this should help you in your journey.
 	# *The player gets the air dash scale*
 	do scene.spawn_scale()
