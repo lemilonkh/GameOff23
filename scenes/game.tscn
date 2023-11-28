@@ -233,6 +233,9 @@ stream = ExtResource("4_nkm84")
 autoplay = true
 bus = &"Sounds"
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.8, 0.8, 0.8, 1)
+
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 2
 
