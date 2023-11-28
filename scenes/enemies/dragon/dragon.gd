@@ -4,7 +4,7 @@ signal death
 
 @export var target: Node2D
 @export var max_health := 30.0
-@export var move_speed := 120.0
+@export var move_speed := 100.0
 
 @export_category("Attacks")
 @export var claw_up_height := -250
