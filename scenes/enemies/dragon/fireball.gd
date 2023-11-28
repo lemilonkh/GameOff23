@@ -10,7 +10,6 @@ var direction := Vector2.DOWN:
 	set(value):
 		direction = value
 		rotation = -direction.angle_to(Vector2.DOWN)
-		prints("dir", direction, "rot", -direction.angle_to(Vector2.DOWN))
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
