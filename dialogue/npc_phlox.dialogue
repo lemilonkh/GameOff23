@@ -14,7 +14,7 @@ Aila: If our ancestors were able to live in the forest before meeting with Malva
 Phlox: *Sigh* You and your ardor for the battle. I'll never understand how a dryad can be like this.
 Aila: I'm not doing this solely for personal enjoyment. Will you help me or not?
 Phlox: Okay, okay. I'll help you. If you bring me three scale shards, I can make something good out of them.
-set npc.has_finished_intro = true
+do npc.store_finished_intro()
 => END
 
 # Talking to him after taking the quest:
@@ -26,7 +26,6 @@ Phlox: Hey, could you find the shards?
 - Yes, here they are. [if game.collectibles > 2]
 	Phlox: Good, now wait a second while I figure out what I can do with them.
 	Phlox: Here, this should help you in your journey.
-
-# *The player gets the air dash scale*
-do scene.spawn_scale()
+	# *The player gets the air dash scale*
+	do scene.spawn_scale()
 => END
