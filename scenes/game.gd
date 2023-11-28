@@ -36,6 +36,9 @@ var events: Array[String]
 # Is currently loading maps/ showing load screen?
 var is_loading := false
 
+# Game related state
+var has_killed_jungle_boss := false
+
 func _ready() -> void:
 	# A trick for static object reference (before static vars were a thing).
 	get_script().set_meta(&"singleton", self)
@@ -55,6 +58,7 @@ func start() -> void:
 		generated_rooms.assign(save_data.generated_rooms)
 		events.assign(save_data.events)
 		starting_map = save_data.current_room
+		has_killed_jungle_boss = save_data.has_killed_jungle_boss
 		player.abilities.assign(save_data.abilities)
 		if save_data.has(&"max_health"):
 			player.max_health = save_data.max_health
@@ -227,6 +231,7 @@ func get_save_data() -> Dictionary:
 		"current_room": MetSys.get_current_room_name(),
 		"abilities": player.abilities,
 		"max_health": player.max_health,
+		"has_killed_jungle_boss": has_killed_jungle_boss,
 	}
 
 func reset_map_starting_coords():
