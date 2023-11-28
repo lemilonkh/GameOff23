@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://du34h63cmcap3" path="res://music/jungle_drums.ogg" id="5_7y4qe"]
 [ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="6_rxu72"]
 [ext_resource type="Script" path="res://scenes/ui/pause_menu.gd" id="7_tioe5"]
+[ext_resource type="Texture2D" uid="uid://cqydnkr7hfndt" path="res://sprites/objects/scale_shard.png" id="7_xdpc1"]
 [ext_resource type="Script" path="res://scenes/ui/teleport_options.gd" id="8_qkn28"]
 [ext_resource type="PackedScene" uid="uid://dsjhyw77ybmlk" path="res://scenes/ui/settings_container.tscn" id="9_5swfr"]
 
@@ -196,14 +197,9 @@ func update():
 		text = \"%03d%%\" % int(MetSys.get_explored_ratio() * 100)
 "
 
-[sub_resource type="Gradient" id="Gradient_i0ait"]
-offsets = PackedFloat32Array(0, 0.300546, 0.568306)
-colors = PackedColorArray(1.15514e-06, 0.518514, 0.510531, 1, 0.317647, 0.670588, 0.666667, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_m122b"]
-gradient = SubResource("Gradient_i0ait")
-fill = 1
-fill_from = Vector2(0.5, 0.5)
+[sub_resource type="AtlasTexture" id="AtlasTexture_shtrp"]
+atlas = ExtResource("7_xdpc1")
+region = Rect2(4, 6, 19, 25)
 
 [node name="Game" type="Node2D"]
 process_mode = 1
@@ -315,13 +311,17 @@ offset_right = 53.0
 offset_bottom = 113.0
 
 [node name="TextureRect" type="TextureRect" parent="UI/CollectibleContainer"]
+modulate = Color(0.67451, 1, 0.945098, 1)
+custom_minimum_size = Vector2(19, 25)
 layout_mode = 2
-texture = SubResource("GradientTexture2D_m122b")
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_shtrp")
 expand_mode = 2
 stretch_mode = 5
 
 [node name="CollectibleCount" type="Label" parent="UI/CollectibleContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 size_flags_vertical = 1
 text = "0/3"
