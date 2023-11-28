@@ -11,9 +11,9 @@ blend_mode = 1
 light_mode = 1
 
 [sub_resource type="Gradient" id="Gradient_x7hpr"]
-interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.250765, 0.743119, 1)
-colors = PackedColorArray(1, 0.400793, 0.459054, 1, 1.05888e-06, 0.754652, 0.359808, 1, 0.644974, 0.573605, 0, 1, 1, 0.480742, 0.28478, 1)
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.248663, 0.47861, 0.71123)
+colors = PackedColorArray(0.117235, 0.737163, 0.450889, 1, 0.98436, 0.419638, 0.113329, 1, 0.941375, 0.309712, 0.470436, 1, 0.976547, 0.761105, 0.168536, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_2r8gf"]
 gradient = SubResource("Gradient_x7hpr")
@@ -50,6 +50,7 @@ width = 32
 height = 32
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
 
 [sub_resource type="Animation" id="Animation_wjoi4"]
 length = 0.001
@@ -166,6 +167,7 @@ collision_mask = 2
 script = ExtResource("1_2576s")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -32)
 shape = SubResource("CircleShape2D_pwrb8")
 
