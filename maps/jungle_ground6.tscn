@@ -29,7 +29,6 @@ position = Vector2(64, 64)
 
 [node name="Aila" parent="." instance=ExtResource("3_qc2ql")]
 position = Vector2(710, 909)
-scale = Vector2(-1, 1)
 
 [node name="Collectible" parent="." instance=ExtResource("4_8tscw")]
 position = Vector2(512, 680)
@@ -44,3 +43,5 @@ position = Vector2(352, 424)
 visible = false
 position = Vector2(680, 904)
 monitoring = false
+
+[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]
