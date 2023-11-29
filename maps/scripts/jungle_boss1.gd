@@ -20,6 +20,8 @@ func _on_dragon_death() -> void:
 		printerr("Missing grapple ability scale!")
 		return
 	
+	Game.get_singleton().has_killed_jungle_boss = true
+	
 	ability_scale.global_position = dragon.global_position + Vector2.UP * dragon_mouth_offset
 	var tween := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
 	tween.tween_property(ability_scale, "modulate", Color.WHITE, 2.0)
