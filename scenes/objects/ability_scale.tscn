@@ -1,7 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://bagbnemmeixs2"]
+[gd_scene load_steps=21 format=3 uid="uid://bagbnemmeixs2"]
 
 [ext_resource type="Script" path="res://scenes/objects/ability_scale.gd" id="1_65oqn"]
-[ext_resource type="Texture2D" uid="uid://b3y4mqjf4jcg4" path="res://sprites/objects/scale.png" id="1_dd3i7"]
+[ext_resource type="Texture2D" uid="uid://dafenf4cws3eq" path="res://sprites/objects/scale_attack.png" id="2_8d7hv"]
+[ext_resource type="Texture2D" uid="uid://84b21ymhcoac" path="res://sprites/objects/scale_heal.png" id="3_h2mst"]
+[ext_resource type="Texture2D" uid="uid://ces1drpbxehfg" path="res://sprites/objects/scale_grapple.png" id="4_aq83n"]
+[ext_resource type="Texture2D" uid="uid://mfte6rm0f0kk" path="res://sprites/objects/scale_dash.png" id="5_cc8gt"]
+[ext_resource type="Texture2D" uid="uid://b47urxmv0y0hh" path="res://sprites/objects/scale_glide.png" id="6_s7w7t"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_feh66"]
 light_mode = 1
@@ -196,13 +200,14 @@ collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_65oqn")
 ability = 3
+ability_sprites = Array[Texture2D]([ExtResource("2_8d7hv"), ExtResource("3_h2mst"), ExtResource("4_aq83n"), ExtResource("5_cc8gt"), ExtResource("6_s7w7t")])
 ability_sprite_colors = Array[Color]([Color(0.533333, 0, 0.133333, 1), Color(0.435294, 0.823529, 0.0313726, 1), Color(0, 0.87451, 0.388235, 1), Color(0.67451, 1, 0.945098, 1), Color(0.858824, 0.494118, 0.0509804, 1)])
 ability_particle_colors = Array[Color]([Color(0.976471, 0.380392, 0.254902, 1), Color(0.792157, 0.952941, 0, 1), Color(0, 0.866667, 0.623529, 1), Color(0, 0.643137, 0.701961, 1), Color(1, 0.835294, 0.52549, 1)])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.905098, 0.905098, 0.905098, 1)
 material = SubResource("CanvasItemMaterial_feh66")
-texture = ExtResource("1_dd3i7")
+texture = ExtResource("5_cc8gt")
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 show_behind_parent = true

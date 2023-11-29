@@ -1,6 +1,7 @@
 extends Area2D
 
 @export var ability: Player.Ability
+@export var ability_sprites: Array[Texture2D]
 @export var ability_sprite_colors: Array[Color]
 @export var ability_particle_colors: Array[Color]
 @export var move_speed = 16.0 # px/s
@@ -14,6 +15,7 @@ var collect_duration := 0.5
 var target_node: Node2D
 
 func _ready() -> void:
+	sprite.texture = ability_sprites[ability]
 	sprite.modulate = ability_sprite_colors[ability]
 	particles.process_material = particles.process_material.duplicate()
 	particles.process_material.color = ability_particle_colors[ability]
