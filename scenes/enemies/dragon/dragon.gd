@@ -47,6 +47,15 @@ func _ready() -> void:
 	if !target:
 		target = Game.get_singleton().player
 	MetSys.register_storable_object(self, queue_free)
+	health_progress.hide()
+	randomize()
+
+func rise() -> void:
+	state_chart.send_event("rise")
+	health_progress.show()
+
+func enable() -> void:
+	state_chart.send_event("enabled")
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	# TODO play scream sound

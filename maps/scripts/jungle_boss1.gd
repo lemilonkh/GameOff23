@@ -7,10 +7,13 @@ extends Room
 @onready var dragon: Node2D = $Dragon
 @onready var tile_map: TileMap = $TileMap
 
-func _ready() -> void:
+func spawn_dragon() -> void:
 	# lock player in room
-	await get_tree().create_timer(2.0).timeout
 	tile_map.set_layer_enabled(2, true)
+	dragon.rise()
+
+func enable_dragon() -> void:
+	dragon.enable()
 
 func _on_dragon_death() -> void:
 	if !is_instance_valid(ability_scale):

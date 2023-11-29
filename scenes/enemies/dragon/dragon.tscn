@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=33 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
 [ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
@@ -171,6 +171,18 @@ tracks/12/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, -56)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath(".:visible")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ga151"]
@@ -423,12 +435,101 @@ tracks/8/keys = {
 "values": [Vector2(0, -170), Vector2(0, -190)]
 }
 
+[sub_resource type="Animation" id="Animation_vcrwe"]
+resource_name = "rise"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyWrapper:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 2.73208),
+"update": 0,
+"values": [Vector2(0, 700), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyWrapper/Body/LeftWing:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-234, -32), Vector2(-288, -216)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyWrapper/Body/LeftWing:rotation")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.932615, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BodyWrapper/Body/RightWing:position")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(234, -32), Vector2(288, -216)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BodyWrapper/Body/RightWing:rotation")
+tracks/4/interp = 2
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.932006, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(2, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-8, 49), Vector2(-8, -20)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5v4p6"]
 _data = {
 "RESET": SubResource("Animation_xto88"),
 "death": SubResource("Animation_ga151"),
 "fireball": SubResource("Animation_optyw"),
-"idle": SubResource("Animation_41osx")
+"idle": SubResource("Animation_41osx"),
+"rise": SubResource("Animation_vcrwe")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fc2pj"]
@@ -492,6 +593,7 @@ region = Rect2(22, 18, 206, 230)
 size = Vector2(194, 59)
 
 [node name="Dragon" type="Node2D"]
+visible = false
 position = Vector2(0, 500)
 script = ExtResource("1_kjnd8")
 
@@ -624,12 +726,40 @@ script = ExtResource("5_pmpei")
 
 [node name="Action" type="Node" parent="StateChart/ParallelState"]
 script = ExtResource("6_qgct8")
-initial_state = NodePath("Idle")
+initial_state = NodePath("Waiting")
 
 [node name="OnDeath" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_7x5fb")
 to = NodePath("../Death")
 event = &"death"
+
+[node name="Waiting" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("9_dkpms")
+
+[node name="OnRise" type="Node" parent="StateChart/ParallelState/Action/Waiting"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Rise")
+event = &"rise"
+
+[node name="Rise" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_lxvgv")
+animation_player = NodePath("../../../../AnimationPlayer")
+animation_name = &"rise"
+
+[node name="OnAnimationFinished" type="Node" parent="StateChart/ParallelState/Action/Rise"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../DialogueWaiting")
+event = &"animation_finished"
+
+[node name="DialogueWaiting" type="Node" parent="StateChart/ParallelState/Action"]
+script = ExtResource("7_lxvgv")
+animation_player = NodePath("../../../../AnimationPlayer")
+animation_name = &"idle"
+
+[node name="OnEnabled" type="Node" parent="StateChart/ParallelState/Action/DialogueWaiting"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"enabled"
 
 [node name="Idle" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_lxvgv")

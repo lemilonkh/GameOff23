@@ -1,12 +1,24 @@
 ~ start
 
+if game.has_killed_jungle_boss
+	=> END
+if npc.has_finished_intro
+	do scene.spawn_dragon()
+	do scene.enable_dragon()
+	=> END
+
 Aila: This is weird. I could swear I sensed that scoundrel was here.
 
 # *Dianthus emerges from the floor*
 do scene.spawn_dragon()
+do npc.store_finished_intro()
+do wait(4.0)
 
 Dianthus: Were you following me, varmint?
 Aila: You are not leaving this forest.
 Dianthus: Hahahaha! You are awfully confident; I like it. It'll be interesting to fight a dryad.
+
+do wait(1.0)
+do scene.enable_dragon()
 
 => END

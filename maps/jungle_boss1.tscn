@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqj30cmeetjn5"]
+[gd_scene load_steps=8 format=3 uid="uid://bqj30cmeetjn5"]
 
 [ext_resource type="Script" path="res://maps/scripts/jungle_boss1.gd" id="1_6cc7d"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_skqgx"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_71m2l"]
 [ext_resource type="PackedScene" uid="uid://c3tru5icecrvc" path="res://scenes/enemies/dragon/dragon.tscn" id="3_60wf1"]
 [ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="4_vurbt"]
+[ext_resource type="Script" path="res://scripts/dialogue_area.gd" id="6_m4qu7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j44lt"]
+size = Vector2(512, 536)
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_6cc7d")
@@ -32,7 +36,7 @@ layer_2/modulate = Color(1, 0.784314, 0.756863, 1)
 layer_2/tile_data = PackedInt32Array(983040, 262144, 2, 1048576, 0, 2, 1114112, 262144, 3, 1179648, 262144, 3, 1245184, 262144, 3, 1310720, 0, 2, 1376256, 0, 2, 1441792, 0, 2, 1507328, 262144, 3, 1572864, 0, 2, 1638400, 0, 2, 1703936, 0, 2, 1769472, 262144, 3, 1835008, 65536, 4)
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
-position = Vector2(64, 904)
+position = Vector2(32, 896)
 
 [node name="AbilityScale" parent="." instance=ExtResource("4_vurbt")]
 position = Vector2(96, 896)
@@ -48,4 +52,16 @@ position = Vector2(1168, 880)
 monitoring = false
 ability = 2
 
+[node name="DialogueArea" type="Area2D" parent="."]
+position = Vector2(144, 896)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_m4qu7")
+dialogue_file = "res://dialogue/boss_jungle.dialogue"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DialogueArea"]
+position = Vector2(176, -236)
+shape = SubResource("RectangleShape2D_j44lt")
+
 [connection signal="death" from="Dragon" to="." method="_on_dragon_death"]
+[connection signal="body_entered" from="DialogueArea" to="DialogueArea" method="_on_body_entered"]
