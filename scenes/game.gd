@@ -175,21 +175,21 @@ func goto_map(map_path: String):
 	if music_file:
 		if music_file != music_player.stream.resource_path:
 			music_player.stream = load(music_file)
-			music_player.play()
+		music_player.play()
 	else:
 		music_player.stop()
 	
 	if drums_file:
 		if drums_file != drums_player.stream.resource_path:
 			drums_player.stream = load(drums_file)
-			drums_player.play()
+		drums_player.play()
 	else:
 		drums_player.stop()
 	
 	if ambience_file:
 		if ambience_file != ambience_player.stream.resource_path:
 			ambience_player.stream = load(ambience_file)
-			ambience_player.play()
+		ambience_player.play()
 	else:
 		ambience_player.stop()
 	
