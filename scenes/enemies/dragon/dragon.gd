@@ -14,6 +14,8 @@ signal death
 @export var claw_return_duration := 1.0
 @export var claw_min_distance := 10
 @export var claw_max_distance := 300
+@export var meteor_spawn_height := 600
+@export var meteor_max_horizontal_distance := 200
 
 @onready var state_chart: StateChart = $StateChart
 @onready var health_progress: TextureProgressBar = %HealthProgress
@@ -24,12 +26,14 @@ signal death
 @onready var right_smash_claw: Hurtbox = $RightSmashClaw
 @onready var mouth_marker: Marker2D = %MouthMarker
 @onready var head: Sprite2D = %Head
+@onready var meteor_shower_timer: Timer = $MeteorShowerTimer
 
 const FIREBALL = preload("res://scenes/enemies/dragon/fireball.tscn")
 
 var health := max_health
 var current_attacks := []
 var is_dead := false
+var has_done_meteor_shower := false
 
 var left_attacks: Array[Array] = [
 	["SmashLeft", "SmashRight", "SmashBoth"],
@@ -137,6 +141,11 @@ func _on_death_state_entered() -> void:
 	death.emit()
 
 func _on_choose_attack_state_entered() -> void:
+	if !has_done_meteor_shower and health < 0.5 * max_health:
+		state_chart.send_event("MeteorShower")
+		has_done_meteor_shower = true
+		return
+	
 	if current_attacks.size() == 0:
 		var is_left := target.global_position.x < global_position.x
 		var attacks := left_attacks if is_left else right_attacks
@@ -151,3 +160,17 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 func _on_idle_state_physics_processing(delta: float) -> void:
 	var target_pos := Vector2(target.global_position.x, global_position.y)
 	global_position = global_position.move_toward(target_pos, move_speed * delta)
+
+func _on_meteor_shower_state_entered() -> void:
+	meteor_shower_timer.start()
+
+func _on_meteor_shower_state_exited() -> void:
+	meteor_shower_timer.stop()
+
+func _on_meteor_shower_timer_timeout() -> void:
+	var fireball := FIREBALL.instantiate()
+	get_parent().add_child(fireball)
+	var x_pos := target.global_position.x + randf_range(-meteor_max_horizontal_distance, meteor_max_horizontal_distance)
+	var global_floor_height := to_global(Vector2(0, floor_height)).y
+	fireball.global_position = Vector2(x_pos, global_floor_height - meteor_spawn_height)
+	fireball.direction = Vector2.DOWN
