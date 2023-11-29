@@ -391,9 +391,9 @@ text = "Resume"
 layout_mode = 2
 text = "Settings"
 
-[node name="QuitButton" type="Button" parent="UI/PauseMenu/CenterContainer/VBoxContainer"]
+[node name="MenuButton" type="Button" parent="UI/PauseMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Quit"
+text = "Main Menu"
 
 [node name="TeleportOptions" type="OptionButton" parent="UI/PauseMenu"]
 layout_mode = 1
@@ -414,5 +414,5 @@ visible = false
 
 [connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/SettingsButton" to="UI/PauseMenu" method="_on_settings_button_pressed"]
-[connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/QuitButton" to="UI/PauseMenu" method="_on_quit_button_pressed"]
+[connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/MenuButton" to="UI/PauseMenu" method="_on_menu_button_pressed"]
 [connection signal="item_selected" from="UI/PauseMenu/TeleportOptions" to="UI/PauseMenu/TeleportOptions" method="_on_item_selected"]
