@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bagbnemmeixs2"]
+[gd_scene load_steps=22 format=3 uid="uid://bagbnemmeixs2"]
 
 [ext_resource type="Script" path="res://scenes/objects/ability_scale.gd" id="1_65oqn"]
 [ext_resource type="Texture2D" uid="uid://dafenf4cws3eq" path="res://sprites/objects/scale_attack.png" id="2_8d7hv"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ces1drpbxehfg" path="res://sprites/objects/scale_grapple.png" id="4_aq83n"]
 [ext_resource type="Texture2D" uid="uid://mfte6rm0f0kk" path="res://sprites/objects/scale_dash.png" id="5_cc8gt"]
 [ext_resource type="Texture2D" uid="uid://b47urxmv0y0hh" path="res://sprites/objects/scale_glide.png" id="6_s7w7t"]
+[ext_resource type="AudioStream" uid="uid://4712q388o0mw" path="res://music/stinger_scale.ogg" id="7_7tmma"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_feh66"]
 light_mode = 1
@@ -225,5 +226,9 @@ libraries = {
 "": SubResource("AnimationLibrary_w6b4l")
 }
 autoplay = "hover"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_7tmma")
+bus = &"Music"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

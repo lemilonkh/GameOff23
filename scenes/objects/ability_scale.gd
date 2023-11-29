@@ -10,6 +10,7 @@ extends Area2D
 @onready var particles: GPUParticles2D = $GPUParticles2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var collect_duration := 0.5
 var target_node: Node2D
@@ -29,6 +30,7 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.has_method(&"gain_ability"):
+		audio_stream_player.play()
 		collision_shape.set_deferred("disabled", true)
 		target_node = body
 		body.gain_ability(ability)
