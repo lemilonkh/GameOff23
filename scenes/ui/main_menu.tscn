@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3lpfx8qk37ud"]
+[gd_scene load_steps=6 format=3 uid="uid://b3lpfx8qk37ud"]
 
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_djik8"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
+[ext_resource type="AudioStream" uid="uid://cps3h6y1wnvph" path="res://music/menu_music.ogg" id="3_5i02b"]
 [ext_resource type="Theme" uid="uid://cl17krft7cu8a" path="res://resources/pixel_ui_theme.tres" id="3_jud66"]
 [ext_resource type="PackedScene" uid="uid://dsjhyw77ybmlk" path="res://scenes/ui/settings_container.tscn" id="4_ispok"]
 
@@ -14,6 +15,11 @@ offset = Vector2(0, -120)
 transform = Transform2D(1, 0, 0, 1, 0, -120)
 
 [node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_5i02b")
+autoplay = true
+bus = &"Music"
 
 [node name="MainMenu" type="Control" parent="."]
 layout_mode = 3
