@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://bw2g6eiw6p681"]
+[gd_scene load_steps=55 format=3 uid="uid://bw2g6eiw6p681"]
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom_passive/mushroom.gd" id="1_pfp1u"]
 [ext_resource type="Texture2D" uid="uid://cflgfsmniliek" path="res://sprites/enemies/mushroom.png" id="4_fnq62"]
@@ -24,14 +24,6 @@ region = Rect2(46, 0, 23, 27)
 atlas = ExtResource("4_fnq62")
 region = Rect2(23, 0, 23, 27)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dyltn"]
-atlas = ExtResource("4_fnq62")
-region = Rect2(69, 0, 23, 27)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s30qj"]
-atlas = ExtResource("4_fnq62")
-region = Rect2(92, 0, 23, 27)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_wyc5w"]
 atlas = ExtResource("4_fnq62")
 region = Rect2(115, 0, 23, 27)
@@ -51,10 +43,6 @@ region = Rect2(145, 0, 29, 28)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vp6jt"]
 atlas = ExtResource("4_fnq62")
 region = Rect2(23, 0, 23, 27)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1gm0e"]
-atlas = ExtResource("4_fnq62")
-region = Rect2(0, 0, 23, 26)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkema"]
 atlas = ExtResource("4_fnq62")
@@ -130,12 +118,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_84uoi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dyltn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s30qj")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_wyc5w")
 }],
 "loop": false,
@@ -165,12 +147,6 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vp6jt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vp6jt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1gm0e")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vkema")
@@ -419,7 +395,9 @@ shape = SubResource("RectangleShape2D_eh2x1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_wta5e")
-animation = &"Walk"
+animation = &"Activate"
+frame = 2
+frame_progress = 1.0
 metadata/_edit_lock_ = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
