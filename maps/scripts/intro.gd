@@ -7,13 +7,14 @@ extends Room
 @onready var golden_dragon: Node2D = $GoldenDragon
 @onready var ability_scale_glide: Area2D = $AbilityScaleGlide
 @onready var ability_scale_attack: Area2D = $AbilityScaleAttack
+@onready var lizard_scale: Area2D = $Lizard/LizardScale
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var has_finished_intro := false
 
 const dialogue: DialogueResource = preload("res://dialogue/intro.dialogue")
 
 func _ready() -> void:
-	return
 	Game.get_singleton().start_dialogue(dialogue, initial_title, [{
 		scene = self,
 		game = Game.get_singleton(),
@@ -37,3 +38,11 @@ func spawn_scales() -> void:
 	tween2.tween_property(ability_scale_attack, "modulate", Color.WHITE, 1.0)
 	# don't set attack scale to monitoring as it will be stolen by lizard
 
+func reparent_scale() -> void:
+	ability_scale_attack.hide()
+	lizard_scale.show()
+
+func play_animation(anim_name: StringName, wait_for_end: bool = false) -> void:
+	animation_player.play(anim_name)
+	if wait_for_end:
+		await animation_player.animation_finished

@@ -36,7 +36,8 @@ Aila: Malva, what’s happening?
 Malva: Stand back, sweetie.
 
 #*Fight occurs, and Dianthus kills Malva, two scales drop, and then Dianthus leaves the scene*
-do golden_dragon.play_animation("attack", true)
+do golden_dragon.play_animation("attack")
+do wait(1.0)
 do friendly_dragon.play_animation("death")
 do wait(3.0)
 do scene.spawn_scales()
@@ -46,6 +47,7 @@ Aila: Malva… Please… Answer me.
 #*Aila picks up one of the scales*
 Aila: I’m sorry. I’m so sorry. You probably wouldn’t want me to do this, but…
 #*A lizard comes and steals the second scale*
+do scene.play_animation("lizard_steal", true)
 Aila: Hey, give that back!
 
 => END
