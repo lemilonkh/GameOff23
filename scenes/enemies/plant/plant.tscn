@@ -1,0 +1,275 @@
+[gd_scene load_steps=31 format=3 uid="uid://b53gernmyok5m"]
+
+[ext_resource type="Script" path="res://scenes/enemies/plant/plant.gd" id="1_f48ue"]
+[ext_resource type="Texture2D" uid="uid://s4xef1t51i71" path="res://sprites/enemies/plant.png" id="1_sfgid"]
+[ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/attacks/ranged/projectile.tscn" id="2_8rwj7"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_o51rc"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="4_50cej"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_xrlsm"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_b1tpq"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_m4sb4"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="9_g6i7i"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="16_tcrxk"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="17_8e7qw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5gflw"]
+size = Vector2(45, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qv3b"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(0, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5od48"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(22, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_20rvv"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(44, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2agif"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(66, 0, 22, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cy7h4"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(1, 64, 47, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gvd3u"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(48, 64, 47, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d07hn"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(1, 88, 47, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3kei"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(48, 88, 47, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_76m4a"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(1, 112, 46, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8ewh"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(48, 112, 47, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hehut"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qv3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5od48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_20rvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2agif")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5od48")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qv3b")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cy7h4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gvd3u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d07hn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3kei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_76m4a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8ewh")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qvs0y"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(31.8701, 26.7545, 47.087, 13.4534)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umaor"]
+atlas = ExtResource("1_sfgid")
+region = Rect2(0.017, 30, 31.062, 10)
+
+[sub_resource type="Animation" id="Animation_weapl"]
+resource_name = "hit"
+length = 0.25
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.00048437, 0.1, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3hgte"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8r17r"]
+_data = {
+"RESET": SubResource("Animation_3hgte"),
+"hit": SubResource("Animation_weapl")
+}
+
+[sub_resource type="Resource" id="Resource_f8dbt"]
+script = ExtResource("16_tcrxk")
+state = NodePath("../../../Movement/Dead")
+
+[sub_resource type="Resource" id="Resource_utuuk"]
+script = ExtResource("17_8e7qw")
+guard = SubResource("Resource_f8dbt")
+
+[node name="Plant" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_f48ue")
+projectile = ExtResource("2_8rwj7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 1.5)
+shape = SubResource("RectangleShape2D_5gflw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_hehut")
+animation = &"attack"
+
+[node name="AttackSpawner" type="Node2D" parent="."]
+
+[node name="Leafs" type="Node2D" parent="."]
+position = Vector2(0, 10)
+
+[node name="Sprite2D2" type="Sprite2D" parent="Leafs"]
+position = Vector2(0, -2)
+texture = SubResource("AtlasTexture_qvs0y")
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Leafs"]
+position = Vector2(0, 1)
+scale = Vector2(1.01561, 1)
+texture = SubResource("AtlasTexture_umaor")
+metadata/_edit_lock_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8r17r")
+}
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("3_o51rc")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("4_50cej")
+
+[node name="Movement" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_xrlsm")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("6_b1tpq")
+
+[node name="Dead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("6_b1tpq")
+
+[node name="ToDead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("7_m4sb4")
+to = NodePath("../Dead")
+event = &"dead"
+
+[node name="Action" type="Node" parent="StateChart/Root"]
+script = ExtResource("5_xrlsm")
+initial_state = NodePath("Passive")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("6_b1tpq")
+
+[node name="Attack" type="Node" parent="StateChart/Root/Action/Passive"]
+script = ExtResource("7_m4sb4")
+to = NodePath("../../Attack")
+event = &"attack"
+guard = SubResource("Resource_utuuk")
+delay_seconds = 0.4
+
+[node name="Attack" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("6_b1tpq")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action/Attack"]
+script = ExtResource("7_m4sb4")
+to = NodePath("../../Passive")
+event = &"passive"
+delay_seconds = 3.1
+
+[node name="Hit" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("6_b1tpq")
+
+[node name="Passive" type="Node" parent="StateChart/Root/Action/Hit"]
+script = ExtResource("7_m4sb4")
+to = NodePath("../../Passive")
+event = &"passive"
+
+[node name="ToHit" type="Node" parent="StateChart/Root/Action"]
+script = ExtResource("7_m4sb4")
+to = NodePath("../Hit")
+event = &"hit"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("9_g6i7i")]
+offset_left = 636.0
+offset_top = -21.0
+offset_right = -9.0
+offset_bottom = -21.0
+initial_node_to_watch = NodePath("../../StateChart")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="StateChartDebugger" parent="CanvasLayer2" instance=ExtResource("9_g6i7i")]
+offset_left = 636.0
+offset_top = -21.0
+offset_right = -9.0
+offset_bottom = -21.0
+initial_node_to_watch = NodePath("../../StateChart")
+
+[connection signal="state_entered" from="StateChart/Root/Movement/Dead" to="." method="_on_dead_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Action/Passive" to="." method="_on_passive_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Action/Attack" to="." method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/Action/Hit" to="." method="_on_hit_state_entered"]
