@@ -3,6 +3,9 @@ extends Room
 @onready var ability_scale: Area2D = $AbilityScale
 
 func spawn_scale() -> void:
+	if not is_instance_valid(ability_scale):
+		return
+	
 	ability_scale.modulate = Color.TRANSPARENT
 	ability_scale.visible = true
 	var tween := create_tween()
