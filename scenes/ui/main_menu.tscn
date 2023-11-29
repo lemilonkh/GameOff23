@@ -60,11 +60,12 @@ text = "Continue"
 layout_mode = 2
 text = "New Game"
 
-[node name="Settings" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Settings"
 
-[node name="Quit" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+[node name="QuitButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
@@ -73,5 +74,5 @@ visible = false
 
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
-[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_pressed"]

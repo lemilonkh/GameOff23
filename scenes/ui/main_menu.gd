@@ -9,8 +9,11 @@ const SAVE_FILE := "user://save_data.sav"
 @onready var continue_button: Button = $MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton
 @onready var camera_2d: Camera2D = $Camera2D
 @onready var settings_container: MarginContainer = $SettingsContainer
+@onready var quit_button: Button = %QuitButton
 
 func _ready() -> void:
+	if OS.has_feature("web"):
+		quit_button.hide()
 	if FileAccess.file_exists(SAVE_FILE):
 		continue_button.disabled = false
 
