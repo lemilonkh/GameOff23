@@ -1,27 +1,51 @@
-~ intro
+~ start
 
-{{npc_name}}: [[Hi|Hello|Greetings|Salutations]], I am {{npc_name}}.
-{{npc_name}}: Here are some choices.
-- First one
-	{{npc_name}}: You picked the first one.
-- Second one
-	{{npc_name}}: You picked the second one.
-- Start again => intro
-- End the conversation => END
-{{npc_name}}: For more information see the online documentation.
+Aila: Hi, Malva.
+Malva: Oh, Aila. How are you? What did you bring me today?
+Aila: Well...
+Malva: What happened? It isn’t a problem if you weren’t able to find anyth—
+Aila: No, no, it’s not that. Just…
+Malva: It’s okay sweetie, just give me the berries.
+Aila: I'm so sorry.
+Malva: Please don’t be. I'm sure fortune will smile upon you tomorrow. And even if it doesn’t, you must not forget you have other things you are capable of.
+Aila: Thank you, Malva.
 
-=> END
+*Aila gives Malva the berries*
 
-~ sword_conversation
+Malva: So, what kind of story do you want to hear today?
 
-Aila: What a lovely day! What do you want to do today?
-- Slay some dragons
-- Take a nap
-Aila: That sounds nice. Let's do it.
-Shopkeep: Here's a sword I found in storage you can use.
-- Thanks!
-	Shopkeep: You're welcome.
-- Nah, don't need it.
-	Shopkeep: Alright, let me know if you change your mind.
+#*Dianthus enters the scene before Aila can answer the question*
+do golden_dragon.play_animation("rise", true)
+do golden_dragon.play_animation("idle")
+
+Golden Dragon: Hello, Malva.
+Malva: It can’t be…
+Golden Dragon: What’s with that reaction? I was expecting a warm welcome from you.
+Aila: Malva, who is this?
+Malva: His name is Dianthus. He is…
+Dianthus: What’s the matter, Malva? Won’t you introduce me to your friend properly?
+Malva: You have a chance to leave now, so take it.
+Dianthus: I’m not leaving here without accomplishing my duty.
+Malva: If you decide to push your luck, I won’t go easy on you.
+Dianthus: As if it would make a difference.
+Dianthus: Tell me. What did you do in the past years you spent in this forest? It looks like you only ate fruits and wasted your time with these creatures while not being able to leave your tiny area.
+Malva: Don’t dare to look down on them. They are different from other forest animals. They are intelligent individuals just like us.
+Dianthus: Just because they can communicate complexly like us? Just because their brains are more capable in some areas than other forest animals? Don’t deceive yourself. They are not our equals and never will be. You came here and wasted your time with them only because… Whatever, it doesn’t matter anymore.
+Malva: Yes, it doesn’t.
+Aila: Malva, what’s happening?
+Malva: Stand back, sweetie.
+
+#*Fight occurs, and Dianthus kills Malva, two scales drop, and then Dianthus leaves the scene*
+do golden_dragon.play_animation("attack", true)
+do friendly_dragon.play_animation("death")
+do wait(3.0)
+do scene.spawn_scales()
+#*Aila walks up to Malva’s body*
+
+Aila: Malva… Please… Answer me.
+#*Aila picks up one of the scales*
+Aila: I’m sorry. I’m so sorry. You probably wouldn’t want me to do this, but…
+#*A lizard comes and steals the second scale*
+Aila: Hey, give that back!
 
 => END

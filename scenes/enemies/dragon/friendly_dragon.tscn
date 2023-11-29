@@ -1,18 +1,8 @@
-[gd_scene load_steps=34 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=22 format=3 uid="uid://rfn4w2xakosd"]
 
-[ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
-[ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
-[ext_resource type="Script" path="res://scripts/hurtbox.gd" id="2_abowh"]
-[ext_resource type="Texture2D" uid="uid://bw7yh877rtdmo" path="res://sprites/particles/explosion.png" id="2_qd3gh"]
-[ext_resource type="Script" path="res://scenes/enemies/dragon/hitbox.gd" id="3_olnts"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="4_qplve"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="5_pmpei"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="6_qgct8"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_7x5fb"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/animation_player_state.gd" id="7_lxvgv"]
-[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="9_dkpms"]
-[ext_resource type="Texture2D" uid="uid://cyw1b3alrkdjw" path="res://sprites/ui/health_bar_empty.png" id="10_c3rq8"]
-[ext_resource type="Texture2D" uid="uid://bc2fyc5ypy8p2" path="res://sprites/ui/health_bar_fill.png" id="11_mnjds"]
+[ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_ns74r"]
+[ext_resource type="Script" path="res://scenes/enemies/dragon/friendly_dragon.gd" id="1_pci3g"]
+[ext_resource type="Texture2D" uid="uid://bw7yh877rtdmo" path="res://sprites/particles/explosion.png" id="2_ow7oy"]
 
 [sub_resource type="Animation" id="Animation_xto88"]
 length = 0.001
@@ -573,49 +563,49 @@ _data = {
 "rise": SubResource("Animation_vcrwe")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fc2pj"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_7blro"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(40, 496, 344, 504)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0pm7q"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_wctog"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(448, 488, 480, 272)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_alah8"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhhnj"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(400, 288, 168, 184)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vto7i"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgif2"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(208, 280, 152, 176)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qr65y"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_oumjj"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(40, 296, 144, 160)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ee60r"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhi1v"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(768, 32, 128, 176)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_70og6"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_dxmgx"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(496, 24, 208, 224)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2xa4l"]
-atlas = ExtResource("1_fp7t4")
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1m3n"]
+atlas = ExtResource("1_ns74r")
 region = Rect2(248, 56, 208, 136)
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gw38e"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5bwch"]
 radius = 62.1198
 height = 210.0
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lo480"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_p8bb5"]
 particles_animation = true
 particles_anim_h_frames = 7
 particles_anim_v_frames = 1
 particles_anim_loop = false
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dsniv"]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0gvg0"]
 particle_flag_disable_z = true
 emission_shape_offset = Vector3(0, -180, 0)
 emission_shape = 3
@@ -626,17 +616,9 @@ hue_variation_max = 0.08
 anim_speed_min = 2.0
 anim_speed_max = 3.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vrbi7"]
-atlas = ExtResource("1_fp7t4")
-region = Rect2(22, 18, 206, 230)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge1sf"]
-size = Vector2(194, 59)
-
-[node name="Dragon" type="Node2D"]
-visible = false
-position = Vector2(0, 500)
-script = ExtResource("1_kjnd8")
+[node name="FriendlyDragon" type="Node2D"]
+modulate = Color(0.34669, 1, 0.217017, 1)
+script = ExtResource("1_pci3g")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 callback_mode_process = 0
@@ -644,46 +626,44 @@ libraries = {
 "": SubResource("AnimationLibrary_5v4p6")
 }
 autoplay = "idle"
-
-[node name="MeteorShowerTimer" type="Timer" parent="."]
-wait_time = 0.5
+playback_default_blend_time = 0.3
 
 [node name="BodyWrapper" type="Node2D" parent="."]
 
 [node name="Body" type="Sprite2D" parent="BodyWrapper"]
-texture = SubResource("AtlasTexture_fc2pj")
+texture = SubResource("AtlasTexture_7blro")
 
 [node name="LeftWing" type="Sprite2D" parent="BodyWrapper/Body"]
 show_behind_parent = true
 position = Vector2(-288, -216)
-texture = SubResource("AtlasTexture_0pm7q")
+texture = SubResource("AtlasTexture_wctog")
 flip_h = true
 
 [node name="RightWing" type="Sprite2D" parent="BodyWrapper/Body"]
 show_behind_parent = true
 position = Vector2(288, -216)
-texture = SubResource("AtlasTexture_0pm7q")
+texture = SubResource("AtlasTexture_wctog")
 
 [node name="Neck1" type="Sprite2D" parent="BodyWrapper/Body"]
 position = Vector2(0, -170)
-texture = SubResource("AtlasTexture_alah8")
+texture = SubResource("AtlasTexture_xhhnj")
 
 [node name="Neck2" type="Sprite2D" parent="BodyWrapper/Body/Neck1"]
 position = Vector2(0, -32)
-texture = SubResource("AtlasTexture_vto7i")
+texture = SubResource("AtlasTexture_hgif2")
 
 [node name="Neck3" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2"]
 position = Vector2(0, -9)
-texture = SubResource("AtlasTexture_qr65y")
+texture = SubResource("AtlasTexture_oumjj")
 
 [node name="Neck4" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3"]
 position = Vector2(0, -56)
-texture = SubResource("AtlasTexture_ee60r")
+texture = SubResource("AtlasTexture_uhi1v")
 
 [node name="Head" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4"]
 unique_name_in_owner = true
 position = Vector2(-8, -20)
-texture = SubResource("AtlasTexture_70og6")
+texture = SubResource("AtlasTexture_dxmgx")
 
 [node name="MouthMarker" type="Marker2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head"]
 unique_name_in_owner = true
@@ -693,235 +673,34 @@ position = Vector2(8, 79.3694)
 position = Vector2(-164, -39)
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("3_olnts")
 
 [node name="Sprite2D" type="Sprite2D" parent="BodyWrapper/LeftClaw"]
-texture = SubResource("AtlasTexture_2xa4l")
+texture = SubResource("AtlasTexture_r1m3n")
 flip_h = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyWrapper/LeftClaw"]
+visible = false
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_gw38e")
+shape = SubResource("CapsuleShape2D_5bwch")
 
 [node name="RightClaw" type="Area2D" parent="BodyWrapper"]
 position = Vector2(156, -39)
 collision_layer = 4
 collision_mask = 0
-script = ExtResource("3_olnts")
 
 [node name="Sprite2D" type="Sprite2D" parent="BodyWrapper/RightClaw"]
-texture = SubResource("AtlasTexture_2xa4l")
+texture = SubResource("AtlasTexture_r1m3n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BodyWrapper/RightClaw"]
+visible = false
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_gw38e")
+shape = SubResource("CapsuleShape2D_5bwch")
 
 [node name="ExplosionParticles" type="GPUParticles2D" parent="BodyWrapper"]
 z_index = 2
-material = SubResource("CanvasItemMaterial_lo480")
+material = SubResource("CanvasItemMaterial_p8bb5")
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_dsniv")
-texture = ExtResource("2_qd3gh")
+process_material = SubResource("ParticleProcessMaterial_0gvg0")
+texture = ExtResource("2_ow7oy")
 local_coords = true
-
-[node name="LeftSmashClaw" type="Area2D" parent="."]
-visible = false
-position = Vector2(-164, 0)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("2_abowh")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="LeftSmashClaw"]
-z_index = 1
-position = Vector2(3, -111)
-texture = SubResource("AtlasTexture_vrbi7")
-flip_h = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftSmashClaw"]
-position = Vector2(3, -30)
-shape = SubResource("RectangleShape2D_ge1sf")
-debug_color = Color(0.890196, 0.32549, 0, 0.419608)
-
-[node name="RightSmashClaw" type="Area2D" parent="."]
-visible = false
-position = Vector2(156, 0)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("2_abowh")
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="RightSmashClaw"]
-z_index = 1
-position = Vector2(3, -111)
-texture = SubResource("AtlasTexture_vrbi7")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RightSmashClaw"]
-position = Vector2(3, -30)
-shape = SubResource("RectangleShape2D_ge1sf")
-debug_color = Color(0.890196, 0.32549, 0, 0.419608)
-
-[node name="StateChart" type="Node" parent="."]
-script = ExtResource("4_qplve")
-
-[node name="ParallelState" type="Node" parent="StateChart"]
-script = ExtResource("5_pmpei")
-
-[node name="Action" type="Node" parent="StateChart/ParallelState"]
-script = ExtResource("6_qgct8")
-initial_state = NodePath("Waiting")
-
-[node name="OnDeath" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../Death")
-event = &"death"
-
-[node name="Waiting" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnRise" type="Node" parent="StateChart/ParallelState/Action/Waiting"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Rise")
-event = &"rise"
-
-[node name="Rise" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_lxvgv")
-animation_player = NodePath("../../../../AnimationPlayer")
-animation_name = &"rise"
-
-[node name="OnAnimationFinished" type="Node" parent="StateChart/ParallelState/Action/Rise"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../DialogueWaiting")
-event = &"animation_finished"
-
-[node name="DialogueWaiting" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_lxvgv")
-animation_player = NodePath("../../../../AnimationPlayer")
-animation_name = &"idle"
-
-[node name="OnEnabled" type="Node" parent="StateChart/ParallelState/Action/DialogueWaiting"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Idle")
-event = &"enabled"
-
-[node name="Idle" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_lxvgv")
-animation_player = NodePath("../../../../AnimationPlayer")
-animation_name = &"idle"
-
-[node name="OnExpiration" type="Node" parent="StateChart/ParallelState/Action/Idle"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../ChooseAttack")
-delay_seconds = 3.0
-
-[node name="ChooseAttack" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnSmashLeft" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../SmashLeft")
-event = &"SmashLeft"
-
-[node name="OnSmashRight" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../SmashRight")
-event = &"SmashRight"
-
-[node name="OnSmashBoth" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../SmashBoth")
-event = &"SmashBoth"
-
-[node name="OnFireball" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Fireball")
-event = &"Fireball"
-
-[node name="OnMeteorShower" type="Node" parent="StateChart/ParallelState/Action/ChooseAttack"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../MeteorShower")
-event = &"MeteorShower"
-
-[node name="SmashLeft" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashLeft"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Idle")
-event = &"finished"
-
-[node name="SmashRight" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashRight"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Idle")
-event = &"finished"
-
-[node name="SmashBoth" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnFinished" type="Node" parent="StateChart/ParallelState/Action/SmashBoth"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Idle")
-event = &"finished"
-
-[node name="MeteorShower" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("9_dkpms")
-
-[node name="OnExpiration" type="Node" parent="StateChart/ParallelState/Action/MeteorShower"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../ChooseAttack")
-delay_seconds = 15.0
-
-[node name="Fireball" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_lxvgv")
-animation_player = NodePath("../../../../AnimationPlayer")
-animation_name = &"fireball"
-
-[node name="OnAnimationFinished" type="Node" parent="StateChart/ParallelState/Action/Fireball"]
-script = ExtResource("7_7x5fb")
-to = NodePath("../../Idle")
-event = &"animation_finished"
-
-[node name="Death" type="Node" parent="StateChart/ParallelState/Action"]
-script = ExtResource("7_lxvgv")
-animation_player = NodePath("../../../../AnimationPlayer")
-animation_name = &"death"
-
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(0, 50)
-
-[node name="UILayer" type="CanvasLayer" parent="."]
-
-[node name="CenterContainer" type="CenterContainer" parent="UILayer"]
-custom_minimum_size = Vector2(0, 48)
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -96.0
-offset_right = 96.0
-offset_bottom = 16.0
-grow_horizontal = 2
-
-[node name="HealthProgress" type="TextureProgressBar" parent="UILayer/CenterContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-value = 100.0
-texture_under = ExtResource("10_c3rq8")
-texture_progress = ExtResource("11_mnjds")
-texture_progress_offset = Vector2(10, 0)
-tint_progress = Color(0.803922, 0.156863, 0, 1)
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="MeteorShowerTimer" to="." method="_on_meteor_shower_timer_timeout"]
-[connection signal="state_physics_processing" from="StateChart/ParallelState/Action/Idle" to="." method="_on_idle_state_physics_processing"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/ChooseAttack" to="." method="_on_choose_attack_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashLeft" to="." method="_on_smash_left_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashRight" to="." method="_on_smash_right_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/SmashBoth" to="." method="_on_smash_both_state_entered"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/MeteorShower" to="." method="_on_meteor_shower_state_entered"]
-[connection signal="state_exited" from="StateChart/ParallelState/Action/MeteorShower" to="." method="_on_meteor_shower_state_exited"]
-[connection signal="state_entered" from="StateChart/ParallelState/Action/Death" to="." method="_on_death_state_entered"]
