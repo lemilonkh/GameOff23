@@ -21,7 +21,8 @@ func _on_body_entered(body: Node2D) -> void:
 	Game.get_singleton().start_dialogue(dialogue, initial_title, [{
 		npc = self,
 		scene = owner,
-		game = Game.get_singleton()
+		game = Game.get_singleton(),
+		player = body,
 	}])
 
 func _on_body_exited(body: Node2D) -> void:

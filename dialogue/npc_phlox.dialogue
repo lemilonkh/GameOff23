@@ -1,5 +1,9 @@
 ~ start
 
+if player.Ability.DASH in player.abilities
+	Phlox: What are you still doing here? I thought you had a more important thing to do at the top of the forest.
+	=> END
+
 if npc.has_finished_intro
 	=> progress
 
