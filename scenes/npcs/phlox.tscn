@@ -1,0 +1,161 @@
+[gd_scene load_steps=23 format=3 uid="uid://c78max8qb1ffi"]
+
+[ext_resource type="Script" path="res://scenes/npcs/npc.gd" id="1_yl6qn"]
+[ext_resource type="Texture2D" uid="uid://bridp3gfnk4x" path="res://sprites/npcs/aila_idle.png" id="2_okiqs"]
+[ext_resource type="Texture2D" uid="uid://bvbwd4meqwr0i" path="res://sprites/npcs/phlox.png" id="3_tgtwr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l3gdg"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(0, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7rlg"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(20, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bbe4"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(40, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l5st"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(60, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_225e5"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(80, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu4ny"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(100, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qccfo"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(120, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8o5c7"]
+atlas = ExtResource("2_okiqs")
+region = Rect2(140, 0, 20, 39)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ma3e1"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(0, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7uty"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(28, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nwh5"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(56, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_badrj"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(56, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u5b7s"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(84, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mw4mh"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(112, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otr6u"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(140, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj4a2"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(140, 0, 28, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1gje"]
+atlas = ExtResource("3_tgtwr")
+region = Rect2(140, 0, 28, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r05ey"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l3gdg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7rlg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bbe4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l5st")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_225e5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wu4ny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qccfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8o5c7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ma3e1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7uty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nwh5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_badrj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u5b7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mw4mh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otr6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj4a2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1gje")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mngmt"]
+size = Vector2(60, 60)
+
+[node name="Phlox" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_yl6qn")
+dialogue_file = "res://dialogue/npc_phlox.dialogue"
+npc_name = "Phlox"
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+sprite_frames = SubResource("SpriteFrames_r05ey")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.727422
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -10)
+shape = SubResource("RectangleShape2D_mngmt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
