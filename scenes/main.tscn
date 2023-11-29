@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxjmit51yylvl"]
 
-[ext_resource type="Script" path="res://scripts/pixel_perfect_scaling.gd" id="1_eh8h1"]
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_eh8h1"]
 [ext_resource type="PackedScene" uid="uid://b3lpfx8qk37ud" path="res://scenes/ui/main_menu.tscn" id="3_l7ei5"]
 
 [node name="Main" type="Control"]
