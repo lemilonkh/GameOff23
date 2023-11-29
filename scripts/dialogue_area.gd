@@ -24,7 +24,7 @@ func _on_body_entered(body: Node2D) -> void:
 		scene = owner,
 		game = Game.get_singleton()
 	}])
-	monitoring = false
+	set_deferred("monitoring", false)
 
 func _on_body_exited(body: Node2D) -> void:
 	Game.get_singleton().exit_dialogue()
