@@ -240,6 +240,9 @@ func reset_map_starting_coords():
 func start_dialogue(dialogue: DialogueResource, title: String, extra_game_states: Array = []) -> void:
 	dialogue_balloon.show()
 	dialogue_balloon.start(dialogue, title, extra_game_states)
+	player.is_move_disabled = true
+	await DialogueManager.dialogue_ended
+	player.is_move_disabled = false
 
 func exit_dialogue() -> void:
 	dialogue_balloon.hide()
