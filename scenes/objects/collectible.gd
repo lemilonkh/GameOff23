@@ -17,12 +17,13 @@ func _process(delta: float) -> void:
 	global_position = global_position.move_toward(target_node.global_position, move_speed * delta)
 	if global_position.distance_to(target_node.global_position) < 1:
 		set_process(false)
+		$AudioStreamPlayer.play()
 		Game.get_singleton().collectibles += 1
 		MetSys.store_object(self)
 		var tween := create_tween().set_trans(Tween.TRANS_SPRING)
 		tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.3)
+		tween.tween_interval(2.0)
 		tween.tween_callback(queue_free)
-		$AudioStreamPlayer.play()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:
