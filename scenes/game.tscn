@@ -230,6 +230,7 @@ bus = &"Music"
 
 [node name="AmbiencePlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_nkm84")
+volume_db = 2.0
 autoplay = true
 bus = &"Sounds"
 
