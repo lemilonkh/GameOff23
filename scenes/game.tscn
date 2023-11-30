@@ -54,10 +54,8 @@ func _draw() -> void:
 
 func _input(event: InputEvent) -> void:
 	# Toggle visibility when pressing M.
-	if event is InputEventKey:
-		if event.pressed:
-			if event.keycode == KEY_M:
-				visible = not visible
+	if event.is_action_pressed(&\"map\"):
+		visible = not visible
 "
 
 [sub_resource type="Animation" id="Animation_lgykt"]
@@ -150,13 +148,12 @@ func _draw() -> void:
 		draw_primitive([Vector2(-arrow_size, -arrow_size), Vector2(arrow_size, 0), Vector2(-arrow_size, arrow_size)], [Color.WHITE], [])
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.pressed:
-			# Toggle visibility when pressing M.
-			if event.keycode == KEY_M:
-				visible = not visible
-				if visible:
-					update_offset()
+	if event.is_action_pressed(&\"map\"):
+		visible = not visible
+		if visible:
+			update_offset()
+	#if event is InputEventKey:
+		#if event.pressed:
 			#elif event.keycode == KEY_D:
 				# D toggles position tracking (delta vector).
 				#show_delta = not show_delta
