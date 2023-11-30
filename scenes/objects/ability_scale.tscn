@@ -204,6 +204,8 @@ ability = 3
 ability_sprites = Array[Texture2D]([ExtResource("2_8d7hv"), ExtResource("3_h2mst"), ExtResource("4_aq83n"), ExtResource("5_cc8gt"), ExtResource("6_s7w7t")])
 ability_sprite_colors = Array[Color]([Color(0.533333, 0, 0.133333, 1), Color(0.435294, 0.823529, 0.0313726, 1), Color(0, 0.87451, 0.388235, 1), Color(0.67451, 1, 0.945098, 1), Color(0.858824, 0.494118, 0.0509804, 1)])
 ability_particle_colors = Array[Color]([Color(0.976471, 0.380392, 0.254902, 1), Color(0.792157, 0.952941, 0, 1), Color(0, 0.866667, 0.623529, 1), Color(0, 0.643137, 0.701961, 1), Color(1, 0.835294, 0.52549, 1)])
+ability_tutorial_titles = Array[String](["attack", "heal", "grapple", "dash", "glide"])
+dialogue_file = "res://dialogue/scale_tutorials.dialogue"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.905098, 0.905098, 0.905098, 1)

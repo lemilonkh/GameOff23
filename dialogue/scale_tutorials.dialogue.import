@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_11"
+type="Resource"
+uid="uid://ro5sen2nca1y"
+path="res://.godot/imported/scale_tutorials.dialogue-7376d9bdc4ae629da6aa3f48378eb0bb.tres"
+
+[deps]
+
+source_file="res://dialogue/scale_tutorials.dialogue"
+dest_files=["res://.godot/imported/scale_tutorials.dialogue-7376d9bdc4ae629da6aa3f48378eb0bb.tres"]
+
+[params]
+
+defaults=true
