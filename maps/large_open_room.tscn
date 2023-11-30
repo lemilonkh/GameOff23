@@ -5,7 +5,7 @@
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_baqmv"]
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="3_1fify"]
 [ext_resource type="PackedScene" uid="uid://c1nbit1ro6q05" path="res://scenes/enemies/mushroom/mushroom.tscn" id="4_pgrui"]
-[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/aila.tscn" id="5_ia252"]
+[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/phlox.tscn" id="5_ia252"]
 [ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="6_rta0f"]
 
 [node name="Map" type="Node2D"]

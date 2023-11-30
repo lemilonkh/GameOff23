@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dq3voh75yv3ib" path="res://scenes/objects/bouncy_shroom.tscn" id="3_b5ka3"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="4_7dsyq"]
 [ext_resource type="PackedScene" uid="uid://b2kdoahbbya4q" path="res://scenes/enemies/flying/flying_enemy.tscn" id="4_yp3qs"]
-[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/aila.tscn" id="5_tdsf0"]
+[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/phlox.tscn" id="5_tdsf0"]
 [ext_resource type="PackedScene" uid="uid://ftvatyfyxf5c" path="res://scenes/objects/wind_gust.tscn" id="6_rl8ak"]
 [ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="8_wbmbt"]
 
