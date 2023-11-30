@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://btqii0ugpt62n"]
+[gd_scene load_steps=4 format=3 uid="uid://btqii0ugpt62n"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_f8txb"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_pw5y2"]
+[ext_resource type="PackedScene" uid="uid://p34b5wrgv5m0" path="res://scenes/objects/collectible.tscn" id="3_jnnm6"]
 
 [node name="Map" type="Node2D"]
 
@@ -17,3 +18,6 @@ layer_1/tile_data = PackedInt32Array()
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(64, 64)
+
+[node name="Collectible" parent="." instance=ExtResource("3_jnnm6")]
+position = Vector2(408, 480)
