@@ -1,0 +1,426 @@
+[gd_scene load_steps=42 format=3 uid="uid://bl6wte2xeib6c"]
+
+[ext_resource type="Script" path="res://scenes/enemies/butterfly/butterfly.gd" id="1_aj04x"]
+[ext_resource type="Script" path="res://scenes/enemies/butterfly/butterfly_helper.gd" id="2_7ofj1"]
+[ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/attacks/ranged/projectile.tscn" id="2_k30pq"]
+[ext_resource type="PackedScene" uid="uid://b20sq7tl813nl" path="res://scenes/enemies/attacks/melee/melee.tscn" id="3_6xiv3"]
+[ext_resource type="Shader" path="res://scenes/enemies/butterfly/butterfly_disolve.gdshader" id="5_emqkc"]
+[ext_resource type="Texture2D" uid="uid://bdi1pyr7rcg84" path="res://sprites/enemies/butterfly.png" id="6_prax8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="6_q8xiy"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="7_3g1nm"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="8_88kru"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="9_m458a"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="10_g3fga"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="11_a1rec"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="12_kp78s"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vioqg"]
+radius = 16.0313
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6x26h"]
+shader = ExtResource("5_emqkc")
+shader_parameter/direction = Vector3(0, 0, 0)
+shader_parameter/spread = 10.0
+shader_parameter/flatness = 0.0
+shader_parameter/initial_linear_velocity_min = 1.3
+shader_parameter/initial_angle_min = null
+shader_parameter/angular_velocity_min = null
+shader_parameter/orbit_velocity_min = null
+shader_parameter/linear_accel_min = null
+shader_parameter/radial_accel_min = null
+shader_parameter/tangent_accel_min = null
+shader_parameter/damping_min = null
+shader_parameter/scale_min = 1.0
+shader_parameter/hue_variation_min = null
+shader_parameter/anim_speed_min = null
+shader_parameter/anim_offset_min = null
+shader_parameter/initial_linear_velocity_max = null
+shader_parameter/initial_angle_max = null
+shader_parameter/angular_velocity_max = null
+shader_parameter/orbit_velocity_max = null
+shader_parameter/linear_accel_max = null
+shader_parameter/radial_accel_max = null
+shader_parameter/tangent_accel_max = null
+shader_parameter/damping_max = null
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_max = null
+shader_parameter/anim_speed_max = null
+shader_parameter/anim_offset_max = null
+shader_parameter/lifetime_randomness = null
+shader_parameter/emission_box_extents = Vector3(10, 10, 1)
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = null
+shader_parameter/sprite = ExtResource("6_prax8")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2arik"]
+atlas = ExtResource("6_prax8")
+region = Rect2(0, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3g10e"]
+atlas = ExtResource("6_prax8")
+region = Rect2(22, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3m1e"]
+atlas = ExtResource("6_prax8")
+region = Rect2(44, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdvbe"]
+atlas = ExtResource("6_prax8")
+region = Rect2(66, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kh1to"]
+atlas = ExtResource("6_prax8")
+region = Rect2(88, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_klm1t"]
+atlas = ExtResource("6_prax8")
+region = Rect2(110, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_33plv"]
+atlas = ExtResource("6_prax8")
+region = Rect2(132, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cik4w"]
+atlas = ExtResource("6_prax8")
+region = Rect2(154, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fx0e"]
+atlas = ExtResource("6_prax8")
+region = Rect2(176, 32, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_476qx"]
+atlas = ExtResource("6_prax8")
+region = Rect2(0, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_05w2x"]
+atlas = ExtResource("6_prax8")
+region = Rect2(22, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgsal"]
+atlas = ExtResource("6_prax8")
+region = Rect2(44, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ojgt"]
+atlas = ExtResource("6_prax8")
+region = Rect2(66, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqvmy"]
+atlas = ExtResource("6_prax8")
+region = Rect2(88, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kacyn"]
+atlas = ExtResource("6_prax8")
+region = Rect2(110, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxfaf"]
+atlas = ExtResource("6_prax8")
+region = Rect2(132, 0, 22, 34)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2gb1w"]
+atlas = ExtResource("6_prax8")
+region = Rect2(154, 0, 22, 34)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_owbrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2arik")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3g10e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3m1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdvbe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kh1to")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_klm1t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_33plv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cik4w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fx0e")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"die",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_476qx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_05w2x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tgsal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ojgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqvmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kacyn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wxfaf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2gb1w")
+}],
+"loop": false,
+"name": &"move",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_6dm0l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow2D/FlyingEnemy/GPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_lvdsq"]
+resource_name = "death"
+length = 1.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.11, 0.49),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.49, 0.96),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.988235, 0.737255, 0.709804, 0.611765), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yfeko"]
+resource_name = "knockback"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pdino"]
+_data = {
+"RESET": SubResource("Animation_6dm0l"),
+"death": SubResource("Animation_lvdsq"),
+"knockback": SubResource("Animation_yfeko")
+}
+
+[sub_resource type="Resource" id="Resource_kp8g4"]
+script = ExtResource("11_a1rec")
+state = NodePath("../Dead")
+
+[sub_resource type="Resource" id="Resource_ut6eb"]
+script = ExtResource("12_kp78s")
+guard = SubResource("Resource_kp8g4")
+
+[sub_resource type="Resource" id="Resource_7xs8g"]
+script = ExtResource("11_a1rec")
+state = NodePath("../Dead")
+
+[sub_resource type="Resource" id="Resource_epeha"]
+script = ExtResource("12_kp78s")
+guard = SubResource("Resource_7xs8g")
+
+[node name="Butterfly" type="Path2D" groups=["Enemy"]]
+script = ExtResource("1_aj04x")
+projectile = ExtResource("2_k30pq")
+melee = ExtResource("3_6xiv3")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(2, -161)
+rotation = 0.289602
+rotates = false
+
+[node name="FlyingEnemy" type="CharacterBody2D" parent="PathFollow2D"]
+position = Vector2(44.0602, 154.867)
+rotation = -0.289602
+collision_layer = 4
+script = ExtResource("2_7ofj1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/FlyingEnemy"]
+shape = SubResource("CircleShape2D_vioqg")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="PathFollow2D/FlyingEnemy"]
+position = Vector2(6.81878e-05, 19.9997)
+rotation = 0.261799
+emitting = false
+amount = 100
+process_material = SubResource("ShaderMaterial_6x26h")
+lifetime = 0.5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/FlyingEnemy"]
+sprite_frames = SubResource("SpriteFrames_owbrp")
+animation = &"die"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D/FlyingEnemy"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_pdino")
+}
+
+[node name="AttackSpawner" type="Node2D" parent="PathFollow2D/FlyingEnemy"]
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("6_q8xiy")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("7_3g1nm")
+
+[node name="Movement" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_88kru")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("9_m458a")
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement/Idle"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Flying")
+event = &"fly"
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("9_m458a")
+
+[node name="Chase" type="Node" parent="StateChart/Root/Movement/Flying"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Chase")
+event = &"chase"
+
+[node name="Chase" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("9_m458a")
+
+[node name="Retreat" type="Node" parent="StateChart/Root/Movement/Chase"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Retreat")
+event = &"retreat"
+
+[node name="Retreat" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("9_m458a")
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement/Retreat"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Flying")
+event = &"fly"
+
+[node name="Dead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("9_m458a")
+
+[node name="ToDead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("10_g3fga")
+to = NodePath("../Dead")
+event = &"dead"
+guard = SubResource("Resource_ut6eb")
+
+[node name="ToRetreat" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("10_g3fga")
+to = NodePath("../Retreat")
+event = &"to_retreat"
+guard = SubResource("Resource_epeha")
+
+[node name="CompoundState" type="Node" parent="StateChart/Root"]
+script = ExtResource("8_88kru")
+initial_state = NodePath("Passive")
+
+[node name="Passive" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("9_m458a")
+
+[node name="Attack" type="Node" parent="StateChart/Root/CompoundState/Passive"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Attack")
+event = &"attack"
+
+[node name="Attack" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("9_m458a")
+
+[node name="Passive" type="Node" parent="StateChart/Root/CompoundState/Attack"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Passive")
+event = &"passive"
+delay_seconds = 2.0
+
+[node name="Hit" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("9_m458a")
+
+[node name="Passvie" type="Node" parent="StateChart/Root/CompoundState/Hit"]
+script = ExtResource("10_g3fga")
+to = NodePath("../../Passive")
+event = &"passive"
+
+[node name="ToHit" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("10_g3fga")
+to = NodePath("../Hit")
+event = &"hit"
+delay_seconds = 0.3
+
+[connection signal="state_processing" from="StateChart/Root/Movement/Idle" to="." method="_on_idle_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Chase" to="." method="_on_chase_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Chase" to="." method="_on_chase_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Retreat" to="." method="_on_retreat_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Retreat" to="." method="_on_retreat_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Dead" to="." method="_on_dead_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/CompoundState/Attack" to="." method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/CompoundState/Hit" to="." method="_on_hit_state_entered"]
