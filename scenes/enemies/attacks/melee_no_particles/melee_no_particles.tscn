@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d12vnwl8ww5u8"]
+
+[ext_resource type="Script" path="res://scenes/enemies/attacks/melee_no_particles/melee_no_particles.gd" id="1_1g4ah"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7gkxk"]
+radius = 14.0
+height = 62.0
+
+[node name="Melee" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_1g4ah")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(31, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_7gkxk")
+disabled = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

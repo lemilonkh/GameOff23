@@ -1,20 +1,25 @@
 extends CharacterBody2D
 
 @export var health := 3.0
-@export var speed := 20.0
+@export var speed := 56.0
 @export var gravity := 200.0
-@export var idle_distance_to_player := 100.0
+@export var idle_distance_to_player := 10.0
 @export var projectile: PackedScene
 @export var melee: PackedScene
 @export var use_melee := true
 @export var use_ranged := true
-@export var attack_switch_distance := 55.0 
+@export var attack_switch_distance := 57.0 
 @export var wait_before_deactivate := 10.0
 @export var knockback_amount := 80.0
 @export var knockback_decrease := 3.0
-@export var attack_wait_time : int = 80
-@export var stealth_chance : int = 110
-@export var stop_stealth_chance : int = 80
+@export var attack_wait_time : int = 38
+@export var stealth_chance : int = 20
+@export var stop_stealth_chance : int = 70
+@export var not_stealth_chanse : int = 10
+@export var loock_back_chanse : int = 3
+@export var wait_search_chanse : int = 10
+@export var stop_walk_chanse : int = 10
+@export var walk_search_chanse : int = 12
 
 @onready var _sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var _state: StateChart = $StateChart
@@ -27,12 +32,17 @@ extends CharacterBody2D
 @onready var _attack_spawner: Node2D = $AttackSpawner
 @onready var _collider: CollisionShape2D = $CollisionShape2D
 
+const _off := 4 # Sprite flip x offset
+
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
 var _player_in_range := false
 var _hit_effect := false
 var _hit_slowdown := 0.0
 var _player_visible := false
+var _attack_done := false
+var _last_walk := false
+var _random := randi()
 
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, \
@@ -75,24 +85,38 @@ func _on_deactivate_state_entered():
 	_state.send_event("inactive")
 
 
-func _on_idle_state_processing(delta):
-	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
-		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
-		return
-	if not _player_in_range and not _player_visible and (!(randi() % stealth_chance)):
-		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x > 0) \
-			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x < 0)):
-				_state.send_event("search")
+func _on_idle_state_physics_processing(delta: float) -> void:
+	# Search constraints
+	if (not _player_in_range) and (not _player_visible) and (!(randi() % stealth_chance)):
+		if (_left_side.is_colliding() and _player.position.x - self.position.x > 0) \
+			or (_right_side.is_colliding() and _player.position.x - self.position.x < 0):
+			if ((!_wall_side_1.is_colliding()) and _player.position.x - self.position.x < 0) \
+				or ((!_wall_side_2.is_colliding()) and _player.position.x - self.position.x > 0):
+				if _last_walk and !(randi()%wait_search_chanse):
+					_last_walk = false
+					_state.send_event("search")
+					return
+	# Walk constraints
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
-		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x < 0) \
-			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x > 0)):
-			_state.send_event("walk")
+		if (_left_side.is_colliding() and _player.position.x - self.position.x < 0) \
+			or (_right_side.is_colliding() and _player.position.x - self.position.x > 0):
+			if ((!_wall_side_1.is_colliding()) and _player.position.x - self.position.x > 0) \
+				or ((!_wall_side_2.is_colliding()) and _player.position.x - self.position.x < 0):
+				if _player_visible or (_last_walk):
+					_state.send_event("walk")
+					if (!_player_visible) and !(randi()%stop_walk_chanse):
+						_last_walk = false
+					return
+		_sprite.play("Idle")
 
 
 func _on_walk_state_entered():
+	_random = randi()
+	_last_walk = true
 	_sprite.play("Walk")
 	await _sprite.animation_finished
-	_state.send_event("idle")
+	if str(_move_states._active_state).left(4) == "Walk":
+		_state.send_event("idle")
 
 
 func _on_walk_state_physics_processing(delta):
@@ -104,9 +128,19 @@ func _on_walk_state_physics_processing(delta):
 	self.velocity.x = speed if _player.position.x - self.position.x > 0 else -speed
 
 
+func _on_search_state_entered() -> void:
+	# Make random choise
+	_random = randi()
+	if (!(randi() % not_stealth_chanse)):
+		_state.send_event("idle")
+	if (!_player_visible) and !(randi()%walk_search_chanse):
+		_last_walk = false
+
+
 func _on_search_state_physics_processing(delta: float) -> void:
-	if  not _left_side.is_colliding() or not _right_side.is_colliding() \
-		or _player_in_range or _player_visible: 
+	if  ((!_left_side.is_colliding()) and _player.position.x - self.position.x > 0) \
+		or ((!_right_side.is_colliding()) and _player.position.x - self.position.x < 0) \
+		or _player_in_range or _player_visible:
 		_sprite.stop()
 		_state.send_event("idle")
 		return
@@ -114,9 +148,9 @@ func _on_search_state_physics_processing(delta: float) -> void:
 		_sprite.stop()
 		_state.send_event("idle_wait")
 		return
-	if (_wall_side_1.is_colliding() and _sprite.scale.x > 0) \
-			or (_wall_side_2.is_colliding() and _sprite.scale.x < 0):
-			_state.send_event("idle")
+	if (_wall_side_1.is_colliding() and _sprite.scale.x < 0) \
+		or (_wall_side_2.is_colliding() and _sprite.scale.x > 0):
+		_state.send_event("idle")
 	self.velocity.x = -speed if _player.position.x - self.position.x > 0 else speed
 
 
@@ -141,23 +175,36 @@ func _on_hit_state_entered():
 
 
 func _on_passive_state_processing(delta):
-	if _player_visible and (!(randi() % attack_wait_time)):
+	var player_distance = (global_position - _player.global_position).length()
+	if (_player_visible and player_distance < attack_switch_distance) and (!(randi() % attack_wait_time)):
 		_state.send_event("attack")
 
 
 func _on_attack_state_entered():
+	_attack_done = false
+	if str(_move_states._active_state).left(4) != "Dead":
+		_sprite.play("Attack")
 	var attack : Node2D 
 	if abs((_player.global_position - self.global_position).length()) < \
 		attack_switch_distance and use_melee:
 		attack = melee.instantiate()
-	elif use_ranged:
-		attack = projectile.instantiate()
 	else:
+		_state.send_event("passive")
 		return
 	_attack_spawner.add_child(attack)
 	attack.look_at(_player.global_transform.origin)
 	attack.enemy = self
+	
+	if _sprite.is_playing():
+		await _sprite.animation_finished
+	_attack_done = true
 	_state.send_event("passive")
+
+
+func _on_attack_state_processing(delta: float) -> void:
+	if (!_attack_done) and _sprite.is_playing():
+		if str(_move_states._active_state).left(4) != "Idle":
+			_state.send_event("idle")
 
 
 func _physics_process(delta):
@@ -185,10 +232,14 @@ func _physics_process(delta):
 	var state := str(_move_states._active_state).left(8)
 	if (state != "Inactive") and (state != "Deactiva") \
 		and (state != "Activate") and (state.left(4) != "Dead"):
+
 		if state.left(6) == "Search":
-			_sprite.scale.x = 1 if (_player.position.x - self.position.x < 0) else -1
-		else:
 			_sprite.scale.x = -1 if (_player.position.x - self.position.x < 0) else 1
+			_sprite.position.x = _off if (_player.position.x - self.position.x < 0) else -_off
+		else:
+			if state.left(4) != "Idle" or !(_random%loock_back_chanse):
+				_sprite.scale.x = 1 if (_player.position.x - self.position.x < 0) else -1
+				_sprite.position.x = -_off if (_player.position.x - self.position.x < 0) else _off
 	
 	# Update player visibility
 	var space_state := get_world_2d().direct_space_state
@@ -205,7 +256,7 @@ func _physics_process(delta):
 	
 	# In check (can be removed)
 	if state.left(6) == "Search" or state.left(4) == "Walk":
-		if (_wall_side_1.is_colliding() and _sprite.scale.x > 0) \
-			or (_wall_side_2.is_colliding() and _sprite.scale.x < 0):
+		if (_wall_side_1.is_colliding() and _sprite.scale.x < 0) \
+			or (_wall_side_2.is_colliding() and _sprite.scale.x > 0):
 			_state.send_event("idle")
 
