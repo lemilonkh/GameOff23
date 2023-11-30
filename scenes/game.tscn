@@ -157,10 +157,10 @@ func _input(event: InputEvent) -> void:
 				visible = not visible
 				if visible:
 					update_offset()
-			elif event.keycode == KEY_D:
+			#elif event.keycode == KEY_D:
 				# D toggles position tracking (delta vector).
-				show_delta = not show_delta
-				queue_redraw()
+				#show_delta = not show_delta
+				#queue_redraw()
 
 func update_offset():
 	# Update the map offset based on the current position.
@@ -205,7 +205,7 @@ region = Rect2(4, 6, 19, 25)
 process_mode = 1
 texture_filter = 1
 script = ExtResource("1_jq20o")
-starting_map = "intro.tscn"
+starting_map = "jungle_ground1.tscn"
 metadata/_edit_vertical_guides_ = [432.0, 16.0]
 metadata/_edit_horizontal_guides_ = [240.0, 74.0, 90.0]
 
@@ -291,12 +291,15 @@ script = SubResource("GDScript_3j3ex")
 
 [node name="Percent" type="Label" parent="UI/MapWindow"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = 48.0
+offset_bottom = 33.0
 text = "0%"
 script = SubResource("GDScript_88ws2")
 
 [node name="Label" type="Label" parent="UI/MapWindow"]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
