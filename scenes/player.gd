@@ -391,7 +391,7 @@ func _on_death_state_exited() -> void:
 
 func _on_hurtbox_hit(body: Node2D) -> void:
 	# only pogo if enemy is directly below
-	if not is_on_floor() and floor_distance_shape_cast.is_colliding():
+	if not is_on_floor(): # and floor_distance_shape_cast.is_colliding():
 		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
 		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
 		state_chart.send_event("hit")
