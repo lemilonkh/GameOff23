@@ -183,8 +183,7 @@ func goto_map(map_path: String):
 	if drums_file:
 		if drums_file != drums_player.stream.resource_path:
 			drums_player.stream = load(drums_file)
-		if !drums_player.playing:
-			drums_player.play()
+		drums_player.play(music_player.get_playback_position())
 	else:
 		drums_player.stop()
 	
