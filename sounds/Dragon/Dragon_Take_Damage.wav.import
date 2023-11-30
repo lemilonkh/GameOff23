@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://baoe3evjte80"
-path="res://.godot/imported/Dragon_Take_Damage.wav-8f078db946195815f667ed826540ebe9.sample"
+path="res://.godot/imported/Dragon_Take_Damage.wav-61f8f48738648101c84acaa4e792a468.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Take_Damage.wav"
-dest_files=["res://.godot/imported/Dragon_Take_Damage.wav-8f078db946195815f667ed826540ebe9.sample"]
+source_file="res://sounds/Dragon/Dragon_Take_Damage.wav"
+dest_files=["res://.godot/imported/Dragon_Take_Damage.wav-61f8f48738648101c84acaa4e792a468.sample"]
 
 [params]
 

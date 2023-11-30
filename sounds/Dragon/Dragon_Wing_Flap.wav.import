@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dpwlkmvxeil4w"
-path="res://.godot/imported/Dragon_Wing_Flap.wav-43e8fdc6552acab3c4eea4dd376a9331.sample"
+path="res://.godot/imported/Dragon_Wing_Flap.wav-0b542e3628d02d926bc2b8d53423b4b3.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Wing_Flap.wav"
-dest_files=["res://.godot/imported/Dragon_Wing_Flap.wav-43e8fdc6552acab3c4eea4dd376a9331.sample"]
+source_file="res://sounds/Dragon/Dragon_Wing_Flap.wav"
+dest_files=["res://.godot/imported/Dragon_Wing_Flap.wav-0b542e3628d02d926bc2b8d53423b4b3.sample"]
 
 [params]
 

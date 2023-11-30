@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://ci11lr0bve2lf"
-path="res://.godot/imported/Dragon_Roar.wav-847b6e0f6f2b90e66d5b4d47b8308365.sample"
+path="res://.godot/imported/Dragon_Roar.wav-a994eae20f3b2933de3901ac495ec408.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Roar.wav"
-dest_files=["res://.godot/imported/Dragon_Roar.wav-847b6e0f6f2b90e66d5b4d47b8308365.sample"]
+source_file="res://sounds/Dragon/Dragon_Roar.wav"
+dest_files=["res://.godot/imported/Dragon_Roar.wav-a994eae20f3b2933de3901ac495ec408.sample"]
 
 [params]
 

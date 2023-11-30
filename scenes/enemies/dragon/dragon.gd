@@ -65,6 +65,7 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 	# TODO play scream sound
 	health = max(health - amount, 0)
 	health_progress.value = (health / max_health) * 100
+	$TakeDamagePlayer.play()
 	if health <= 0:
 		state_chart.send_event("death")
 
@@ -73,6 +74,7 @@ func shoot_fireball() -> void:
 	get_parent().add_child(fireball)
 	fireball.global_position = mouth_marker.global_position
 	fireball.direction = mouth_marker.global_position.direction_to(target.global_position)
+	$FireballPlayer.play()
 
 func _x_to_global(x_pos: int) -> int:
 	return to_global(Vector2.RIGHT * x_pos).x
@@ -105,7 +107,10 @@ func smash_down_claw(claw_side: StringName, apply_screen_shake: bool = true) -> 
 	tween.tween_property(smash_claw, "global_position", target_floor_pos, claw_slam_duration).set_ease(Tween.EASE_IN)
 	tween.parallel().tween_property(smash_claw, "modulate", Color("#f33900"), claw_slam_duration)
 	if apply_screen_shake:
-		tween.tween_callback(func(): camera.add_trauma(0.5))
+		tween.tween_callback(func():
+			camera.add_trauma(0.5)
+			$ClawAttackPlayer.play()
+		)
 	tween.tween_interval(0.5)
 	tween.tween_callback(func(): smash_claw.is_enabled = false)
 	tween.tween_property(smash_claw, "modulate", Color.WHITE, claw_return_duration)
@@ -137,6 +142,7 @@ func _on_death_state_entered() -> void:
 	is_dead = true
 	set_physics_process(false)
 	MetSys.store_object(self) # save dragon state so it doesn't respawn
+	$DeathPlayer.play()
 	create_tween().tween_property(head, "rotation", 0, 0.2)
 	death.emit()
 
@@ -163,6 +169,7 @@ func _on_idle_state_physics_processing(delta: float) -> void:
 
 func _on_meteor_shower_state_entered() -> void:
 	meteor_shower_timer.start()
+	$RoarPlayer.play()
 
 func _on_meteor_shower_state_exited() -> void:
 	meteor_shower_timer.stop()

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c8o0f0fvc15u2"
-path="res://.godot/imported/Dragon_Fireball.wav-ea96d62ceb7813bfa36d527c2b129e96.sample"
+path="res://.godot/imported/Dragon_Fireball.wav-3b512767f3f9606f39afdfa0b4b48812.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Fireball.wav"
-dest_files=["res://.godot/imported/Dragon_Fireball.wav-ea96d62ceb7813bfa36d527c2b129e96.sample"]
+source_file="res://sounds/Dragon/Dragon_Fireball.wav"
+dest_files=["res://.godot/imported/Dragon_Fireball.wav-3b512767f3f9606f39afdfa0b4b48812.sample"]
 
 [params]
 

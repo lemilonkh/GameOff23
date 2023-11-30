@@ -43,5 +43,3 @@ position = Vector2(352, 424)
 visible = false
 position = Vector2(680, 904)
 monitoring = false
-
-[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]

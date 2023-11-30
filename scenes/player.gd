@@ -107,6 +107,10 @@ enum Ability {
 @onready var jump_player: AudioStreamPlayer = $JumpPlayer
 @onready var run_player: AudioStreamPlayer = $RunPlayer
 @onready var run_timer: Timer = $RunTimer
+@onready var take_damage_player: AudioStreamPlayer = $TakeDamagePlayer
+@onready var glide_player: AudioStreamPlayer = $GlidePlayer
+@onready var heal_player: AudioStreamPlayer = $HealPlayer
+@onready var melee_player: AudioStreamPlayer = $MeleePlayer
 
 var health := max_health
 var is_invulnerable := false
@@ -138,6 +142,7 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 
 	health -= amount
 	velocity += knockback_force * direction
+	take_damage_player.play()
 	
 	if health <= 0:
 		health = 0
@@ -150,6 +155,8 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see game.gd).
 	reset_position = position
+	# Make sure player doesn't remain frozen after skipped dialogue etc.
+	is_move_disabled = false
 
 func teleport(target_position: Vector2) -> void:
 	grappling_vine.global_position = target_position
@@ -359,6 +366,7 @@ func _on_gliding_state_entered() -> void:
 	acceleration = glide_acceleration
 	deceleration = glide_deceleration
 	max_speed = glide_max_speed
+	glide_player.play()
 
 func _on_glide_state_physics_processing(delta: float) -> void:
 	energy += energy_per_pixel * abs(velocity.x) * delta
@@ -369,6 +377,7 @@ func _on_gliding_state_exited() -> void:
 	acceleration = default_acceleration
 	deceleration = default_deceleration
 	max_speed = default_max_speed
+	glide_player.stop()
 
 func _on_death_state_entered() -> void:
 	max_speed = 0
@@ -382,7 +391,7 @@ func _on_death_state_exited() -> void:
 
 func _on_hurtbox_hit(body: Node2D) -> void:
 	# only pogo if enemy is directly below
-	if not is_on_floor() and floor_distance_shape_cast.is_colliding():
+	if not is_on_floor(): # and floor_distance_shape_cast.is_colliding():
 		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
 		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
 		state_chart.send_event("hit")
@@ -396,6 +405,7 @@ func _on_hurtbox_tile_hit(tilemap: TileMap) -> void:
 func _on_attack_started() -> void:
 	is_move_disabled = true
 	combat_animation.play(&"Attack")
+	melee_player.play()
 
 func _on_attack_ended() -> void:
 	is_move_disabled = false
@@ -439,6 +449,7 @@ func _on_heal_state_processing(delta: float) -> void:
 		heal_timer -= heal_duration
 		health += 1
 		_update_health()
+		heal_player.play()
 
 func _on_heal_state_exited() -> void:
 	heal_particles.emitting = false

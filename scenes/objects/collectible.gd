@@ -22,6 +22,7 @@ func _process(delta: float) -> void:
 		var tween := create_tween().set_trans(Tween.TRANS_SPRING)
 		tween.tween_property(self, "modulate", Color.TRANSPARENT, 0.3)
 		tween.tween_callback(queue_free)
+		$AudioStreamPlayer.play()
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Player:

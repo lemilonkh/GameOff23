@@ -183,8 +183,7 @@ func goto_map(map_path: String):
 	if drums_file:
 		if drums_file != drums_player.stream.resource_path:
 			drums_player.stream = load(drums_file)
-		if !drums_player.playing:
-			drums_player.play()
+		drums_player.play(music_player.get_playback_position())
 	else:
 		drums_player.stop()
 	
@@ -207,6 +206,17 @@ func goto_map(map_path: String):
 		var target_position := player.position - map_grid_difference * MetSys.settings.in_game_cell_size
 		player.teleport(target_position)
 		player.on_enter()
+
+func fade_out_music() -> void:
+	var music_tween := create_tween()
+	music_tween.parallel().tween_property(music_player, "volume_db", -80, 4.0)
+	music_tween.parallel().tween_property(drums_player, "volume_db", -80, 4.0)
+	music_tween.tween_callback(func():
+		music_player.stop()
+		drums_player.stop()
+		music_player.volume_db = 0
+		drums_player.volume_db = 0
+	)
 
 func _physics_process(delta: float) -> void:
 	if not is_loading:

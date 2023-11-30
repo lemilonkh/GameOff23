@@ -16,11 +16,14 @@ func enable_dragon() -> void:
 	dragon.enable()
 
 func _on_dragon_death() -> void:
+	var game := Game.get_singleton()
+	game.has_killed_jungle_boss = true
+	game.fade_out_music()
+	fight_finished.emit()
+	
 	if !is_instance_valid(ability_scale):
 		printerr("Missing grapple ability scale!")
 		return
-	
-	Game.get_singleton().has_killed_jungle_boss = true
 	
 	ability_scale.global_position = dragon.global_position + Vector2.UP * dragon_mouth_offset
 	var tween := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)

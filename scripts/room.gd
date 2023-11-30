@@ -1,6 +1,8 @@
 extends Node2D
 class_name Room
 
+signal fight_finished
+
 const DEFAULT_MUSIC := "res://music/jungle_music.ogg"
 const DEFAULT_DRUMS := "res://music/jungle_drums.ogg"
 const DEFAULT_AMBIENCE := "res://sounds/Ambience/Ambience_Jungle.ogg"

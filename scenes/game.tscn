@@ -230,6 +230,7 @@ bus = &"Music"
 
 [node name="AmbiencePlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_nkm84")
+volume_db = 1.0
 autoplay = true
 bus = &"Sounds"
 
@@ -237,7 +238,7 @@ bus = &"Sounds"
 color = Color(0.8, 0.8, 0.8, 1)
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 2
+layer = 3
 
 [node name="Minimap" type="Panel" parent="UI"]
 clip_contents = true
@@ -359,6 +360,9 @@ layout_mode = 2
 layout_mode = 2
 text = "Loading game world..."
 
+[node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
+visible = false
+
 [node name="PauseMenu" type="ColorRect" parent="UI"]
 unique_name_in_owner = true
 process_mode = 3
@@ -408,9 +412,6 @@ script = ExtResource("8_qkn28")
 [node name="SettingsContainer" parent="UI/PauseMenu" instance=ExtResource("9_5swfr")]
 visible = false
 layout_mode = 1
-
-[node name="DialogueBalloon" parent="UI" instance=ExtResource("4_lj4cy")]
-visible = false
 
 [connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/ResumeButton" to="UI/PauseMenu" method="_on_resume_button_pressed"]
 [connection signal="pressed" from="UI/PauseMenu/CenterContainer/VBoxContainer/SettingsButton" to="UI/PauseMenu" method="_on_settings_button_pressed"]
