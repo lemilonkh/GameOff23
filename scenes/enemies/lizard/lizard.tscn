@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=3 uid="uid://dq0qovlqq4p71"]
+[gd_scene load_steps=71 format=3 uid="uid://dq0qovlqq4p71"]
 
 [ext_resource type="Script" path="res://scenes/enemies/lizard/lizard.gd" id="1_75a6b"]
 [ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/attacks/ranged/projectile.tscn" id="2_25mu4"]
@@ -7,8 +7,11 @@
 [ext_resource type="Shader" path="res://scenes/enemies/lizard/lizard_disolve.gdshader" id="5_l55m3"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="5_v47pi"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="6_2ejje"]
+[ext_resource type="AudioStream" uid="uid://gvu5qbxyhmmm" path="res://sounds/Enemy/Enemy_Mushroom_Walking.wav" id="6_xjcix"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="7_2gqpt"]
+[ext_resource type="AudioStream" uid="uid://cmxmqh7yi2ej8" path="res://sounds/Enemy/Enemy_Mushroom_Attack.wav" id="7_rhyyk"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="8_ek3m0"]
+[ext_resource type="AudioStream" uid="uid://cc2itm0kb1wni" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_002.wav" id="8_wqx51"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="9_ci2m8"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="10_goymp"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="11_601ye"]
@@ -509,6 +512,26 @@ metadata/_edit_lock_ = true
 libraries = {
 "": SubResource("AnimationLibrary_fcb67")
 }
+
+[node name="SoundEffects" type="Node" parent="."]
+
+[node name="Walk" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("6_xjcix")
+volume_db = -20.0
+pitch_scale = 1.5
+bus = &"Sounds"
+
+[node name="Attack" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("7_rhyyk")
+volume_db = -11.0
+pitch_scale = 1.15
+bus = &"Sounds"
+
+[node name="Hit" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("8_wqx51")
+volume_db = -3.0
+pitch_scale = 3.0
+bus = &"Sounds"
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("5_v47pi")
