@@ -38,14 +38,6 @@ layer_2/tile_data = PackedInt32Array(983040, 262144, 2, 1048576, 0, 2, 1114112, 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(32, 896)
 
-[node name="AbilityScale" parent="." instance=ExtResource("4_vurbt")]
-position = Vector2(96, 896)
-ability = 0
-
-[node name="AbilityScale2" parent="." instance=ExtResource("4_vurbt")]
-position = Vector2(96, 896)
-ability = 4
-
 [node name="GrappleAbilityScale" parent="." instance=ExtResource("4_vurbt")]
 modulate = Color(1, 1, 1, 0)
 position = Vector2(1168, 880)
