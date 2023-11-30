@@ -28,7 +28,6 @@ stream_3/stream = ExtResource("7_wbdtb")
 stream_3/weight = 1.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_dp35d"]
-random_pitch = 1.2
 random_volume_offset_db = 0.2
 streams_count = 4
 stream_0/stream = ExtResource("8_6tsk0")
@@ -115,18 +114,23 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Quit"
 
-[node name="SettingsContainer" parent="." instance=ExtResource("4_ispok")]
+[node name="SettingsMenu" parent="." instance=ExtResource("4_ispok")]
 visible = false
 
+[connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_pressed"]
+[connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_pressed"]
+[connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_pressed"]
+[connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_pressed"]
+[connection signal="closed" from="SettingsMenu" to="." method="_on_settings_menu_closed"]
