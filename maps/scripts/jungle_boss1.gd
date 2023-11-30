@@ -18,7 +18,7 @@ func enable_dragon() -> void:
 func _on_dragon_death() -> void:
 	var game := Game.get_singleton()
 	game.has_killed_jungle_boss = true
-	game.music_player.stop()
+	game.fade_out_music()
 	fight_finished.emit()
 	
 	if !is_instance_valid(ability_scale):

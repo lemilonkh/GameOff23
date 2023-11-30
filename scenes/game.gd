@@ -207,6 +207,17 @@ func goto_map(map_path: String):
 		player.teleport(target_position)
 		player.on_enter()
 
+func fade_out_music() -> void:
+	var music_tween := create_tween()
+	music_tween.parallel().tween_property(music_player, "volume_db", -80, 4.0)
+	music_tween.parallel().tween_property(drums_player, "volume_db", -80, 4.0)
+	music_tween.tween_callback(func():
+		music_player.stop()
+		drums_player.stop()
+		music_player.volume_db = 0
+		drums_player.volume_db = 0
+	)
+
 func _physics_process(delta: float) -> void:
 	if not is_loading:
 		# Notify MetSys about the player's current position.
