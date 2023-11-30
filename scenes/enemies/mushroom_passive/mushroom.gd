@@ -26,6 +26,8 @@ extends CharacterBody2D
 @onready var _wall_side_2: RayCast2D = $Raycasts/RayCastWall2
 @onready var _attack_spawner: Node2D = $AttackSpawner
 @onready var _collider: CollisionShape2D = $CollisionShape2D
+@onready var _walk: AudioStreamPlayer = $SoundEffects/Walk
+@onready var _hit: AudioStreamPlayer = $SoundEffects/Hit
 
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
@@ -102,6 +104,8 @@ func _on_walk_state_physics_processing(delta):
 		_state.send_event("idle")
 		return
 	self.velocity.x = speed if _player.position.x - self.position.x > 0 else -speed
+	if not _walk.playing:
+		_walk.play()
 
 
 func _on_search_state_physics_processing(delta: float) -> void:
@@ -135,6 +139,7 @@ func _on_dead_state_entered():
 
 
 func _on_hit_state_entered():
+	_hit.play()
 	_hit_effect = true
 	_animations.play("knockback")
 	_state.send_event("passive")

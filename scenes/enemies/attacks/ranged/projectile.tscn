@@ -1,7 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ceslib8nxu3hm"]
+[gd_scene load_steps=12 format=3 uid="uid://ceslib8nxu3hm"]
 
 [ext_resource type="Script" path="res://scenes/enemies/attacks/ranged/projectile.gd" id="1_jillh"]
 [ext_resource type="Texture2D" uid="uid://bkf1e240ouleb" path="res://addons/godot_state_charts/history_state.svg" id="2_r6wox"]
+[ext_resource type="AudioStream" uid="uid://cwypa6h5wnljr" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_003.wav" id="3_cwqj3"]
+[ext_resource type="AudioStream" uid="uid://b4lf47ay1ax64" path="res://sounds/Character/TakingDamage/Player_TakeDamage_003.wav" id="4_1b3rj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_bsmtm"]
 radius = 2.0
@@ -68,5 +70,15 @@ amount = 100
 process_material = SubResource("ParticleProcessMaterial_kfick")
 lifetime = 0.1
 one_shot = true
+
+[node name="ExplosionSoundEffect" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_cwqj3")
+volume_db = -8.7
+pitch_scale = 2.0
+
+[node name="ExplosionSoundEffect2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_1b3rj")
+volume_db = -8.5
+pitch_scale = 3.0
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

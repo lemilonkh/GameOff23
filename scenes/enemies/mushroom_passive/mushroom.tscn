@@ -1,9 +1,11 @@
-[gd_scene load_steps=55 format=3 uid="uid://bw2g6eiw6p681"]
+[gd_scene load_steps=57 format=3 uid="uid://bw2g6eiw6p681"]
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom_passive/mushroom.gd" id="1_pfp1u"]
 [ext_resource type="Texture2D" uid="uid://cflgfsmniliek" path="res://sprites/enemies/mushroom.png" id="4_fnq62"]
 [ext_resource type="Shader" path="res://scenes/enemies/mushroom_passive/mushroom_disolve.gdshader" id="4_pp3vx"]
 [ext_resource type="Texture2D" uid="uid://bf4io3pglr2m5" path="res://sprites/mushroom/Big Mushroom_Spawnpng.png" id="4_s6bkk"]
+[ext_resource type="AudioStream" uid="uid://j77ng7hsus8t" path="res://sounds/Character/PlayerRun/Player_Run_001.wav" id="5_hla8m"]
+[ext_resource type="AudioStream" uid="uid://cc2itm0kb1wni" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_002.wav" id="6_rwnbq"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="11_4cm25"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="12_a8bvk"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="13_octbe"]
@@ -442,6 +444,20 @@ metadata/_edit_lock_ = true
 libraries = {
 "": SubResource("AnimationLibrary_fcb67")
 }
+
+[node name="SoundEffects" type="Node" parent="."]
+
+[node name="Walk" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("5_hla8m")
+volume_db = -7.4
+pitch_scale = 0.41
+bus = &"Sounds"
+
+[node name="Hit" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("6_rwnbq")
+volume_db = -3.0
+pitch_scale = 3.0
+bus = &"Sounds"
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("11_4cm25")

@@ -1,10 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://b53gernmyok5m"]
+[gd_scene load_steps=32 format=3 uid="uid://b53gernmyok5m"]
 
 [ext_resource type="Script" path="res://scenes/enemies/plant/plant.gd" id="1_f48ue"]
 [ext_resource type="Texture2D" uid="uid://s4xef1t51i71" path="res://sprites/enemies/plant.png" id="1_sfgid"]
 [ext_resource type="PackedScene" uid="uid://ceslib8nxu3hm" path="res://scenes/enemies/attacks/ranged/projectile.tscn" id="2_8rwj7"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="3_o51rc"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="4_50cej"]
+[ext_resource type="AudioStream" uid="uid://cmxmqh7yi2ej8" path="res://sounds/Enemy/Enemy_Mushroom_Attack.wav" id="4_x30h5"]
+[ext_resource type="AudioStream" uid="uid://cc2itm0kb1wni" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_002.wav" id="5_jr8e1"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="5_xrlsm"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="6_b1tpq"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="7_m4sb4"]
@@ -191,6 +193,20 @@ metadata/_edit_lock_ = true
 libraries = {
 "": SubResource("AnimationLibrary_8r17r")
 }
+
+[node name="SoundEffects" type="Node" parent="."]
+
+[node name="Attack" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("4_x30h5")
+volume_db = -11.0
+pitch_scale = 1.15
+bus = &"Sounds"
+
+[node name="Hit" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("5_jr8e1")
+volume_db = -3.0
+pitch_scale = 3.0
+bus = &"Sounds"
 
 [node name="StateChart" type="Node" parent="."]
 script = ExtResource("3_o51rc")
