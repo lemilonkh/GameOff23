@@ -13,7 +13,8 @@ extends Path2D
 @export var gravity := 10.0 
 
 # Attack timings
-@export var min_fly_time := 2.2
+@export var min_fly_time := 2.0
+@export var max_fly_time := 7.0
 @export var attack_distance := 20.0
 @export var max_player_distance := 400.0
 @export var max_prev_distance := 10.0
@@ -69,7 +70,7 @@ func _on_flying_state_entered() -> void:
 
 func _on_flying_state_physics_processing(delta: float) -> void:
 	_path.progress += flying_speed
-	if Time.get_ticks_msec() - _fly_time >= min_fly_time*1000.0:
+	if Time.get_ticks_msec() - _fly_time >= randf_range(min_fly_time, max_fly_time)*1000.0:
 		if _player_visible and _player_distance < 400:
 			_state.send_event("chase")
 

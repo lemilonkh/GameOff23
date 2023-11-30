@@ -13,7 +13,8 @@ extends Path2D
 @export var gravity := 10.0 
 
 # Attack timings
-@export var min_fly_time := 2.2
+@export var min_fly_time := 2.0
+@export var max_fly_time := 7.0
 @export var attack_distance := 20.0
 @export var max_player_distance := 400.0
 @export var max_prev_distance := 10.0
@@ -31,6 +32,8 @@ extends Path2D
 @onready var _animations := $PathFollow2D/FlyingEnemy/AnimationPlayer
 @onready var _collision := $PathFollow2D/FlyingEnemy/CollisionShape2D
 @onready var _attack_spawner := $PathFollow2D/FlyingEnemy/AttackSpawner
+@onready var _attack: AudioStreamPlayer = $PathFollow2D/FlyingEnemy/SoundEffects/Attack
+@onready var _hit: AudioStreamPlayer = $PathFollow2D/FlyingEnemy/SoundEffects/Hit
 @onready var _position : Vector2 = _enemy.global_position
 
 var _player: Node2D
@@ -67,7 +70,7 @@ func _on_flying_state_entered() -> void:
 
 func _on_flying_state_physics_processing(delta: float) -> void:
 	_path.progress += flying_speed
-	if Time.get_ticks_msec() - _fly_time >= min_fly_time*1000.0:
+	if Time.get_ticks_msec() - _fly_time >= randf_range(min_fly_time, max_fly_time)*1000.0:
 		if _player_visible and _player_distance < 400:
 			_state.send_event("chase")
 
@@ -138,7 +141,7 @@ func _on_dead_state_entered():
 	_enemy.collision_layer = 0
 	_enemy.global_rotation = 0.0
 	_sprite.play("die90")
-	await get_tree().create_timer(3.0).timeout
+	await get_tree().create_timer(0.8).timeout
 	_animations.play("death")
 	await _animations.animation_finished
 	self.queue_free()
@@ -155,6 +158,7 @@ func _on_attack_state_entered() -> void:
 		return
 	_attack_spawner.add_child(attack)
 	attack.look_at(_player.global_position)
+	_attack.play()
 	attack.enemy = self
 	_state.send_event("passive")
 
@@ -164,6 +168,7 @@ func _on_hit_state_entered():
 	_animations.play("knockback")
 	_state.send_event("to_retreat")
 	_state.send_event("passive")
+	_hit.play()
 
 
 func _physics_process(delta: float) -> void:
