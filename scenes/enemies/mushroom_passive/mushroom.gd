@@ -78,17 +78,17 @@ func _on_deactivate_state_entered():
 
 
 func _on_idle_state_processing(delta):
-	if  (_player.position.x - self.position.x < 0 and !_left_side.is_colliding()) \
-		or (_player.position.x - self.position.x > 0 and !_right_side.is_colliding()):
-		return
 	if not _player_in_range and not _player_visible and (!(randi() % stealth_chance)):
 		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x > 0) \
 			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x < 0)):
 				_state.send_event("search")
+				return
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
 		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x < 0) \
 			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x > 0)):
 			_state.send_event("walk")
+			return
+	_sprite.play("Idle")
 
 
 func _on_walk_state_entered():
@@ -122,6 +122,8 @@ func _on_search_state_physics_processing(delta: float) -> void:
 			or (_wall_side_2.is_colliding() and _sprite.scale.x < 0):
 			_state.send_event("idle")
 	self.velocity.x = -speed if _player.position.x - self.position.x > 0 else speed
+	if not _walk.playing:
+		_walk.play()
 
 
 func _on_walk_state_exited():
