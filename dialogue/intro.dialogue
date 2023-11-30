@@ -1,5 +1,8 @@
 ~ start
 
+do friendly_dragon.play_animation("rise", true)
+do friendly_dragon.play_animation("idle")
+
 Aila: Hi, Malva.
 Malva: Oh, Aila. How are you? What did you bring me today?
 Aila: Well...

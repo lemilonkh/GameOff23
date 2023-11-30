@@ -14,14 +14,6 @@ var has_finished_intro := false
 
 const dialogue: DialogueResource = preload("res://dialogue/intro.dialogue")
 
-func _ready() -> void:
-	Game.get_singleton().start_dialogue(dialogue, initial_title, [{
-		scene = self,
-		game = Game.get_singleton(),
-		friendly_dragon = friendly_dragon,
-		golden_dragon = golden_dragon,
-	}])
-
 func spawn_scales() -> void:
 	if not is_instance_valid(ability_scale_glide) or not is_instance_valid(ability_scale_attack):
 		return
@@ -46,3 +38,11 @@ func play_animation(anim_name: StringName, wait_for_end: bool = false) -> void:
 	animation_player.play(anim_name)
 	if wait_for_end:
 		await animation_player.animation_finished
+
+func _on_cutscene_trigger_body_entered(body: Node2D) -> void:
+	Game.get_singleton().start_dialogue(dialogue, initial_title, [{
+		scene = self,
+		game = Game.get_singleton(),
+		friendly_dragon = friendly_dragon,
+		golden_dragon = golden_dragon,
+	}])
