@@ -64,9 +64,9 @@ class_name Player
 ## Distance to the grapple point at which the grapple stops
 @export_range(0, 128) var grapple_stop_distance := 32
 ## Amount of energy required for grappling
-@export_range(0, 100) var energy_required_grapple := 20.0
+@export_range(0, 100) var energy_required_grapple := 10.0
 ## Amount of energy required for dashing
-@export_range(0, 100) var energy_required_dash := 30.0
+@export_range(0, 100) var energy_required_dash := 20.0
 ## How fast the dash moves the player (px/s)
 @export_range(0, 2000) var dash_velocity := 1000.0
 ## Glide movement speed (maximum)
