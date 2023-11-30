@@ -17,6 +17,9 @@ func _ready() -> void:
 	get_viewport().size_changed.connect(on_screen_resized)
 	svc.size = Vector2(ProjectSettings.get("display/window/size/viewport_width"), ProjectSettings.get("display/window/size/viewport_height"))
 	on_screen_resized()
+	
+	if OS.has_feature("web"):
+		AudioManager.remove_filter()
 
 static func get_singleton() -> GameManager:
 	return (GameManager as Script).get_meta(&"singleton") as GameManager
