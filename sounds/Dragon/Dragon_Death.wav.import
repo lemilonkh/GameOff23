@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cbihav6ppskmd"
-path="res://.godot/imported/Dragon_Death.wav-903595111b660cd183d2b5ad2a6a89d2.sample"
+path="res://.godot/imported/Dragon_Death.wav-276c5e275b8c695b921153ff4d1329ce.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Death.wav"
-dest_files=["res://.godot/imported/Dragon_Death.wav-903595111b660cd183d2b5ad2a6a89d2.sample"]
+source_file="res://sounds/Dragon/Dragon_Death.wav"
+dest_files=["res://.godot/imported/Dragon_Death.wav-276c5e275b8c695b921153ff4d1329ce.sample"]
 
 [params]
 

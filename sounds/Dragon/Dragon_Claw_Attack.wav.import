@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d3juxud21khsa"
-path="res://.godot/imported/Dragon_Claw_Attack.wav-f9ba111e05394d2a201f1c632a06beaf.sample"
+path="res://.godot/imported/Dragon_Claw_Attack.wav-2926464be0b622e3bfc7bab679459546.sample"
 
 [deps]
 
-source_file="res://sounds/Dragon_Claw_Attack.wav"
-dest_files=["res://.godot/imported/Dragon_Claw_Attack.wav-f9ba111e05394d2a201f1c632a06beaf.sample"]
+source_file="res://sounds/Dragon/Dragon_Claw_Attack.wav"
+dest_files=["res://.godot/imported/Dragon_Claw_Attack.wav-2926464be0b622e3bfc7bab679459546.sample"]
 
 [params]
 
