@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://p34b5wrgv5m0"]
+[gd_scene load_steps=8 format=3 uid="uid://p34b5wrgv5m0"]
 
 [ext_resource type="Script" path="res://scenes/objects/collectible.gd" id="1_741fr"]
 [ext_resource type="Texture2D" uid="uid://cqydnkr7hfndt" path="res://sprites/objects/scale_shard.png" id="2_bllei"]
+[ext_resource type="AudioStream" uid="uid://4712q388o0mw" path="res://music/stinger_scale.ogg" id="3_vxrry"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gj67y"]
 size = Vector2(32, 32)
@@ -86,5 +87,9 @@ libraries = {
 "": SubResource("AnimationLibrary_1igcx")
 }
 autoplay = "hover"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vxrry")
+bus = &"Music"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
