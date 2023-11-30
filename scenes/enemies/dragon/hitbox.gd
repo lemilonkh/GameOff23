@@ -2,7 +2,11 @@ extends Area2D
 
 @export var hurt_color := Color("#ce2d3c")
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: Sprite2D = get_node_or_null(^"Sprite2D")
+
+func _ready() -> void:
+	if !sprite:
+		sprite = $Head
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = 0) -> void:
 	owner.take_hit(amount, attacker, direction, knockback_force)

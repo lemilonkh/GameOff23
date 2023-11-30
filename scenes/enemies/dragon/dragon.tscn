@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=42 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
 [ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
@@ -25,7 +25,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -157,7 +157,7 @@ tracks/10/keys = {
 tracks/11/type = "value"
 tracks/11/imported = false
 tracks/11/enabled = true
-tracks/11/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:modulate")
+tracks/11/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:modulate")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/keys = {
@@ -309,7 +309,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/6/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -346,7 +346,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:modulate")
+tracks/1/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:modulate")
 tracks/1/interp = 2
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -375,7 +375,7 @@ loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/0/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:position")
 tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -561,7 +561,7 @@ tracks/4/keys = {
 tracks/5/type = "value"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head:position")
+tracks/5/path = NodePath("BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -621,6 +621,10 @@ region = Rect2(75, 379, 122, 169)
 atlas = ExtResource("1_fp7t4")
 region = Rect2(631, 20, 222, 306)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_il7qj"]
+radius = 100.0
+height = 200.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_2xa4l"]
 atlas = ExtResource("1_fp7t4")
 region = Rect2(305, 22, 224, 258)
@@ -658,7 +662,6 @@ region = Rect2(12, 37, 203, 201)
 size = Vector2(197, 73)
 
 [node name="Dragon" type="Node2D"]
-visible = false
 position = Vector2(0, 500)
 script = ExtResource("1_kjnd8")
 metadata/_edit_horizontal_guides_ = [500.0]
@@ -705,15 +708,26 @@ texture = SubResource("AtlasTexture_nvgu3")
 position = Vector2(0, -56)
 texture = SubResource("AtlasTexture_ee60r")
 
-[node name="Head" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4"]
+[node name="HeadHitbox" type="Area2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4"]
+position = Vector2(-8, -30)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("3_olnts")
+
+[node name="Head" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox"]
 unique_name_in_owner = true
 position = Vector2(-8, -20)
 texture = SubResource("AtlasTexture_70og6")
 offset = Vector2(9, 0)
 
-[node name="MouthMarker" type="Marker2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/Head"]
+[node name="MouthMarker" type="Marker2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox/Head"]
 unique_name_in_owner = true
 position = Vector2(8, 85)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox"]
+position = Vector2(9, 29)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_il7qj")
 
 [node name="LeftClaw" type="Area2D" parent="BodyWrapper"]
 position = Vector2(-164, -39)
@@ -971,6 +985,7 @@ bus = &"Sounds"
 
 [node name="TakeDamagePlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("18_2h0ue")
+volume_db = 2.0
 bus = &"Sounds"
 
 [node name="WingFlapPlayer" type="AudioStreamPlayer" parent="."]
