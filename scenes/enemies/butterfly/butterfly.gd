@@ -31,6 +31,8 @@ extends Path2D
 @onready var _animations := $PathFollow2D/FlyingEnemy/AnimationPlayer
 @onready var _collision := $PathFollow2D/FlyingEnemy/CollisionShape2D
 @onready var _attack_spawner := $PathFollow2D/FlyingEnemy/AttackSpawner
+@onready var _attack: AudioStreamPlayer = $PathFollow2D/FlyingEnemy/SoundEffects/Attack
+@onready var _hit: AudioStreamPlayer = $PathFollow2D/FlyingEnemy/SoundEffects/Hit
 @onready var _position : Vector2 = _enemy.global_position
 
 var _player: Node2D
@@ -153,14 +155,16 @@ func _on_attack_state_entered() -> void:
 	_attack_spawner.add_child(attack)
 	attack.look_at(_player.global_position)
 	attack.enemy = self
+	_attack.play()
 	_state.send_event("passive")
 
 
 func _on_hit_state_entered():
 	_hit_effect = true
-	_animations.play("knockback")
-	_state.send_event("to_retreat")
 	_state.send_event("passive")
+	_state.send_event("to_retreat")
+	_animations.play("knockback")
+	_hit.play()
 
 
 func _physics_process(delta: float) -> void:
