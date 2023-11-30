@@ -155,6 +155,8 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 func on_enter():
 	# Position for kill system. Assigned when entering new room (see game.gd).
 	reset_position = position
+	# Make sure player doesn't remain frozen after skipped dialogue etc.
+	is_move_disabled = false
 
 func teleport(target_position: Vector2) -> void:
 	grappling_vine.global_position = target_position
