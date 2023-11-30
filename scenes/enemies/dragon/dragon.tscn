@@ -713,6 +713,7 @@ position = Vector2(-8, -30)
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("3_olnts")
+damage_factor = 2.0
 
 [node name="Head" type="Sprite2D" parent="BodyWrapper/Body/Neck1/Neck2/Neck3/Neck4/HeadHitbox"]
 unique_name_in_owner = true
