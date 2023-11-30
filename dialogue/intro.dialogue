@@ -39,6 +39,7 @@ Malva: Stand back, sweetie.
 do golden_dragon.play_animation("attack")
 do wait(1.0)
 do friendly_dragon.play_animation("death")
+do game.fade_out_music()
 do wait(3.0)
 do scene.spawn_scales()
 #*Aila walks up to Malva’s body*
