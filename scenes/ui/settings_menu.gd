@@ -1,5 +1,7 @@
 extends Control
 
+signal closed
+
 const SETTINGS_PATH := "user://settings.sav"
 
 @onready var music_slider: HSlider = %MusicSlider
@@ -21,9 +23,13 @@ func _ready() -> void:
 		music_slider.value = settings.music_volume
 		sounds_slider.value = settings.sounds_volume
 
+func focus() -> void:
+	%MusicSlider.grab_focus()
+
 func _on_close() -> void:
 	hide()
 	FileAccess.open(SETTINGS_PATH, FileAccess.WRITE).store_var(settings)
+	closed.emit()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible: return

@@ -111,6 +111,7 @@ enum Ability {
 @onready var glide_player: AudioStreamPlayer = $GlidePlayer
 @onready var heal_player: AudioStreamPlayer = $HealPlayer
 @onready var melee_player: AudioStreamPlayer = $MeleePlayer
+@onready var ability_not_available_player: AudioStreamPlayer = $AbilityNotAvailablePlayer
 
 var health := max_health
 var is_invulnerable := false
@@ -315,10 +316,10 @@ func _start_grapple() -> void:
 	if not Ability.GRAPPLE in abilities:
 		return
 	if grappling_vine.visible:
-		# TODO play error/ ability not available sound
+		ability_not_available_player.play()
 		return
 	if energy < energy_required_grapple:
-		# TODO play error/ ability not available sound
+		ability_not_available_player.play()
 		return
 	
 	grappling_vine.shoot(velocity)
@@ -327,7 +328,7 @@ func _start_dash() -> void:
 	if not Ability.DASH in abilities:
 		return
 	if energy < energy_required_dash:
-		# TODO play error/ ability not available sound
+		ability_not_available_player.play()
 		return
 	
 	state_chart.send_event("dash")

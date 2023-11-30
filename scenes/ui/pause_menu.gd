@@ -1,14 +1,23 @@
 extends ColorRect
 
 @onready var settings_container: MarginContainer = $SettingsContainer
+@onready var resume_button: Button = $CenterContainer/VBoxContainer/ResumeButton
+
+var previous_focus: Control
 
 func pause() -> void:
 	get_tree().paused = true
 	show()
+	previous_focus = get_viewport().gui_get_focus_owner()
+	resume_button.grab_focus()
 
 func unpause() -> void:
 	get_tree().paused = false
 	hide()
+	if previous_focus:
+		previous_focus.grab_focus()
+	elif get_viewport().gui_get_focus_owner():
+		get_viewport().gui_get_focus_owner().release_focus()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
