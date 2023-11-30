@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjsefeynbd46n"]
+[gd_scene load_steps=4 format=3 uid="uid://cjsefeynbd46n"]
 
 [ext_resource type="Script" path="res://maps/scripts/npc_room.gd" id="1_a31j4"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_i8gpc"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_fyqq3"]
-[ext_resource type="PackedScene" uid="uid://c78max8qb1ffi" path="res://scenes/npcs/phlox.tscn" id="3_qc2ql"]
-[ext_resource type="PackedScene" uid="uid://p34b5wrgv5m0" path="res://scenes/objects/collectible.tscn" id="4_8tscw"]
-[ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="6_nldil"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_a31j4")
@@ -27,19 +24,4 @@ layer_2/tile_data = PackedInt32Array(1900558, 786434, 6, 1835022, 589826, 4, 176
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(64, 64)
 
-[node name="Aila" parent="." instance=ExtResource("3_qc2ql")]
-position = Vector2(710, 909)
-
-[node name="Collectible" parent="." instance=ExtResource("4_8tscw")]
-position = Vector2(512, 680)
-
-[node name="Collectible2" parent="." instance=ExtResource("4_8tscw")]
-position = Vector2(512, 424)
-
-[node name="Collectible3" parent="." instance=ExtResource("4_8tscw")]
-position = Vector2(352, 424)
-
-[node name="AbilityScale" parent="." instance=ExtResource("6_nldil")]
-visible = false
-position = Vector2(680, 904)
-monitoring = false
+[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]
