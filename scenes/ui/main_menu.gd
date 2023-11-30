@@ -20,6 +20,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	camera_2d.position.x += delta * background_scroll_speed
 
+func _on_button_pressed() -> void:
+	$ButtonClickPlayer.play()
+
+func _on_button_hover() -> void:
+	$ButtonHoverPlayer.play()
+
 func _on_continue_button_pressed() -> void:
 	game_started.emit(true)
 
