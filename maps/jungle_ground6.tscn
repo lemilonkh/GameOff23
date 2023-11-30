@@ -21,5 +21,3 @@ layer_2/tile_data = PackedInt32Array(1900558, 786434, 6, 1835022, 589826, 4, 176
 
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(64, 64)
-
-[connection signal="body_entered" from="TileMap/SavePoint" to="TileMap/SavePoint" method="_on_body_entered"]

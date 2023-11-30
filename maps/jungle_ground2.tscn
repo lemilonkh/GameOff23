@@ -51,10 +51,3 @@ position = Vector2(59, 185)
 [node name="AbilityScale" parent="." instance=ExtResource("6_5d10g")]
 position = Vector2(167, 832)
 ability = 1
-
-[connection signal="body_entered" from="TileMap/WindGust" to="TileMap/WindGust" method="_on_body_entered"]
-[connection signal="body_exited" from="TileMap/WindGust" to="TileMap/WindGust" method="_on_body_exited"]
-[connection signal="body_entered" from="TileMap/@Area2D@93113" to="TileMap/@Area2D@93113" method="_on_body_entered"]
-[connection signal="body_exited" from="TileMap/@Area2D@93113" to="TileMap/@Area2D@93113" method="_on_body_exited"]
-[connection signal="body_entered" from="TileMap/@Area2D@93114" to="TileMap/@Area2D@93114" method="_on_body_entered"]
-[connection signal="body_exited" from="TileMap/@Area2D@93114" to="TileMap/@Area2D@93114" method="_on_body_exited"]
