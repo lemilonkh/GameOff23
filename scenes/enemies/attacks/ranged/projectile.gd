@@ -7,6 +7,8 @@ extends Area2D
 
 @onready var _trail := $Trail
 @onready var _explosion := $Explosion
+@onready var _explosion_sound_effect: AudioStreamPlayer = $ExplosionSoundEffect
+@onready var _explosion_sound_effect_2: AudioStreamPlayer = $ExplosionSoundEffect2
 
 var _start_time : float
 var _hit := false
@@ -42,6 +44,8 @@ func _on_body_entered(body):
 	_trail.emitting = false
 	await get_tree().create_timer(0.03).timeout
 	_trail.visible = false
+	_explosion_sound_effect.play()
+	_explosion_sound_effect_2.play()
 	_explosion.emitting = true
 	await get_tree().create_timer(0.5).timeout
 	self.queue_free()

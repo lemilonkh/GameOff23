@@ -31,6 +31,9 @@ extends CharacterBody2D
 @onready var _wall_side_2: RayCast2D = $Raycasts/RayCastWall2
 @onready var _attack_spawner: Node2D = $AttackSpawner
 @onready var _collider: CollisionShape2D = $CollisionShape2D
+@onready var _walk: AudioStreamPlayer = $SoundEffects/Walk
+@onready var _attack: AudioStreamPlayer = $SoundEffects/Attack
+@onready var _hit: AudioStreamPlayer = $SoundEffects/Hit
 
 const _off := 4 # Sprite flip x offset
 
@@ -126,6 +129,8 @@ func _on_walk_state_physics_processing(delta):
 		_state.send_event("idle")
 		return
 	self.velocity.x = speed if _player.position.x - self.position.x > 0 else -speed
+	if not _walk.playing:
+		_walk.play()
 
 
 func _on_search_state_entered() -> void:
@@ -152,6 +157,8 @@ func _on_search_state_physics_processing(delta: float) -> void:
 		or (_wall_side_2.is_colliding() and _sprite.scale.x > 0):
 		_state.send_event("idle")
 	self.velocity.x = -speed if _player.position.x - self.position.x > 0 else speed
+	if not _walk.playing:
+		_walk.play()
 
 
 func _on_walk_state_exited():
@@ -172,6 +179,7 @@ func _on_hit_state_entered():
 	_hit_effect = true
 	_animations.play("knockback")
 	_state.send_event("passive")
+	_hit.play()
 
 
 func _on_passive_state_processing(delta):
@@ -194,6 +202,7 @@ func _on_attack_state_entered():
 	_attack_spawner.add_child(attack)
 	attack.look_at(_player.global_transform.origin)
 	attack.enemy = self
+	_attack.play()
 	
 	if _sprite.is_playing():
 		await _sprite.animation_finished
