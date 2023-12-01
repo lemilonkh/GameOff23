@@ -5,6 +5,7 @@ signal death
 @export var target: Node2D
 @export var max_health := 30.0
 @export var move_speed := 100.0
+@export var is_upgraded := false
 
 @export_category("Attacks")
 @export var claw_up_height := -250
@@ -47,12 +48,22 @@ var right_attacks: Array[Array] = [
 	["Fireball", "SmashBoth"],
 ]
 
+var upgraded_attacks: Array[Array] = [
+	["Fireball", "Fireball", "Fireball"],
+	["MeteorShower"],
+	["SmashBoth", "SmashBoth"],
+]
+
 func _ready() -> void:
 	if !target:
 		target = Game.get_singleton().player
 	MetSys.register_storable_object(self, queue_free)
 	health_progress.hide()
 	randomize()
+	
+	if is_upgraded:
+		left_attacks.append_array(upgraded_attacks)
+		right_attacks.append_array(upgraded_attacks)
 
 func rise() -> void:
 	state_chart.send_event("rise")
