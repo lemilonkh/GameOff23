@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b3lpfx8qk37ud"]
+[gd_scene load_steps=17 format=3 uid="uid://b3lpfx8qk37ud"]
 
 [ext_resource type="PackedScene" uid="uid://bwv065hu2ei4t" path="res://scenes/backgrounds/jungle_background.tscn" id="2_djik8"]
 [ext_resource type="Script" path="res://scenes/ui/main_menu.gd" id="2_fo1fd"]
@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://c6s5hiiscpbj" path="res://sounds/UI/Menu/V2/UI_Menu_ButtonHoverV2_002.wav" id="9_ls7xu"]
 [ext_resource type="AudioStream" uid="uid://ci2exicqf6epk" path="res://sounds/UI/Menu/V2/UI_Menu_ButtonHoverV2_003.wav" id="10_u6skn"]
 [ext_resource type="AudioStream" uid="uid://btjjife3id7m0" path="res://sounds/UI/Menu/V2/UI_Menu_ButtonHoverV2_004.wav" id="11_62e7i"]
+[ext_resource type="PackedScene" uid="uid://1p213nolkkp0" path="res://scenes/ui/credits.tscn" id="14_v4ve4"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_r0kv5"]
 random_pitch = 1.2
@@ -109,6 +110,10 @@ text = "New Game"
 layout_mode = 2
 text = "Settings"
 
+[node name="CreditsButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+
 [node name="QuitButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -117,20 +122,27 @@ text = "Quit"
 [node name="SettingsMenu" parent="." instance=ExtResource("4_ispok")]
 visible = false
 
+[node name="Credits" parent="." instance=ExtResource("14_v4ve4")]
+visible = false
+
 [connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_continue_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/ContinueButton" to="." method="_on_button_pressed"]
 [connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_hover"]
-[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/NewGameButton" to="." method="_on_button_pressed"]
 [connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_hover"]
-[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/SettingsButton" to="." method="_on_button_pressed"]
+[connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="_on_button_hover"]
+[connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="_on_button_hover"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/CreditsButton" to="." method="_on_button_pressed"]
 [connection signal="focus_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_hover"]
 [connection signal="mouse_entered" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_hover"]
-[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/VBoxContainer/QuitButton" to="." method="_on_button_pressed"]
 [connection signal="closed" from="SettingsMenu" to="." method="_on_settings_menu_closed"]

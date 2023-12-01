@@ -52,3 +52,6 @@ func _on_quit_pressed() -> void:
 
 func _on_settings_menu_closed() -> void:
 	_update_buttons()
+
+func _on_credits_button_pressed() -> void:
+	$Credits.start()
