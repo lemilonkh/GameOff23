@@ -60,7 +60,7 @@
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
-height = 52.0
+height = 40.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6psc8"]
 size = Vector2(10, 10)
@@ -499,8 +499,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
 size = Vector2(73.5, 68.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b6ws"]
-size = Vector2(67, 68.5)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xrs01"]
+size = Vector2(67, 82.25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5voeg"]
 size = Vector2(64, 20)
@@ -872,7 +872,7 @@ script = ExtResource("1_an7jc")
 glide_stop_wall_duration = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(0, 0.6, 0.701961, 0)
 
@@ -911,13 +911,10 @@ region_enabled = true
 region_rect = Rect2(0, 0, 8, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-light_mask = 0
 position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"AirAttack"
+animation = &"Idle"
 autoplay = "Idle"
-frame = 4
-frame_progress = 1.0
 
 [node name="Glider" type="Sprite2D" parent="."]
 visible = false
@@ -942,8 +939,8 @@ disabled = true
 debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 
 [node name="Down" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, 56)
-shape = SubResource("RectangleShape2D_6b6ws")
+position = Vector2(0, 62.875)
+shape = SubResource("RectangleShape2D_xrs01")
 disabled = true
 debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 
@@ -952,7 +949,7 @@ collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2(0, -4)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_fjgps")
 debug_color = Color(1, 0.345098, 0.85098, 0.270588)
 

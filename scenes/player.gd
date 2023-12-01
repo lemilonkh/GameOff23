@@ -64,7 +64,7 @@ class_name Player
 ## How fast the grappling vine pulls you upwards (px/s)
 @export_range(0, 2000) var grapple_pull_velocity := 600.0
 ## Distance to the grapple point at which the grapple stops
-@export_range(0, 128) var grapple_stop_distance := 32
+@export_range(0, 128) var grapple_stop_distance := 64
 ## Amount of energy required for grappling
 @export_range(0, 100) var energy_required_grapple := 10.0
 ## Amount of energy required for dashing
