@@ -1,4 +1,4 @@
-[gd_scene load_steps=138 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=139 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -401,7 +401,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qusf1"]
-size = Vector2(102, 114)
+size = Vector2(73.5, 68.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b6ws"]
+size = Vector2(67, 68.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5voeg"]
 size = Vector2(64, 20)
@@ -785,9 +788,22 @@ collision_layer = 0
 collision_mask = 28
 script = ExtResource("11_oftqw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, 13)
+[node name="Left" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(-44.75, 13)
 shape = SubResource("RectangleShape2D_qusf1")
+disabled = true
+debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
+
+[node name="Right" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(45.5, 13.75)
+shape = SubResource("RectangleShape2D_qusf1")
+disabled = true
+debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
+
+[node name="Down" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, 56)
+shape = SubResource("RectangleShape2D_6b6ws")
+disabled = true
 debug_color = Color(0.94902, 0.254902, 0.286275, 0.12549)
 
 [node name="Hitbox" type="Area2D" parent="."]

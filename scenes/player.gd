@@ -408,6 +408,15 @@ func _on_hurtbox_tile_hit(tilemap: TileMap) -> void:
 
 func _on_attack_started() -> void:
 	is_move_disabled = true
+	if not is_on_floor() and Input.is_action_pressed("move_down"):
+		$Hurtbox/Left.disabled = true
+		$Hurtbox/Right.disabled = true
+		$Hurtbox/Down.disabled = false
+	else:
+		$Hurtbox/Left.disabled = last_direction > 0
+		$Hurtbox/Right.disabled = last_direction <= 0
+		$Hurtbox/Down.disabled = true
+		
 	combat_animation.play(&"Attack")
 	melee_player.play()
 
