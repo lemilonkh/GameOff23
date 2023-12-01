@@ -64,6 +64,8 @@ func _ready() -> void:
 	if is_upgraded:
 		left_attacks.append_array(upgraded_attacks)
 		right_attacks.append_array(upgraded_attacks)
+	
+	health = max_health
 
 func rise() -> void:
 	state_chart.send_event("rise")
