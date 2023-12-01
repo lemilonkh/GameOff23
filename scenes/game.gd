@@ -69,9 +69,7 @@ func start() -> void:
 		# If no data exists, reset MetSys.
 		MetSys.set_save_data()
 
-func _on_finish_loading() -> void:
-	load_overlay.hide()
-	
+func respawn_player() -> void:
 	# Go to the starting point.
 	goto_map(MetSys.get_full_room_path(starting_map))
 	# Find the save point and teleport the player to it, to start at the save point.
@@ -83,6 +81,11 @@ func _on_finish_loading() -> void:
 		start_point = map.get_node_or_null(^"SpawnMarker")
 	if start_point:
 		player.teleport(start_point.global_position)
+
+func _on_finish_loading() -> void:
+	load_overlay.hide()
+	
+	respawn_player()
 	
 	# Connect the room_changed signal to handle room transitions.
 	MetSys.room_changed.connect(on_room_changed, CONNECT_DEFERRED)

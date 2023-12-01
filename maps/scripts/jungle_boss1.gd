@@ -32,4 +32,5 @@ func _on_dragon_death() -> void:
 	tween.tween_property(ability_scale, "global_position", target_pos, 4.0)
 	tween.tween_callback(func():
 		ability_scale.monitoring = true
+		$DialogueArea.start_dialogue("fight_finished")
 	)

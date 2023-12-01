@@ -755,6 +755,7 @@ collision_layer = 0
 monitoring = false
 monitorable = false
 script = ExtResource("2_qoie8")
+max_range = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GrapplingVine"]
 position = Vector2(0, 5)

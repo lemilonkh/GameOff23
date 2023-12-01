@@ -388,10 +388,11 @@ func _on_death_state_entered() -> void:
 	# TODO show game over popup with prompt to reload from last checkpoint
 
 func _on_death_state_exited() -> void:
-	position = reset_position
+	#position = reset_position
 	max_speed = default_max_speed
 	health = max_health
 	_update_health()
+	Game.get_singleton().respawn_player()
 
 func _on_hurtbox_hit(body: Node2D) -> void:
 	# only pogo if enemy is directly below

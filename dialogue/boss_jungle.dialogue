@@ -22,3 +22,8 @@ do wait(1.0)
 do scene.enable_dragon()
 
 => END
+
+~ fight_finished
+Aila: I have a feeling that's not the last I've seen of him...
+Aila: I should check how Phlox is doing and if he may be able to help me.
+=> END
