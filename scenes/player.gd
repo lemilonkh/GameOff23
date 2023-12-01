@@ -44,9 +44,11 @@ class_name Player
 
 @export_category("Combat")
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var default_knockback := 600.0
+@export_range(0, 1000) var default_knockback := 400.0
 ## How much the player is knocked back when taking damage
-@export_range(0, 1000) var spike_knockback := 600.0
+@export_range(0, 1000) var spike_knockback := 400.0
+## Limit of velocity when applying knockback
+@export_range(0, 1000) var max_knockback_velocity := 600.0
 
 @export_category("Status")
 ## Duration of invulnerability after being hit in settings (also needs to be set in StateChart)
@@ -150,6 +152,7 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 	else:
 		state_chart.send_event("take_hit")
 		velocity += knockback_force * direction
+		velocity = velocity.limit_length(max_knockback_velocity)
 	
 	_update_health()
 
