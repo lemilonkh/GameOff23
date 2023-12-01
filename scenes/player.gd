@@ -139,7 +139,7 @@ var heal_timer := 0.0
 var energy_drain := 0.0
 var can_air_jump := false
 
-var abilities: Array[Ability] = []
+var abilities: Array[Ability] = [Ability.DASH, Ability.GLIDE]
 
 func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vector2.ZERO, knockback_force: float = default_knockback) -> void:
 	if is_invulnerable:
