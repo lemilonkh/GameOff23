@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://lv0x55yj8wew"]
+[gd_scene load_steps=7 format=3 uid="uid://lv0x55yj8wew"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_mngho"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_xwdfs"]
 [ext_resource type="PackedScene" uid="uid://ciyiki8r60vx4" path="res://scenes/objects/breakable_wall.tscn" id="3_dsua7"]
 [ext_resource type="PackedScene" uid="uid://bagbnemmeixs2" path="res://scenes/objects/ability_scale.tscn" id="4_joxyn"]
 [ext_resource type="PackedScene" uid="uid://cd5i8i6a7elkb" path="res://scenes/objects/save_point.tscn" id="5_uuoc4"]
+[ext_resource type="Texture2D" uid="uid://iybkopeffplr" path="res://sprites/enemies/lizard_dead.png" id="6_6ovi7"]
 
 [node name="Map" type="Node2D"]
 
@@ -38,3 +39,20 @@ ability = 0
 
 [node name="SavePoint" parent="." instance=ExtResource("5_uuoc4")]
 position = Vector2(1376, 400)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(137, 229)
+texture = ExtResource("6_6ovi7")
+
+[connection signal="body_entered" from="TileMap/WindGust" to="TileMap/WindGust" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/WindGust" to="TileMap/WindGust" method="_on_body_exited"]
+[connection signal="body_entered" from="TileMap/@Area2D@184242" to="TileMap/@Area2D@184242" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/@Area2D@184242" to="TileMap/@Area2D@184242" method="_on_body_exited"]
+[connection signal="body_entered" from="TileMap/@Area2D@184243" to="TileMap/@Area2D@184243" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/@Area2D@184243" to="TileMap/@Area2D@184243" method="_on_body_exited"]
+[connection signal="body_entered" from="TileMap/@Area2D@184244" to="TileMap/@Area2D@184244" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/@Area2D@184244" to="TileMap/@Area2D@184244" method="_on_body_exited"]
+[connection signal="body_entered" from="TileMap/@Area2D@184245" to="TileMap/@Area2D@184245" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/@Area2D@184245" to="TileMap/@Area2D@184245" method="_on_body_exited"]
+[connection signal="body_entered" from="TileMap/@Area2D@184246" to="TileMap/@Area2D@184246" method="_on_body_entered"]
+[connection signal="body_exited" from="TileMap/@Area2D@184246" to="TileMap/@Area2D@184246" method="_on_body_exited"]
