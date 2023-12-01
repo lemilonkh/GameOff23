@@ -922,7 +922,7 @@ position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
 animation = &"Glide"
 autoplay = "Idle"
-frame_progress = 0.955966
+frame_progress = 0.986928
 
 [node name="Glider" type="Sprite2D" parent="."]
 visible = false
