@@ -78,6 +78,7 @@ script = ExtResource("1_f5vtc")
 [node name="ColorRect" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="ColorRect"]

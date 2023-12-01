@@ -64,6 +64,8 @@ func _ready() -> void:
 	if is_upgraded:
 		left_attacks.append_array(upgraded_attacks)
 		right_attacks.append_array(upgraded_attacks)
+	
+	health = max_health
 
 func rise() -> void:
 	state_chart.send_event("rise")
@@ -154,7 +156,7 @@ func _on_death_state_entered() -> void:
 	set_physics_process(false)
 	MetSys.store_object(self) # save dragon state so it doesn't respawn
 	$DeathPlayer.play()
-	create_tween().tween_property(head, "rotation", 0, 0.2)
+	#create_tween().tween_property(head, "rotation", 0, 0.2)
 	death.emit()
 
 func _on_choose_attack_state_entered() -> void:

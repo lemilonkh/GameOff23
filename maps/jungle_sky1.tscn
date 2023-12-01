@@ -1,16 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://duvopux44jxvc"]
+[gd_scene load_steps=8 format=3 uid="uid://duvopux44jxvc"]
 
 [ext_resource type="Script" path="res://maps/scripts/jungle_sky1_boss.gd" id="1_ce3a5"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_iwset"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_njjpm"]
 [ext_resource type="PackedScene" uid="uid://c3tru5icecrvc" path="res://scenes/enemies/dragon/dragon.tscn" id="4_ovj6v"]
 [ext_resource type="Script" path="res://scripts/dialogue_area.gd" id="5_tf053"]
+[ext_resource type="PackedScene" uid="uid://1p213nolkkp0" path="res://scenes/ui/credits.tscn" id="6_lx7ao"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_uucma"]
 size = Vector2(888, 536)
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_ce3a5")
+music_file = "res://music/boss_music.ogg"
+drums_file = ""
+
+[node name="Dragon" parent="." instance=ExtResource("4_ovj6v")]
+position = Vector2(584, 1360)
+max_health = 60.0
+is_upgraded = true
 
 [node name="RoomInstance" parent="." instance=ExtResource("1_iwset")]
 
@@ -29,11 +37,6 @@ layer_2/tile_data = PackedInt32Array(2883612, 393216, 4, 2883611, 393216, 4, 288
 [node name="SpawnMarker" type="Marker2D" parent="."]
 position = Vector2(448, 1344)
 
-[node name="Dragon" parent="." instance=ExtResource("4_ovj6v")]
-position = Vector2(584, 1360)
-max_health = 60.0
-is_upgraded = true
-
 [node name="DialogueArea" type="Area2D" parent="."]
 position = Vector2(280, 1376)
 collision_layer = 0
@@ -45,4 +48,13 @@ dialogue_file = "res://dialogue/boss_sky.dialogue"
 position = Vector2(196, -236)
 shape = SubResource("RectangleShape2D_uucma")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 100
+
+[node name="Credits" parent="CanvasLayer" instance=ExtResource("6_lx7ao")]
+mouse_filter = 2
+enable_fade_out = false
+
+[connection signal="death" from="Dragon" to="." method="_on_dragon_death"]
 [connection signal="body_entered" from="DialogueArea" to="DialogueArea" method="_on_body_entered"]
+[connection signal="finished" from="CanvasLayer/Credits" to="." method="_on_credits_finished"]

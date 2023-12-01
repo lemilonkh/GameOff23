@@ -1,9 +1,9 @@
 ~ start
 
 do scene.spawn_dragon()
-do scene.enable_dragon()
 
 if npc.has_finished_intro
+	do scene.enable_dragon()
 	=> END
 
 Aila: That's it, you are not escaping from me again.
@@ -15,12 +15,15 @@ Dianthus: I don't have any intent to interact with your kind. My job here is don
 Aila: Are you serious right now or are you doing this to anger me? I'm not letting the scumbag who took Malva from me go and have a happily after ending.
 Dianthus: Oh, I see now. Malva didn't say anything to you about our kind, didn't she?
 Aila: Why should that matter?
-Dianthus: We mountain creatures made a pact with forest creatures centuries ago. A promise of neither of us shall intervene with the other's territory. She broke this pact, and for what? Only because she was bored. She had it coming, and she knew it. Instead of trying to fight me, she should've taken it with pride. You, varmint, how about showing the pride Malva couldn't and leave here now? You can honor her death that way.
+Dianthus: We mountain creatures made a pact with forest creatures centuries ago. A promise of neither of us shall intervene with the other's territory. She broke this pact, and for what? Only because she was bored.
+Dianthus: She had it coming, and she knew it. Instead of trying to fight me, she should've taken it with pride.
+Dianthus: You, varmint, how about showing the pride Malva couldn't and leave here now? You can honor her death that way.
 Aila: That's even more reason for me to avenge her death.
 Dianthus: What?
 Aila: She swallowed her pride because she wanted to continue living with us. I don't know how her life was in the mountains, but she was truly happy here, and you took it from her. We are ending this here and now.
 Dianthus: Let it be then. Your fall will not be a prideful one.
 
+do scene.enable_dragon()
 do npc.store_finished_intro()
 
 => END

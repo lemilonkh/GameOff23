@@ -32,9 +32,10 @@ func on_screen_resized() -> void:
 	svc.position = Vector2(window_size) / 2 - svc.size * svc.scale / 2
 
 func back_to_menu() -> void:
-	game.get_script().set_meta(&"singleton", null)
-	game.queue_free()
-	game = null
+	if game:
+		game.get_script().set_meta(&"singleton", null)
+		game.queue_free()
+		game = null
 	main_menu = menu_scene.instantiate()
 	sub_viewport.add_child(main_menu)
 	main_menu.game_started.connect(_on_main_menu_game_started)

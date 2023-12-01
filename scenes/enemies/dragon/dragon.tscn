@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://c3tru5icecrvc"]
+[gd_scene load_steps=43 format=3 uid="uid://c3tru5icecrvc"]
 
 [ext_resource type="Texture2D" uid="uid://bc12cmdukvtec" path="res://sprites/dragon/dragon.png" id="1_fp7t4"]
 [ext_resource type="Script" path="res://scenes/enemies/dragon/dragon.gd" id="1_kjnd8"]
@@ -19,6 +19,7 @@
 [ext_resource type="AudioStream" uid="uid://ci11lr0bve2lf" path="res://sounds/Dragon/Dragon_Roar.wav" id="17_j20g7"]
 [ext_resource type="AudioStream" uid="uid://baoe3evjte80" path="res://sounds/Dragon/Dragon_Take_Damage.wav" id="18_2h0ue"]
 [ext_resource type="AudioStream" uid="uid://dpwlkmvxeil4w" path="res://sounds/Dragon/Dragon_Wing_Flap.wav" id="19_f25lg"]
+[ext_resource type="PackedScene" uid="uid://bcwkugn6v3oy7" path="res://addons/godot_state_charts/utilities/state_chart_debugger.tscn" id="23_o6awp"]
 
 [sub_resource type="Animation" id="Animation_xto88"]
 length = 0.001
@@ -847,6 +848,11 @@ script = ExtResource("7_7x5fb")
 to = NodePath("../../DialogueWaiting")
 event = &"animation_finished"
 
+[node name="OnEnabled" type="Node" parent="StateChart/ParallelState/Action/Rise"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"enabled"
+
 [node name="DialogueWaiting" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_lxvgv")
 animation_player = NodePath("../../../../AnimationPlayer")
@@ -993,6 +999,20 @@ bus = &"Sounds"
 [node name="WingFlapPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("19_f25lg")
 bus = &"Sounds"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="StateChartDebugger" parent="CanvasLayer" instance=ExtResource("23_o6awp")]
+custom_minimum_size = Vector2(300, 300)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_bottom = 0.0
+offset_left = -300.0
+offset_bottom = 300.0
+grow_horizontal = 0
+grow_vertical = 1
+initial_node_to_watch = NodePath("../../StateChart")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="MeteorShowerTimer" to="." method="_on_meteor_shower_timer_timeout"]
