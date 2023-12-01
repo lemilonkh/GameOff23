@@ -57,9 +57,11 @@ bus = &"Music"
 
 [node name="ButtonClickPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_r0kv5")
+volume_db = -6.0
 
 [node name="ButtonHoverPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_dp35d")
+volume_db = -8.0
 
 [node name="MainMenu" type="Control" parent="."]
 layout_mode = 3
