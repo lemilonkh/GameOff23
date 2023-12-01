@@ -1,11 +1,13 @@
-[gd_scene load_steps=57 format=3 uid="uid://bw2g6eiw6p681"]
+[gd_scene load_steps=60 format=3 uid="uid://bw2g6eiw6p681"]
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom_passive/mushroom.gd" id="1_pfp1u"]
 [ext_resource type="Texture2D" uid="uid://cflgfsmniliek" path="res://sprites/enemies/mushroom.png" id="4_fnq62"]
 [ext_resource type="Shader" path="res://scenes/enemies/mushroom_passive/mushroom_disolve.gdshader" id="4_pp3vx"]
 [ext_resource type="Texture2D" uid="uid://bf4io3pglr2m5" path="res://sprites/mushroom/Big Mushroom_Spawnpng.png" id="4_s6bkk"]
 [ext_resource type="AudioStream" uid="uid://j77ng7hsus8t" path="res://sounds/Character/PlayerRun/Player_Run_001.wav" id="5_hla8m"]
+[ext_resource type="Script" path="res://scenes/enemies/mushroom_passive/passive_melee.gd" id="5_vbr26"]
 [ext_resource type="AudioStream" uid="uid://cc2itm0kb1wni" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_002.wav" id="6_rwnbq"]
+[ext_resource type="AudioStream" uid="uid://cmxmqh7yi2ej8" path="res://sounds/Enemy/Enemy_Mushroom_Attack.wav" id="8_mkvh3"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="11_4cm25"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="12_a8bvk"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="13_octbe"]
@@ -341,6 +343,10 @@ _data = {
 "knockback": SubResource("Animation_cd4r1")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o27mo"]
+radius = 17.0001
+height = 36.0001
+
 [sub_resource type="Resource" id="Resource_lyeat"]
 script = ExtResource("16_yg8m8")
 state = NodePath("..")
@@ -446,6 +452,18 @@ libraries = {
 "": SubResource("AnimationLibrary_fcb67")
 }
 
+[node name="Melee" type="Area2D" parent="." node_paths=PackedStringArray("enemy", "_attack")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_vbr26")
+enemy = NodePath("..")
+_attack = NodePath("../SoundEffects/Attack")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Melee"]
+position = Vector2(6.86646e-05, -0.000274658)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_o27mo")
+
 [node name="SoundEffects" type="Node" parent="."]
 
 [node name="Walk" type="AudioStreamPlayer" parent="SoundEffects"]
@@ -458,6 +476,12 @@ bus = &"Sounds"
 stream = ExtResource("6_rwnbq")
 volume_db = -3.0
 pitch_scale = 3.0
+bus = &"Sounds"
+
+[node name="Attack" type="AudioStreamPlayer" parent="SoundEffects"]
+stream = ExtResource("8_mkvh3")
+volume_db = -11.0
+pitch_scale = 1.15
 bus = &"Sounds"
 
 [node name="StateChart" type="Node" parent="."]
@@ -583,6 +607,7 @@ guard = SubResource("Resource_4jwh7")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="Melee" to="Melee" method="_on_body_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Activate" to="." method="_on_activate_state_entered"]
 [connection signal="state_entered" from="StateChart/Root/Movement/Deactivate" to="." method="_on_deactivate_state_entered"]
 [connection signal="state_processing" from="StateChart/Root/Movement/Idle" to="." method="_on_idle_state_processing"]
