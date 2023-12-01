@@ -25,6 +25,8 @@ func take_hit(amount: float, attacker: Node2D = null, hit_direction: Vector2 = V
 			particles.emitting = true
 		)
 	particles.emitting = true
+	
+	$AudioStreamPlayer.play()
 
 	if health <= 0:
 		# "Store" the wall, i.e. remember its persistent state.
