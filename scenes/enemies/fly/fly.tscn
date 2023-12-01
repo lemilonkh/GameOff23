@@ -207,21 +207,22 @@ guard = SubResource("Resource_odap2")
 
 [node name="Fly" type="Path2D" groups=["Enemy"]]
 script = ExtResource("1_6rboi")
+health = 999999.0
 
 [node name="PathFollow2D" type="PathFollow2D" parent="."]
 position = Vector2(2, -161)
 rotation = 0.289602
 rotates = false
 
-[node name="FlyingEnemy" type="CharacterBody2D" parent="PathFollow2D"]
+[node name="FlyingEnemy" type="CharacterBody2D" parent="PathFollow2D" node_paths=PackedStringArray("flying_enemy_root")]
 position = Vector2(44.0602, 154.867)
 rotation = -0.289602
 collision_layer = 4
 script = ExtResource("2_b376i")
+flying_enemy_root = NodePath("../..")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/FlyingEnemy"]
 shape = SubResource("CircleShape2D_vioqg")
-disabled = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="PathFollow2D/FlyingEnemy"]
 position = Vector2(6.81878e-05, 19.9997)
