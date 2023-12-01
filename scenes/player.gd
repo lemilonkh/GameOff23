@@ -142,7 +142,6 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 		return
 
 	health -= amount
-	velocity += knockback_force * direction
 	take_damage_player.play()
 	
 	if health <= 0:
@@ -150,6 +149,7 @@ func take_hit(amount: float, attacker: Node2D = null, direction: Vector2 = Vecto
 		state_chart.send_event("death")
 	else:
 		state_chart.send_event("take_hit")
+		velocity += knockback_force * direction
 	
 	_update_health()
 
