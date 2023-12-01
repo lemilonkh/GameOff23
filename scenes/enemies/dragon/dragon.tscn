@@ -848,6 +848,11 @@ script = ExtResource("7_7x5fb")
 to = NodePath("../../DialogueWaiting")
 event = &"animation_finished"
 
+[node name="OnEnabled" type="Node" parent="StateChart/ParallelState/Action/Rise"]
+script = ExtResource("7_7x5fb")
+to = NodePath("../../Idle")
+event = &"enabled"
+
 [node name="DialogueWaiting" type="Node" parent="StateChart/ParallelState/Action"]
 script = ExtResource("7_lxvgv")
 animation_player = NodePath("../../../../AnimationPlayer")
