@@ -28,6 +28,7 @@ extends CharacterBody2D
 @onready var _collider: CollisionShape2D = $CollisionShape2D
 @onready var _walk: AudioStreamPlayer = $SoundEffects/Walk
 @onready var _hit: AudioStreamPlayer = $SoundEffects/Hit
+@onready var _melee: Area2D = $Melee
 
 var _player: Node2D
 var _active_time := Time.get_ticks_msec()
@@ -133,6 +134,7 @@ func _on_walk_state_exited():
 func _on_dead_state_entered():
 	# prevent further collisions with this enemy
 	collision_layer = 0
+	_melee.queue_free()
 	_sprite.play("Die")
 	await _sprite.animation_finished
 	_animations.play("death")
