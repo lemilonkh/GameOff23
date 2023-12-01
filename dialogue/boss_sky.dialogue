@@ -1,5 +1,11 @@
 ~ start
 
+do scene.spawn_dragon()
+do scene.enable_dragon()
+
+if npc.has_finished_intro
+	=> END
+
 Aila: That's it, you are not escaping from me again.
 Dianthus: What a stubborn varmint. Did you stop to think even for one second about what should be your primary goal right now?
 Aila: Cut the nonsense. You are dying here no matter what.
@@ -14,5 +20,7 @@ Aila: That's even more reason for me to avenge her death.
 Dianthus: What?
 Aila: She swallowed her pride because she wanted to continue living with us. I don't know how her life was in the mountains, but she was truly happy here, and you took it from her. We are ending this here and now.
 Dianthus: Let it be then. Your fall will not be a prideful one.
+
+do npc.store_finished_intro()
 
 => END
