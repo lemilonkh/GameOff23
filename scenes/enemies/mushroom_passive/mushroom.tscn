@@ -476,7 +476,7 @@ shape = SubResource("CapsuleShape2D_o27mo")
 [node name="Walk" type="AudioStreamPlayer" parent="SoundEffects"]
 stream = ExtResource("5_hla8m")
 volume_db = -7.4
-pitch_scale = 0.41
+pitch_scale = 0.65
 bus = &"Sounds"
 
 [node name="Hit" type="AudioStreamPlayer" parent="SoundEffects"]

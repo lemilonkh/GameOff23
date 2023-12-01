@@ -82,13 +82,17 @@ func _on_idle_state_processing(delta):
 	if not _player_in_range and not _player_visible and (!(randi() % stealth_chance)):
 		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x > 0) \
 			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x < 0)):
+			if (_left_side.is_colliding() and _player.position.x - self.position.x > 0) \
+				or (_right_side.is_colliding() and _player.position.x - self.position.x < 0):
 				_state.send_event("search")
 				return
 	if abs(_player.position.x - self.position.x) > idle_distance_to_player:
 		if not ((_wall_side_1.is_colliding() and _player.position.x - self.position.x < 0) \
 			and (_wall_side_2.is_colliding() and _player.position.x - self.position.x > 0)):
-			_state.send_event("walk")
-			return
+			if (_left_side.is_colliding() and _player.position.x - self.position.x < 0) \
+				or (_right_side.is_colliding() and _player.position.x - self.position.x > 0):
+				_state.send_event("walk")
+				return
 	_sprite.play("Idle")
 
 
