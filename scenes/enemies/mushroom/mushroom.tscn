@@ -289,7 +289,7 @@ shader_parameter/gravity = null
 shader_parameter/sprite = ExtResource("2_2fnx4")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_larh3"]
-radius = 111.005
+radius = 240.0
 
 [sub_resource type="Animation" id="Animation_fnn5c"]
 length = 0.001
