@@ -30,6 +30,6 @@ func _on_body_entered(body):
 				body.take_hit(hit_amount, enemy, direction, knockback_force)
 			else:
 				body.take_hit(hit_amount, enemy, direction)
-	_attack.play()
+			_attack.play()
 	_timer = Time.get_ticks_msec()
 
