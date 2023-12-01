@@ -41,7 +41,7 @@ ability = 0
 position = Vector2(1376, 400)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(137, 229)
+position = Vector2(140, 229)
 texture = ExtResource("6_6ovi7")
 
 [connection signal="body_entered" from="TileMap/WindGust" to="TileMap/WindGust" method="_on_body_entered"]
