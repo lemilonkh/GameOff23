@@ -3,7 +3,7 @@ extends CharacterBody2D
 @export var health := 3.0
 @export var speed := 20.0
 @export var gravity := 200.0
-@export var idle_distance_to_player := 100.0
+@export var idle_distance_to_player := 10.0
 @export var projectile: PackedScene
 @export var melee: PackedScene
 @export var use_melee := true
