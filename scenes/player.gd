@@ -114,6 +114,7 @@ enum Ability {
 @onready var heal_player: AudioStreamPlayer = $HealPlayer
 @onready var melee_player: AudioStreamPlayer = $MeleePlayer
 @onready var ability_not_available_player: AudioStreamPlayer = $AbilityNotAvailablePlayer
+@onready var grapple_player: AudioStreamPlayer = $GrapplePlayer
 
 var health := max_health
 var is_invulnerable := false
@@ -325,6 +326,7 @@ func _start_grapple() -> void:
 		ability_not_available_player.play()
 		return
 	
+	grapple_player.play()
 	grappling_vine.shoot(velocity)
 
 func _start_dash() -> void:
