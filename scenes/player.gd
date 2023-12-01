@@ -373,6 +373,7 @@ func _on_gliding_state_entered() -> void:
 	deceleration = glide_deceleration
 	max_speed = glide_max_speed
 	glide_player.play()
+	$Glider.show()
 
 func _on_glide_state_physics_processing(delta: float) -> void:
 	energy += energy_per_pixel * abs(velocity.x) * delta
@@ -384,6 +385,7 @@ func _on_gliding_state_exited() -> void:
 	deceleration = default_deceleration
 	max_speed = default_max_speed
 	glide_player.stop()
+	$Glider.hide()
 
 func _on_death_state_entered() -> void:
 	max_speed = 0

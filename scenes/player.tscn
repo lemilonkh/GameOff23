@@ -1,4 +1,4 @@
-[gd_scene load_steps=144 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=151 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
 [ext_resource type="Texture2D" uid="uid://dstt2nqphmlvp" path="res://sprites/player/player_animations.png" id="5_q158s"]
 [ext_resource type="Texture2D" uid="uid://bel7477xrj4wq" path="res://sprites/player/player_attack.png" id="6_4g1v1"]
+[ext_resource type="Texture2D" uid="uid://cqo1bpma2r17s" path="res://sprites/player/glider.png" id="7_p77jy"]
 [ext_resource type="Texture2D" uid="uid://br0uxql4jr7dn" path="res://sprites/ui/heart_full.png" id="10_5rr2n"]
 [ext_resource type="Script" path="res://scripts/hurtbox.gd" id="11_oftqw"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="12_1ugos"]
@@ -152,13 +153,37 @@ region = Rect2(0, 232, 41, 58)
 atlas = ExtResource("5_q158s")
 region = Rect2(41, 232, 41, 58)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3m4f6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc7yj"]
 atlas = ExtResource("5_q158s")
-region = Rect2(0, 174, 41, 58)
+region = Rect2(0, 0, 41, 58)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vrl0d"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbnec"]
 atlas = ExtResource("5_q158s")
-region = Rect2(41, 174, 41, 58)
+region = Rect2(41, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ub6bg"]
+atlas = ExtResource("5_q158s")
+region = Rect2(82, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5pc3p"]
+atlas = ExtResource("5_q158s")
+region = Rect2(123, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_drkth"]
+atlas = ExtResource("5_q158s")
+region = Rect2(164, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rn6w"]
+atlas = ExtResource("5_q158s")
+region = Rect2(205, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hd3b"]
+atlas = ExtResource("5_q158s")
+region = Rect2(246, 0, 41, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fbhi"]
+atlas = ExtResource("5_q158s")
+region = Rect2(287, 0, 41, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sj1ef"]
 atlas = ExtResource("5_q158s")
@@ -348,14 +373,32 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3m4f6")
+"texture": SubResource("AtlasTexture_yc7yj")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vrl0d")
+"texture": SubResource("AtlasTexture_rbnec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ub6bg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5pc3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_drkth")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rn6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3hd3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fbhi")
 }],
 "loop": true,
 "name": &"Glide",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -846,8 +889,14 @@ region_rect = Rect2(0, 0, 8, 0)
 light_mask = 0
 position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Run"
+animation = &"Glide"
 autoplay = "Idle"
+frame_progress = 0.030463
+
+[node name="Glider" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(1, 22)
+texture = ExtResource("7_p77jy")
 
 [node name="Hurtbox" type="Area2D" parent="."]
 collision_layer = 0
