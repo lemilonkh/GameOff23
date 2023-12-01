@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvwfhmhthf33q"]
+[gd_scene load_steps=13 format=3 uid="uid://bvwfhmhthf33q"]
 
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_10q8o"]
 [ext_resource type="PackedScene" uid="uid://b88kk0ghb563g" path="res://scenes/objects/flower_key.tscn" id="1_b1qk0"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://b53gernmyok5m" path="res://scenes/enemies/plant/plant.tscn" id="5_2dbhl"]
 [ext_resource type="PackedScene" uid="uid://ciyiki8r60vx4" path="res://scenes/objects/breakable_wall.tscn" id="8_6asbs"]
 [ext_resource type="PackedScene" uid="uid://d4gf2jbfeuvi8" path="res://scenes/objects/health_upgrade.tscn" id="9_tl3dd"]
+[ext_resource type="PackedScene" uid="uid://cd5i8i6a7elkb" path="res://scenes/objects/save_point.tscn" id="10_8yiia"]
 
 [sub_resource type="Curve2D" id="Curve2D_ouhp8"]
 _data = {
@@ -119,3 +120,6 @@ position = Vector2(447, 498)
 
 [node name="HealthUpgrade" parent="." instance=ExtResource("9_tl3dd")]
 position = Vector2(1992, 392)
+
+[node name="SavePoint" parent="." instance=ExtResource("10_8yiia")]
+position = Vector2(2248, 1808)
