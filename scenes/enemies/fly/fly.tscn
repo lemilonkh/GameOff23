@@ -1,0 +1,368 @@
+[gd_scene load_steps=34 format=3 uid="uid://bp5tpxvt65eyp"]
+
+[ext_resource type="Script" path="res://scenes/enemies/fly/fly.gd" id="1_6rboi"]
+[ext_resource type="Script" path="res://scenes/enemies/fly/fly_helper.gd" id="2_b376i"]
+[ext_resource type="Shader" path="res://scenes/enemies/butterfly/butterfly_disolve.gdshader" id="5_5ncv7"]
+[ext_resource type="Texture2D" uid="uid://bdi1pyr7rcg84" path="res://sprites/enemies/butterfly.png" id="6_sj4v1"]
+[ext_resource type="AudioStream" uid="uid://buvnfsxufn8q0" path="res://sounds/Enemy/Enemy_Bat_Fly.wav" id="7_gr532"]
+[ext_resource type="Texture2D" uid="uid://3vla1rg1g4ps" path="res://sprites/enemies/fly.png" id="7_v4f7a"]
+[ext_resource type="AudioStream" uid="uid://cgh5hytumd13s" path="res://sounds/Enemy/Enemy_Bat_Attack.wav" id="8_bni6u"]
+[ext_resource type="AudioStream" uid="uid://cc2itm0kb1wni" path="res://sounds/Character/TakingDamageV2/Player_TakeDamage_002.wav" id="9_n07j8"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="10_gsqrl"]
+[ext_resource type="Script" path="res://scenes/enemies/fly/passive_melee.gd" id="11_5lvhr"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/parallel_state.gd" id="11_vht0d"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="12_k14m0"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="13_ontar"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/transition.gd" id="14_wtiph"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="15_0ixei"]
+[ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="16_3qn6h"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vioqg"]
+radius = 16.0313
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6x26h"]
+shader = ExtResource("5_5ncv7")
+shader_parameter/direction = Vector3(0, 0, 0)
+shader_parameter/spread = 10.0
+shader_parameter/flatness = 0.0
+shader_parameter/initial_linear_velocity_min = 1.3
+shader_parameter/initial_angle_min = null
+shader_parameter/angular_velocity_min = null
+shader_parameter/orbit_velocity_min = null
+shader_parameter/linear_accel_min = null
+shader_parameter/radial_accel_min = null
+shader_parameter/tangent_accel_min = null
+shader_parameter/damping_min = null
+shader_parameter/scale_min = 1.0
+shader_parameter/hue_variation_min = null
+shader_parameter/anim_speed_min = null
+shader_parameter/anim_offset_min = null
+shader_parameter/initial_linear_velocity_max = null
+shader_parameter/initial_angle_max = null
+shader_parameter/angular_velocity_max = null
+shader_parameter/orbit_velocity_max = null
+shader_parameter/linear_accel_max = null
+shader_parameter/radial_accel_max = null
+shader_parameter/tangent_accel_max = null
+shader_parameter/damping_max = null
+shader_parameter/scale_max = 1.0
+shader_parameter/hue_variation_max = null
+shader_parameter/anim_speed_max = null
+shader_parameter/anim_offset_max = null
+shader_parameter/lifetime_randomness = null
+shader_parameter/emission_box_extents = Vector3(10, 10, 1)
+shader_parameter/color_value = Color(1, 1, 1, 1)
+shader_parameter/gravity = null
+shader_parameter/sprite = ExtResource("6_sj4v1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tmqit"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(0, 0, 24, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77tq4"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(24, 0, 23, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n5sn"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(47, 0, 23, 23)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_owbrp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tmqit")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77tq4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n5sn")
+}],
+"loop": true,
+"name": &"move",
+"speed": 10.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiwhw"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(0, 23, 23, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ae3vi"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(23, 23, 23, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4aqf3"]
+atlas = ExtResource("7_v4f7a")
+region = Rect2(46, 23, 23, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xv1b0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiwhw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ae3vi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4aqf3")
+}],
+"loop": true,
+"name": &"move",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_6dm0l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow2D/FlyingEnemy/GPUParticles2D:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_lvdsq"]
+resource_name = "death"
+length = 1.1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/GPUParticles2D:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.11, 0.49),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.49, 0.96),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.988235, 0.737255, 0.709804, 0.611765), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yfeko"]
+resource_name = "knockback"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PathFollow2D/FlyingEnemy/AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(0.811765, 0.258824, 0.352941, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pdino"]
+_data = {
+"RESET": SubResource("Animation_6dm0l"),
+"death": SubResource("Animation_lvdsq"),
+"knockback": SubResource("Animation_yfeko")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0ldmm"]
+radius = 22.0
+height = 44.0
+
+[sub_resource type="Resource" id="Resource_odap2"]
+script = ExtResource("15_0ixei")
+state = NodePath("../../Hit")
+
+[sub_resource type="Resource" id="Resource_othhg"]
+script = ExtResource("16_3qn6h")
+guard = SubResource("Resource_odap2")
+
+[node name="Fly" type="Path2D" groups=["Enemy"]]
+script = ExtResource("1_6rboi")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="."]
+position = Vector2(2, -161)
+rotation = 0.289602
+rotates = false
+
+[node name="FlyingEnemy" type="CharacterBody2D" parent="PathFollow2D"]
+position = Vector2(44.0602, 154.867)
+rotation = -0.289602
+collision_layer = 4
+script = ExtResource("2_b376i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/FlyingEnemy"]
+shape = SubResource("CircleShape2D_vioqg")
+disabled = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="PathFollow2D/FlyingEnemy"]
+position = Vector2(6.81878e-05, 19.9997)
+rotation = 0.261799
+emitting = false
+amount = 100
+process_material = SubResource("ShaderMaterial_6x26h")
+lifetime = 0.5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/FlyingEnemy"]
+sprite_frames = SubResource("SpriteFrames_owbrp")
+animation = &"move"
+frame = 1
+frame_progress = 0.813422
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="PathFollow2D/FlyingEnemy/AnimatedSprite2D"]
+position = Vector2(6.00007, 0.999725)
+sprite_frames = SubResource("SpriteFrames_xv1b0")
+animation = &"move"
+frame = 1
+frame_progress = 0.493789
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PathFollow2D/FlyingEnemy"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_pdino")
+}
+
+[node name="AttackSpawner" type="Node2D" parent="PathFollow2D/FlyingEnemy"]
+
+[node name="SoundEffects" type="Node" parent="PathFollow2D/FlyingEnemy"]
+
+[node name="Flying" type="AudioStreamPlayer" parent="PathFollow2D/FlyingEnemy/SoundEffects"]
+stream = ExtResource("7_gr532")
+volume_db = -10.0
+pitch_scale = 1.4
+autoplay = true
+bus = &"Sounds"
+
+[node name="Attack" type="AudioStreamPlayer" parent="PathFollow2D/FlyingEnemy/SoundEffects"]
+stream = ExtResource("8_bni6u")
+volume_db = -20.0
+pitch_scale = 1.5
+bus = &"Sounds"
+
+[node name="Hit" type="AudioStreamPlayer" parent="PathFollow2D/FlyingEnemy/SoundEffects"]
+stream = ExtResource("9_n07j8")
+volume_db = -3.0
+pitch_scale = 3.0
+bus = &"Sounds"
+
+[node name="Melee" type="Area2D" parent="PathFollow2D/FlyingEnemy" node_paths=PackedStringArray("enemy")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("11_5lvhr")
+enemy = NodePath("../../..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathFollow2D/FlyingEnemy/Melee"]
+position = Vector2(6.86646e-05, -0.000274658)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0ldmm")
+
+[node name="StateChart" type="Node" parent="."]
+script = ExtResource("10_gsqrl")
+
+[node name="Root" type="Node" parent="StateChart"]
+script = ExtResource("11_vht0d")
+
+[node name="Movement" type="Node" parent="StateChart/Root"]
+script = ExtResource("12_k14m0")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("13_ontar")
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement/Idle"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Flying")
+event = &"fly"
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("13_ontar")
+
+[node name="Chase" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("13_ontar")
+
+[node name="Retreat" type="Node" parent="StateChart/Root/Movement/Chase"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Retreat")
+event = &"retreat"
+
+[node name="Retreat" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("13_ontar")
+
+[node name="Flying" type="Node" parent="StateChart/Root/Movement/Retreat"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Flying")
+event = &"fly"
+
+[node name="Dead" type="Node" parent="StateChart/Root/Movement"]
+script = ExtResource("13_ontar")
+
+[node name="CompoundState" type="Node" parent="StateChart/Root"]
+script = ExtResource("12_k14m0")
+initial_state = NodePath("Passive")
+
+[node name="Passive" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("13_ontar")
+
+[node name="Attack" type="Node" parent="StateChart/Root/CompoundState/Passive"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Attack")
+event = &"attack"
+guard = SubResource("Resource_othhg")
+delay_seconds = 0.12
+
+[node name="Attack" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("13_ontar")
+
+[node name="Passive" type="Node" parent="StateChart/Root/CompoundState/Attack"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Passive")
+event = &"passive"
+delay_seconds = 2.0
+
+[node name="Hit" type="Node" parent="StateChart/Root/CompoundState"]
+script = ExtResource("13_ontar")
+
+[node name="Passvie" type="Node" parent="StateChart/Root/CompoundState/Hit"]
+script = ExtResource("14_wtiph")
+to = NodePath("../../Passive")
+event = &"passive"
+
+[connection signal="body_entered" from="PathFollow2D/FlyingEnemy/Melee" to="PathFollow2D/FlyingEnemy/Melee" method="_on_body_entered"]
+[connection signal="state_processing" from="StateChart/Root/Movement/Idle" to="." method="_on_idle_state_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Flying" to="." method="_on_flying_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Chase" to="." method="_on_chase_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Chase" to="." method="_on_chase_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Retreat" to="." method="_on_retreat_state_entered"]
+[connection signal="state_physics_processing" from="StateChart/Root/Movement/Retreat" to="." method="_on_retreat_state_physics_processing"]
+[connection signal="state_entered" from="StateChart/Root/Movement/Dead" to="." method="_on_dead_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/CompoundState/Attack" to="." method="_on_attack_state_entered"]
+[connection signal="state_entered" from="StateChart/Root/CompoundState/Hit" to="." method="_on_hit_state_entered"]
