@@ -16,12 +16,15 @@ func enable_dragon() -> void:
 	dragon.enable()
 
 func _on_dragon_death() -> void:
-	var game := Game.get_singleton()
+	#var game := Game.get_singleton()
 	#game.has_killed_sky_boss = true
 	#game.fade_out_music()
 	fight_finished.emit()
 	
-	credits.start()
+	await get_tree().create_timer(6.0).timeout
+	credits.start(false) # no auto stop
 
 func _on_credits_finished() -> void:
+	Game.get_singleton().fade_out_music()
+	await get_tree().create_timer(4.0).timeout
 	GameManager.get_singleton().back_to_menu()
