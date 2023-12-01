@@ -1,4 +1,4 @@
-[gd_scene load_steps=153 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=160 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -46,10 +46,16 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="31_u6jow"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="32_a4a7s"]
 [ext_resource type="AudioStream" uid="uid://cwqtpfqly14sm" path="res://sounds/Character/Grappling/Player_Grappling_003.wav" id="32_ppkc0"]
+[ext_resource type="AudioStream" uid="uid://cn67s0wbbmiw3" path="res://sounds/Character/Pogo/Player_Pogo_001.wav" id="36_o7fnk"]
+[ext_resource type="AudioStream" uid="uid://dq7gpheh5akme" path="res://sounds/Character/Pogo/Player_Pogo_002.wav" id="37_3tl18"]
+[ext_resource type="AudioStream" uid="uid://dsjbrvhopu15b" path="res://sounds/Character/Pogo/Player_Pogo_003.wav" id="38_v47li"]
+[ext_resource type="AudioStream" uid="uid://bgcfwg2vb8dgd" path="res://sounds/Character/Pogo/Player_Pogo_004.wav" id="39_f3o1s"]
 [ext_resource type="AudioStream" uid="uid://qyumqmw8jj0p" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-001.wav" id="39_mngpw"]
 [ext_resource type="AudioStream" uid="uid://v2fk82hrd4i1" path="res://sounds/Character/Player_Dash.wav" id="39_rmdiq"]
+[ext_resource type="AudioStream" uid="uid://b68yu6mrtt18b" path="res://sounds/Character/Pogo/Player_Pogo_005.wav" id="40_bkb3k"]
 [ext_resource type="AudioStream" uid="uid://c5quwm7mwcei5" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-002.wav" id="40_qy3lu"]
 [ext_resource type="AudioStream" uid="uid://7dmk4re8n11s" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-003.wav" id="41_k25qe"]
+[ext_resource type="AudioStream" uid="uid://1taxy2gyv15b" path="res://sounds/Character/Pogo/Player_Pogo_006.wav" id="41_vs8wm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
@@ -810,6 +816,23 @@ stream_1/weight = 1.0
 stream_2/stream = ExtResource("32_ppkc0")
 stream_2/weight = 1.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_kwack"]
+random_pitch = 1.2
+random_volume_offset_db = 0.2
+streams_count = 6
+stream_0/stream = ExtResource("36_o7fnk")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("37_3tl18")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("38_v47li")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("39_f3o1s")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("40_bkb3k")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("41_vs8wm")
+stream_5/weight = 1.0
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_40til"]
 random_pitch = 1.13
 random_volume_offset_db = 0.2
@@ -899,7 +922,7 @@ position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
 animation = &"Glide"
 autoplay = "Idle"
-frame_progress = 0.0789888
+frame_progress = 0.344166
 
 [node name="Glider" type="Sprite2D" parent="."]
 visible = false
@@ -1031,6 +1054,10 @@ bus = &"Sounds"
 
 [node name="HealPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("21_17ths")
+bus = &"Sounds"
+
+[node name="PogoPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_kwack")
 bus = &"Sounds"
 
 [node name="AbilityNotAvailablePlayer" type="AudioStreamPlayer" parent="."]

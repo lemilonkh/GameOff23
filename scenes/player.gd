@@ -116,6 +116,7 @@ enum Ability {
 @onready var ability_not_available_player: AudioStreamPlayer = $AbilityNotAvailablePlayer
 @onready var grapple_player: AudioStreamPlayer = $GrapplePlayer
 @onready var dash_player: AudioStreamPlayer = $DashPlayer
+@onready var pogo_player: AudioStreamPlayer = $PogoPlayer
 
 var health := max_health
 var is_invulnerable := false
@@ -404,6 +405,7 @@ func _on_hurtbox_hit(body: Node2D) -> void:
 	if not is_on_floor(): # and floor_distance_shape_cast.is_colliding():
 		var distance := pogo_height * TILE_SIZE - _get_floor_distance()
 		velocity.y = -Utils.calculate_jump_velocity(distance, gravity)
+		pogo_player.play()
 		state_chart.send_event("hit")
 
 func _on_hurtbox_tile_hit(tilemap: TileMap) -> void:
