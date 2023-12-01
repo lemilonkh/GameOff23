@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var hit_amount := 1.0
-@export var knockback_force := 10.0
+@export var knockback_force := 2.0
 @export var enemy : Path2D
 
 @onready var _collision := $CollisionShape2D
@@ -18,7 +18,7 @@ func _on_body_entered(body):
 		if body.has_method("take_hit"):
 			var direction: Vector2 = (body.global_position - self.global_position).normalized()
 			if knockback_force >= 0:
-				body.take_hit(0.0, enemy, direction)
+				body.take_hit(hit_amount, enemy, direction, knockback_force)
 			else:
-				body.take_hit(0.0, enemy, direction)
+				body.take_hit(hit_amount, enemy, direction)
 
