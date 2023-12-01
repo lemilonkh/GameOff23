@@ -6,7 +6,8 @@ signal finished
 
 func start():
 	show()
-	animation_player.play("fade_in")
+	animation_player.play("RESET")
+	animation_player.queue("fade_in")
 	animation_player.queue("scroll")
 	await animation_player.animation_finished
 	stop()
