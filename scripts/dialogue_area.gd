@@ -30,4 +30,5 @@ func _on_body_entered(body: Node2D) -> void:
 	set_deferred("monitoring", false)
 
 func _on_body_exited(body: Node2D) -> void:
-	Game.get_singleton().exit_dialogue()
+	#Game.get_singleton().exit_dialogue()
+	pass
