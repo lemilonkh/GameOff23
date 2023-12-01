@@ -151,7 +151,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Activate",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -169,9 +169,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kl21a")
 }],
-"loop": true,
+"loop": false,
 "name": &"Attack",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -188,7 +188,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Deactivate",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -211,7 +211,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Die",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -250,7 +250,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yy4he"]
@@ -288,8 +288,8 @@ shader_parameter/color_value = Color(1, 1, 1, 1)
 shader_parameter/gravity = null
 shader_parameter/sprite = ExtResource("2_2fnx4")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_vqwdx"]
-radius = 93.2631
+[sub_resource type="CircleShape2D" id="CircleShape2D_larh3"]
+radius = 111.005
 
 [sub_resource type="Animation" id="Animation_fnn5c"]
 length = 0.001
@@ -441,7 +441,7 @@ shape = SubResource("RectangleShape2D_eh2x1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tsogc")
-animation = &"Activate"
+animation = &"Walk"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(-1, 9)
@@ -477,7 +477,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-1, -20)
-shape = SubResource("CircleShape2D_vqwdx")
+shape = SubResource("CircleShape2D_larh3")
 debug_color = Color(0, 0.572549, 0.666667, 0)
 metadata/_edit_lock_ = true
 
@@ -490,8 +490,8 @@ libraries = {
 
 [node name="Walk" type="AudioStreamPlayer" parent="SoundEffects"]
 stream = ExtResource("11_aws2l")
-volume_db = -20.0
-pitch_scale = 1.15
+volume_db = -23.0
+pitch_scale = 1.7
 bus = &"Sounds"
 
 [node name="Attack" type="AudioStreamPlayer" parent="SoundEffects"]
