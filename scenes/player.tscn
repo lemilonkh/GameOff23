@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/compound_state.gd" id="2_qoktu"]
 [ext_resource type="Texture2D" uid="uid://bgb6hjh4t1ve6" path="res://sprites/abilities/vine_tile.png" id="3_gff4a"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/atomic_state.gd" id="3_q6skx"]
+[ext_resource type="Texture2D" uid="uid://bqlnotqq5mhef" path="res://sprites/player/player_attack_down.png" id="5_g3oru"]
 [ext_resource type="Texture2D" uid="uid://dstt2nqphmlvp" path="res://sprites/player/player_animations.png" id="5_q158s"]
 [ext_resource type="Texture2D" uid="uid://bel7477xrj4wq" path="res://sprites/player/player_attack.png" id="6_4g1v1"]
 [ext_resource type="Texture2D" uid="uid://cqo1bpma2r17s" path="res://sprites/player/glider.png" id="7_p77jy"]
@@ -64,29 +65,25 @@ height = 52.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6psc8"]
 size = Vector2(10, 10)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ko2j"]
-atlas = ExtResource("6_4g1v1")
+[sub_resource type="AtlasTexture" id="AtlasTexture_uubim"]
+atlas = ExtResource("5_g3oru")
 region = Rect2(0, 0, 58, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vvfyk"]
-atlas = ExtResource("6_4g1v1")
+[sub_resource type="AtlasTexture" id="AtlasTexture_4binh"]
+atlas = ExtResource("5_g3oru")
 region = Rect2(58, 0, 58, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uk8jq"]
-atlas = ExtResource("6_4g1v1")
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyptg"]
+atlas = ExtResource("5_g3oru")
 region = Rect2(116, 0, 58, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_70qqk"]
-atlas = ExtResource("6_4g1v1")
+[sub_resource type="AtlasTexture" id="AtlasTexture_lih4q"]
+atlas = ExtResource("5_g3oru")
 region = Rect2(174, 0, 58, 60)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4s5r7"]
-atlas = ExtResource("6_4g1v1")
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qqlg"]
+atlas = ExtResource("5_g3oru")
 region = Rect2(232, 0, 58, 60)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1cb1w"]
-atlas = ExtResource("6_4g1v1")
-region = Rect2(290, 0, 58, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4yylg"]
 atlas = ExtResource("6_4g1v1")
@@ -288,26 +285,23 @@ region = Rect2(82, 116, 41, 58)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6ko2j")
+"texture": SubResource("AtlasTexture_uubim")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vvfyk")
+"texture": SubResource("AtlasTexture_4binh")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_uk8jq")
+"texture": SubResource("AtlasTexture_yyptg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_70qqk")
+"texture": SubResource("AtlasTexture_lih4q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4s5r7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1cb1w")
+"texture": SubResource("AtlasTexture_2qqlg")
 }],
 "loop": false,
 "name": &"AirAttack",
-"speed": 16.0
+"speed": 14.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -920,9 +914,10 @@ region_rect = Rect2(0, 0, 8, 0)
 light_mask = 0
 position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
-animation = &"Glide"
+animation = &"AirAttack"
 autoplay = "Idle"
-frame_progress = 0.986928
+frame = 4
+frame_progress = 1.0
 
 [node name="Glider" type="Sprite2D" parent="."]
 visible = false
