@@ -1,5 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cjriwuafk4w8x"]
+[gd_scene load_steps=12 format=3 uid="uid://cjriwuafk4w8x"]
 
+[ext_resource type="Script" path="res://scripts/room.gd" id="1_4lh5s"]
 [ext_resource type="PackedScene" uid="uid://bsg0351mx3b4u" path="res://addons/MetroidvaniaSystem/Nodes/RoomInstance.tscn" id="1_gfqqh"]
 [ext_resource type="TileSet" uid="uid://5qspssasjso2" path="res://resources/forest_tileset.tres" id="2_8ky5b"]
 [ext_resource type="PackedScene" uid="uid://bqqtabro4wa18" path="res://scenes/objects/locked_door.tscn" id="3_7gptu"]
@@ -22,6 +23,9 @@ _data = {
 point_count = 7
 
 [node name="Map" type="Node2D"]
+script = ExtResource("1_4lh5s")
+music_file = "res://music/underwater_music.ogg"
+drums_file = "res://music/underwater_drums.ogg"
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = ExtResource("2_8ky5b")

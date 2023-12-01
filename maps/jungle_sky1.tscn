@@ -14,6 +14,7 @@ size = Vector2(888, 1378)
 script = ExtResource("1_ce3a5")
 music_file = "res://music/boss_music.ogg"
 drums_file = ""
+ambience_file = "res://sounds/Ambience/Ambience_AboveTrees.ogg"
 
 [node name="Dragon" parent="." instance=ExtResource("4_ovj6v")]
 position = Vector2(584, 1360)
