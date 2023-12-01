@@ -3,9 +3,9 @@ extends Room
 @export var dragon_mouth_offset := 224
 @export var above_floor_height := 896
 
-@onready var ability_scale: Area2D = $GrappleAbilityScale
 @onready var dragon: Node2D = $Dragon
 @onready var tile_map: TileMap = $TileMap
+@onready var credits: MarginContainer = $CanvasLayer/Credits
 
 func spawn_dragon() -> void:
 	# lock player in room
@@ -17,19 +17,11 @@ func enable_dragon() -> void:
 
 func _on_dragon_death() -> void:
 	var game := Game.get_singleton()
-	game.has_killed_jungle_boss = true
-	game.fade_out_music()
+	#game.has_killed_sky_boss = true
+	#game.fade_out_music()
 	fight_finished.emit()
 	
-	if !is_instance_valid(ability_scale):
-		printerr("Missing grapple ability scale!")
-		return
-	
-	ability_scale.global_position = dragon.global_position + Vector2.UP * dragon_mouth_offset
-	var tween := create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_EXPO)
-	tween.tween_property(ability_scale, "modulate", Color.WHITE, 2.0)
-	var target_pos := Vector2(ability_scale.global_position.x, above_floor_height)
-	tween.tween_property(ability_scale, "global_position", target_pos, 4.0)
-	tween.tween_callback(func():
-		ability_scale.monitoring = true
-	)
+	credits.start()
+
+func _on_credits_finished() -> void:
+	GameManager.get_singleton().back_to_menu()
