@@ -4,13 +4,16 @@ signal finished
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-func start():
+func start(auto_stop := true):
 	show()
 	animation_player.play("RESET")
 	animation_player.queue("fade_in")
 	animation_player.queue("scroll")
 	await animation_player.animation_finished
-	stop()
+	if auto_stop:
+		stop()
+	else:
+		finished.emit()
 
 func stop():
 	animation_player.play_backwards("fade_in")
