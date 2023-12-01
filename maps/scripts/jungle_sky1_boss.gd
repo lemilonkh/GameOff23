@@ -9,7 +9,7 @@ extends Room
 
 func spawn_dragon() -> void:
 	# lock player in room
-	tile_map.set_layer_enabled(2, true)
+	tile_map.set_layer_enabled(3, true)
 	dragon.rise()
 
 func enable_dragon() -> void:
