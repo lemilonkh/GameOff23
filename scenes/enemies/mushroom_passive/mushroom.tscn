@@ -388,6 +388,7 @@ guard = SubResource("Resource_5ytb1")
 [node name="Mushroom" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 script = ExtResource("1_pfp1u")
+speed = 60.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -1)
