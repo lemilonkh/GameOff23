@@ -1,9 +1,9 @@
 ~ start
 
 do scene.spawn_dragon()
-do scene.enable_dragon()
 
 if npc.has_finished_intro
+	do scene.enable_dragon()
 	=> END
 
 Aila: That's it, you are not escaping from me again.
@@ -23,6 +23,7 @@ Dianthus: What?
 Aila: She swallowed her pride because she wanted to continue living with us. I don't know how her life was in the mountains, but she was truly happy here, and you took it from her. We are ending this here and now.
 Dianthus: Let it be then. Your fall will not be a prideful one.
 
+do scene.enable_dragon()
 do npc.store_finished_intro()
 
 => END
