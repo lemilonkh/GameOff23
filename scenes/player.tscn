@@ -1,4 +1,4 @@
-[gd_scene load_steps=151 format=3 uid="uid://dgna7p5elvtjm"]
+[gd_scene load_steps=155 format=3 uid="uid://dgna7p5elvtjm"]
 
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_chart.gd" id="1_3oq1j"]
 [ext_resource type="Script" path="res://scenes/player.gd" id="1_an7jc"]
@@ -46,9 +46,12 @@
 [ext_resource type="Script" path="res://addons/godot_state_charts/state_is_active_guard.gd" id="31_u6jow"]
 [ext_resource type="Script" path="res://addons/godot_state_charts/not_guard.gd" id="32_a4a7s"]
 [ext_resource type="AudioStream" uid="uid://cwqtpfqly14sm" path="res://sounds/Character/Grappling/Player_Grappling_003.wav" id="32_ppkc0"]
+[ext_resource type="AudioStream" uid="uid://d1ghnb0qogp1i" path="res://sounds/Foley/AirUpdraft/Player_AirUpdraft_Dash_001.wav" id="39_6tgy3"]
 [ext_resource type="AudioStream" uid="uid://qyumqmw8jj0p" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-001.wav" id="39_mngpw"]
+[ext_resource type="AudioStream" uid="uid://r3c4ejy2e40p" path="res://sounds/Foley/AirUpdraft/Player_AirUpdraft_Dash_002.wav" id="40_041r5"]
 [ext_resource type="AudioStream" uid="uid://c5quwm7mwcei5" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-002.wav" id="40_qy3lu"]
 [ext_resource type="AudioStream" uid="uid://7dmk4re8n11s" path="res://sounds/UI/InGame/UI_InGame_UnavailableSound-003.wav" id="41_k25qe"]
+[ext_resource type="AudioStream" uid="uid://2opq8qlfmlgo" path="res://sounds/Foley/AirUpdraft/Player_AirUpdraft_Dash_003.wav" id="41_oy2k3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fjgps"]
 radius = 8.0
@@ -820,6 +823,17 @@ stream_1/weight = 1.0
 stream_2/stream = ExtResource("41_k25qe")
 stream_2/weight = 1.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fgono"]
+random_pitch = 1.13
+random_volume_offset_db = 0.2
+streams_count = 3
+stream_0/stream = ExtResource("39_6tgy3")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("40_041r5")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("41_oy2k3")
+stream_2/weight = 1.0
+
 [sub_resource type="Resource" id="Resource_hpvir"]
 script = ExtResource("31_u6jow")
 state = NodePath("../Airborne/Dash")
@@ -891,7 +905,7 @@ position = Vector2(-1, -7)
 sprite_frames = SubResource("SpriteFrames_lt44i")
 animation = &"Glide"
 autoplay = "Idle"
-frame_progress = 0.030463
+frame_progress = 0.496938
 
 [node name="Glider" type="Sprite2D" parent="."]
 visible = false
@@ -1027,6 +1041,10 @@ bus = &"Sounds"
 
 [node name="AbilityNotAvailablePlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_40til")
+bus = &"Sounds"
+
+[node name="DashPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_fgono")
 bus = &"Sounds"
 
 [node name="RunTimer" type="Timer" parent="."]

@@ -115,6 +115,7 @@ enum Ability {
 @onready var melee_player: AudioStreamPlayer = $MeleePlayer
 @onready var ability_not_available_player: AudioStreamPlayer = $AbilityNotAvailablePlayer
 @onready var grapple_player: AudioStreamPlayer = $GrapplePlayer
+@onready var dash_player: AudioStreamPlayer = $DashPlayer
 
 var health := max_health
 var is_invulnerable := false
@@ -508,6 +509,7 @@ func _on_dash_state_entered() -> void:
 	wind_particles.rotation = -dash_angle
 	wind_particles.emitting = true
 	combat_animation.play(&"Dash")
+	dash_player.play()
 
 func _on_dash_state_exited() -> void:
 	is_invulnerable = false
