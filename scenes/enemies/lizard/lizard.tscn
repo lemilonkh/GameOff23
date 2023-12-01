@@ -456,6 +456,8 @@ guard = SubResource("Resource_5ytb1")
 [node name="Lizard" type="CharacterBody2D" groups=["Enemy"]]
 collision_layer = 4
 script = ExtResource("1_75a6b")
+health = 5.0
+speed = 112.0
 projectile = ExtResource("2_25mu4")
 melee = ExtResource("3_uismm")
 
