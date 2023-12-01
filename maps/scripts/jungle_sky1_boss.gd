@@ -22,7 +22,7 @@ func _on_dragon_death() -> void:
 	fight_finished.emit()
 	
 	await get_tree().create_timer(6.0).timeout
-	credits.start(false) # no auto stop
+	credits.start()
 
 func _on_credits_finished() -> void:
 	Game.get_singleton().fade_out_music()

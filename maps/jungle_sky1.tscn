@@ -53,6 +53,7 @@ layer = 100
 
 [node name="Credits" parent="CanvasLayer" instance=ExtResource("6_lx7ao")]
 mouse_filter = 2
+enable_fade_out = false
 
 [connection signal="death" from="Dragon" to="." method="_on_dragon_death"]
 [connection signal="body_entered" from="DialogueArea" to="DialogueArea" method="_on_body_entered"]
