@@ -1,8 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://ftvatyfyxf5c"]
+[gd_scene load_steps=22 format=3 uid="uid://ftvatyfyxf5c"]
 
 [ext_resource type="Script" path="res://scenes/objects/wind_gust.gd" id="1_3xxtp"]
 [ext_resource type="Texture2D" uid="uid://erty8b5puib2" path="res://sprites/particles/leaf.png" id="1_6l7ve"]
 [ext_resource type="Texture2D" uid="uid://c2b1cyqwxpmoo" path="res://sprites/particles/wind_line.png" id="2_swqer"]
+[ext_resource type="AudioStream" uid="uid://cdege77m37mxd" path="res://sounds/Foley/AirUpdraft/Air_Updraft_Idle.ogg" id="4_sqxd1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6fx58"]
 size = Vector2(32, 64)
@@ -126,6 +127,12 @@ amount = 30
 process_material = SubResource("ParticleProcessMaterial_30ohi")
 texture = ExtResource("1_6l7ve")
 visibility_rect = Rect2(-32, -96, 64, 112)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_sqxd1")
+volume_db = -20.0
+autoplay = true
+bus = &"Sounds"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
